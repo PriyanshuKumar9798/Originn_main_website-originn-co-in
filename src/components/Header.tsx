@@ -45,7 +45,7 @@ const Header = () => {
               Preorder
             </Button>
             <a
-              href="https://originn-venture-launchpad.vercel.app"
+              href="https://originn-startup-main-website.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
             >
