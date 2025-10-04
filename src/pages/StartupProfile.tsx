@@ -3,7 +3,7 @@ import { StartupHeader } from "@/components/StartupHeader";
 import { InfoCard } from "@/components/InfoCard";
 import { ProductCard } from "@/components/ProductCard";
 import { TeamMember } from "@/components/TeamMember";
-import { Footer } from "@/components/Footer";
+
 import teamMember1 from "@/assets/team-member-1.jpg";
 import teamMember2 from "@/assets/team-member-2.jpg";
 import teamMember3 from "@/assets/team-member-3.jpg";
@@ -47,7 +47,7 @@ const StartupProfile = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      {/* <Navigation /> */}
       <StartupHeader />
 
       <main className="container mx-auto px-4 md:px-8 py-12 space-y-12">
@@ -118,7 +118,7 @@ const StartupProfile = () => {
         </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

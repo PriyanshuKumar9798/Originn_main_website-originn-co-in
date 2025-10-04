@@ -1,9 +1,12 @@
 import Header from "@/components/Header";
+// import Footer from "@/components/Footer";
+
 import StartupSection from "@/components/StartupSection";
 
 import FilterPanel from "@/components/FilterPanel";
 import StartupCard from "@/components/StartupCard";
 import { Rocket } from "lucide-react";
+
 const Home = () => {
   const featuredStartups = [
     {
@@ -178,10 +181,10 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* <Header /> */}
       
-      <main>
+      <main className="flex-1">
         <StartupSection 
           title="Featured Startups" 
           subtitle="Explore innovative startups from India's top innovation hubs"
@@ -203,6 +206,8 @@ const Home = () => {
           startups={consumerTechStartups} 
         />
       </main>
+
+      {/* <Footer /> */}
     </div>
   );
 };

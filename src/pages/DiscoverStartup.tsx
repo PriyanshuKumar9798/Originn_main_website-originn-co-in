@@ -65,7 +65,7 @@ const DiscoverStartup= () => {
     ]
         return (
             <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
-              <Header />
+              {/* <Header /> */}
               
               <main className="container mx-auto px-4 py-12">
                 {/* Page Title and Filter */}
