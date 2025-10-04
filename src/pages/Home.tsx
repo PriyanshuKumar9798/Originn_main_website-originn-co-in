@@ -33,7 +33,7 @@ const Home = () => {
 
         setStartups(data);
       } catch (error) {
-        console.error("Error fetching startups:", error);
+        console.error("Error fetching startups: ", error);
       } finally {
         setLoading(false);
       }
