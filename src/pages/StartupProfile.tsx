@@ -1,124 +1,183 @@
-import { Navigation } from "@/components/Navigation";
-import { StartupHeader } from "@/components/StartupHeader";
-import { InfoCard } from "@/components/InfoCard";
-import { ProductCard } from "@/components/ProductCard";
-import { TeamMember } from "@/components/TeamMember";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import teamMember1 from "@/assets/team-member-1.jpg";
-import teamMember2 from "@/assets/team-member-2.jpg";
-import teamMember3 from "@/assets/team-member-3.jpg";
-import teamMember4 from "@/assets/team-member-4.jpg";
+const API_BASE =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5000"
+    : "https://backend-new-originn.vercel.app";
+
+type FounderType = {
+  name: string;
+  designation: string;
+  institution: string;
+  description: string;
+  photo?: string;
+  _id: string;
+};
+
+type TeamMemberType = {
+  name: string;
+  designation: string;
+  institution: string;
+  photo?: string;
+  _id: string;
+};
+
+type LinksType = {
+  instagram?: string;
+  linkedin?: string;
+  twitter?: string;
+  youtube?: string;
+};
+
+type StartupData = {
+  _id: string;
+  startupId: string;
+  category: string;
+  description: string;
+  coverPhoto?: string;
+  logo?: string;
+  status: string;
+  businessRegistrationNo: string;
+  founderDetails: FounderType[];
+  teamDetails: TeamMemberType[];
+  links: LinksType;
+};
 
 const StartupProfile = () => {
-  const teamMembers = [
-    {
-      name: "Rajesh Kumar",
-      designation: "Founder & CEO",
-      institute: "IIT Delhi",
-      photo: teamMember1,
-      bio: "10+ years in fintech and startup ecosystem. Previously led product at a unicorn startup.",
-      email: "rajesh@originn.com",
-    },
-    {
-      name: "Priya Sharma",
-      designation: "CTO",
-      institute: "IIT Bombay",
-      photo: teamMember2,
-      bio: "Expert in blockchain and secure payment systems. Former tech lead at major fintech company.",
-      email: "priya@originn.com",
-    },
-    {
-      name: "Amit Patel",
-      designation: "Head of Product",
-      institute: "IIT Delhi",
-      photo: teamMember3,
-      bio: "Product strategist with focus on user experience. Built products used by millions.",
-      email: "amit@originn.com",
-    },
-    {
-      name: "Neha Gupta",
-      designation: "Lead Designer",
-      institute: "NID Ahmedabad",
-      photo: teamMember4,
-      bio: "Award-winning designer specializing in fintech and SaaS platforms.",
-      email: "neha@originn.com",
-    },
-  ];
+  const { id } = useParams();
+  const [startup, setStartup] = useState<StartupData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStartup = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/company/${id}`);
+        const data = await res.json();
+        console.log("individual data", data);
+        setStartup(data);
+      } catch (err) {
+        console.error("Error fetching startup:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStartup();
+  }, [id]);
+
+  if (loading) return <p className="text-center py-10">Loading...</p>;
+  if (!startup) return <p className="text-center py-10">Startup not found</p>;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* <Navigation /> */}
-      <StartupHeader />
+    <div className="container mx-auto px-6 py-12 space-y-12">
+      {startup.coverPhoto && (
+        <div className="w-full h-64 mb-8 overflow-hidden rounded-xl shadow-lg">
+          <img
+            src="https://images.pexels.com/photos/34155605/pexels-photo-34155605.jpeg"
+            alt="Cover Photo"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+      <div className="flex items-center gap-6">
+        {startup.logo && (
+          <img
+            src="https://images.pexels.com/photos/34155605/pexels-photo-34155605.jpeg"
+            alt="Logo"
+            className="w-20 h-20 object-cover rounded-xl"
+          />
+        )}
+        <h1 className="text-4xl font-bold">{startup.startupId}</h1>
+      </div>
 
-      <main className="container mx-auto px-4 md:px-8 py-12 space-y-12">
-        {/* Startup Description */}
-        <InfoCard title="Startup Description">
-          <p className="text-base leading-relaxed text-card-foreground/90">
-            Originn is a comprehensive, multi-sided platform engineered to solve the "tripartite trust deficit" 
-            that exists in the Indian market between product backers, startups, and investors. It is not merely 
-            a pre-order or crowdfunding website, but a curated innovation ecosystem designed to discover, validate, 
-            and fund the next generation of Indian products and ventures. The platform's foundational principle is 
-            to move beyond being a passive facilitator and become an active manager of risk and a custodian of trust 
-            for all its users.
-          </p>
-        </InfoCard>
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Description</h2>
+        <p>{startup.description}</p>
+      </section>
 
-        {/* Institute Information */}
-        <InfoCard title="Institute Name of the Startup">
-          <p className="text-base leading-relaxed mb-4">
-            <strong className="text-primary text-lg">Indian Institute of Technology (IIT) Delhi</strong>
-          </p>
-          <p className="text-base leading-relaxed text-card-foreground/90">
-            IIT Delhi is one of India's premier institutions for technology and innovation, known for fostering 
-            entrepreneurship and cutting-edge research. The institute's strong focus on practical problem-solving 
-            and industry partnerships makes it an ideal incubation ground for startups like Originn that aim to 
-            transform traditional industries through technology. The startup has access to world-class mentorship, 
-            research facilities, and a vibrant ecosystem of fellow entrepreneurs and investors.
-          </p>
-        </InfoCard>
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Category</h2>
+        <p>{startup.category}</p>
+      </section>
 
-        {/* Stage of Startup */}
-        <InfoCard title="Stage of the Startup">
-          <div className="inline-block px-4 py-2 bg-primary/10 text-primary font-semibold rounded-lg border border-primary/20 mb-4">
-            Current Stage: Seed Stage
-          </div>
-          <p className="text-base leading-relaxed text-card-foreground/90 mb-4">
-            Originn is currently in the <strong>seed stage</strong> with a functional MVP (Minimum Viable Product) 
-            and initial traction in the market. The platform has successfully onboarded early adopters including 
-            several startups and backers, validating the core value proposition. The team is now focused on:
-          </p>
-          <ul className="list-disc list-inside space-y-3 text-base text-card-foreground/90">
-            <li>Expanding the user base across multiple Indian cities</li>
-            <li>Building strategic partnerships with incubators and accelerators</li>
-            <li>Enhancing platform features based on user feedback</li>
-            <li>Preparing for Series A funding to scale operations</li>
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Status</h2>
+        <p className="capitalize">{startup.status}</p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Founders</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {startup.founderDetails?.map((founder) => (
+            <div key={founder._id} className="border p-4 rounded-xl shadow">
+              <img
+                src={founder.photo || "https://placehold.co/150x150"}
+                alt={founder.name}
+                className="w-20 h-20 object-cover rounded-full mb-3"
+              />
+              <h3 className="font-bold">{founder.name}</h3>
+              <p className="text-sm">{founder.designation}</p>
+              <p className="text-sm text-gray-600">{founder.institution}</p>
+              <p className="text-sm mt-2">{founder.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Team Members</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {startup.teamDetails?.map((member) => (
+            <div key={member._id} className="border p-4 rounded-xl shadow">
+              <img
+                src={member.photo || "https://placehold.co/150x150"}
+                alt={member.name}
+                className="w-20 h-20 object-cover rounded-full mb-3"
+              />
+              <h3 className="font-bold">{member.name}</h3>
+              <p className="text-sm">{member.designation}</p>
+              <p className="text-sm text-gray-600">{member.institution}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {startup.links && (
+        <section>
+          <h2 className="text-2xl font-semibold mb-3">Links</h2>
+          <ul className="list-disc pl-6 text-blue-600">
+            {startup.links.instagram && (
+              <li>
+                <a href={startup.links.instagram} target="_blank">
+                  Instagram
+                </a>
+              </li>
+            )}
+            {startup.links.linkedin && (
+              <li>
+                <a href={startup.links.linkedin} target="_blank">
+                  LinkedIn
+                </a>
+              </li>
+            )}
+            {startup.links.twitter && (
+              <li>
+                <a href={startup.links.twitter} target="_blank">
+                  Twitter
+                </a>
+              </li>
+            )}
+            {startup.links.youtube && (
+              <li>
+                <a href={startup.links.youtube} target="_blank">
+                  YouTube
+                </a>
+              </li>
+            )}
           </ul>
-        </InfoCard>
-
-        {/* Product Section */}
-        <div>
-          <h2 className="text-3xl font-bold text-foreground mb-6 flex items-center gap-3">
-            About Product
-            <span className="h-1 flex-1 bg-gradient-to-r from-primary/30 to-transparent rounded-full" />
-          </h2>
-          <ProductCard />
-        </div>
-
-        {/* Team Section */}
-        <div>
-          <h2 className="text-3xl font-bold text-foreground mb-6 flex items-center gap-3">
-            Team Details
-            <span className="h-1 flex-1 bg-gradient-to-r from-primary/30 to-transparent rounded-full" />
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teamMembers.map((member) => (
-              <TeamMember key={member.email} {...member} />
-            ))}
-          </div>
-        </div>
-      </main>
-
-      {/* <Footer /> */}
+        </section>
+      )}
     </div>
   );
 };

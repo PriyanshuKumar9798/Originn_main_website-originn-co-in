@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Startup {
+  id: string;
   name: string;
   category: string;
   description: string;
@@ -36,18 +37,14 @@ const StartupSection = ({ title, subtitle, startups }: StartupSectionProps) => {
   return (
     <section className="py-8 border-t-2 border-foreground">
       <div className="container mx-auto px-6">
-        {/* Section Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-1">
-              {title}
-            </h2>
+            <h2 className="text-2xl font-bold text-foreground mb-1">{title}</h2>
             {subtitle && (
               <p className="text-sm text-muted-foreground">{subtitle}</p>
             )}
           </div>
 
-          {/* Scroll Buttons */}
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -68,17 +65,16 @@ const StartupSection = ({ title, subtitle, startups }: StartupSectionProps) => {
           </div>
         </div>
 
-        {/* Startup Cards */}
         <div
           ref={scrollContainerRef}
           className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {startups.map((startup, index) => (
+          {startups.map((startup) => (
             <div
-              key={index}
+              key={startup.id}
               className="w-[325px] flex-shrink-0 cursor-pointer"
-              onClick={() => navigate("/startup-profile")}
+              onClick={() => navigate(`/startup-profile/${startup.id}`)}
             >
               <StartupCard {...startup} />
             </div>
