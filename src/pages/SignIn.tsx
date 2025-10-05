@@ -24,7 +24,7 @@ const SignIn = () => {
       // Save current user session
       localStorage.setItem("currentUser", JSON.stringify(user));
       // Navigate to dashboard - use window.location for navigation
-      window.location.href = "/dashboard";
+      window.location.href = "/";
     } else {
       setError("Invalid email or password");
     }
