@@ -46,7 +46,7 @@ const Register = () => {
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("currentUser", JSON.stringify(newUser));
-    window.location.href = "/dashboard";
+    window.location.href = "/signin";
   };
 
   return (
