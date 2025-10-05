@@ -14,8 +14,8 @@ import Preorder from "./pages/Preorder";
 import SignIn from "./pages/Signin";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import OurTeamPage from "./pages/Ourteampage";
-import FaqPage from "./pages/Faqpage";
+import OurTeamPage from "./pages/OurTeamPage";
+import FaqPage from "./pages/FaqPage";
 
 const queryClient = new QueryClient();
 
