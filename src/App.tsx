@@ -12,6 +12,7 @@ import Preorder from "./pages/Preorder";
 // import SignIn from "./pages/SignIn";
 // import Signin from "./pages/SignIn";
 import SignIn from "./pages/Signin";
+// import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import OurTeamPage from "./pages/OurTeamPage";
@@ -45,6 +46,5 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
-
 
 export default App;
