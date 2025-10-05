@@ -8,6 +8,8 @@ import {
   Phone,
   MapPin,
   Heart,
+  HelpCircle, // Added HelpCircle icon for FAQ
+  Users, // Added Users icon for Our Team
 } from "lucide-react";
 
 const Footer = () => {
@@ -24,7 +26,7 @@ const Footer = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 md:px-6 py-12">
         <div className="grid md:grid-cols-3 gap-12 mb-10">
-          {/* Left Section - About & Team */}
+          {/* Left Section - About & Team (Simplified as requested) */}
           <div className="space-y-6">
             <div className="flex items-center gap-3 group">
               <div className="relative">
@@ -44,25 +46,22 @@ const Footer = () => {
               innovators and strategists is here to guide your journey.
             </p>
 
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-orange-400 mb-3">
-                Our Team
-              </p>
+            {/* START: Updated 'Our Team' section */}
+            <div className="pt-4 border-t border-white/20">
+              <h5 className="font-semibold text-sm text-orange-400 mb-3">
+                Company
+              </h5>
               <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2 text-primary-foreground/80 hover:text-orange-400 cursor-pointer transition-colors duration-200 hover:translate-x-1 transform">
-                  <div className="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
-                  <span>Leadership Team</span>
-                </div>
-                <div className="flex items-center gap-2 text-primary-foreground/80 hover:text-orange-400 cursor-pointer transition-colors duration-200 hover:translate-x-1 transform">
-                  <div className="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
-                  <span>Advisory Board</span>
-                </div>
-                <div className="flex items-center gap-2 text-primary-foreground/80 hover:text-orange-400 cursor-pointer transition-colors duration-200 hover:translate-x-1 transform">
-                  <div className="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
-                  <span>Careers</span>
-                </div>
+                <a
+                  href="/OurTeam" // Link to OurTeam page
+                  className="flex items-center gap-2 text-primary-foreground/80 hover:text-orange-400 cursor-pointer transition-colors duration-200 hover:translate-x-1 transform"
+                >
+                  <Users size={18} />
+                  <span>Our Team</span>
+                </a>
               </div>
             </div>
+            {/* END: Updated 'Our Team' section */}
           </div>
 
           {/* Middle Section - Help & Policies */}
@@ -71,12 +70,19 @@ const Footer = () => {
               Help & Support
             </h4>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-3 cursor-pointer hover:text-orange-400 transition-all duration-200 hover:translate-x-1 transform group">
-                <div className="p-2 bg-white/10 rounded-lg group-hover:bg-white/20 transition-all">
-                  <Phone size={16} />
-                </div>
-                <span>Contact Us</span>
+              {/* START: Replaced Contact Us with FAQ Page */}
+              <li>
+                <a
+                  href="/FaqPage" // Link to FaqPage
+                  className="flex items-center gap-3 cursor-pointer hover:text-orange-400 transition-all duration-200 hover:translate-x-1 transform group"
+                >
+                  <div className="p-2 bg-white/10 rounded-lg group-hover:bg-white/20 transition-all">
+                    <HelpCircle size={16} />
+                  </div>
+                  <span>FAQ Page</span>
+                </a>
               </li>
+              {/* END: Replaced Contact Us with FAQ Page */}
               <li>
                 <a
                   href="mailto:support@originn.com"
@@ -111,21 +117,13 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Right Section - Privacy & Social Media */}
+          {/* Right Section - Stay Connected & Privacy (Swapped as requested) */}
           <div className="space-y-6">
-            <h4 className="font-bold text-lg text-orange-400 mb-4">
-              Privacy & Security
-            </h4>
-
-            <p className="text-sm text-primary-foreground/80 mb-4">
-              Your privacy and security are our top priorities. We ensure your
-              data is protected with industry-leading security measures.
-            </p>
-
-            <div className="pt-4 border-t border-white/20">
-              <h5 className="font-semibold text-sm text-orange-400 mb-4">
+            {/* START: Moved 'Stay Connected' up */}
+            <div className="mb-6">
+              <h4 className="font-bold text-lg text-orange-400 mb-4">
                 Stay Connected
-              </h5>
+              </h4>
               <p className="text-sm text-primary-foreground/80 mb-4">
                 Follow us on social media and never miss an update on the latest
                 startups and innovations.
@@ -185,6 +183,19 @@ const Footer = () => {
                 </a>
               </div>
             </div>
+            {/* END: Moved 'Stay Connected' up */}
+
+            {/* START: Moved 'Privacy & Security' down */}
+            <div className="pt-4 border-t border-white/20">
+              <h4 className="font-bold text-lg text-orange-400 mb-4">
+                Privacy & Security
+              </h4>
+              <p className="text-sm text-primary-foreground/80 mb-4">
+                Your privacy and security are our top priorities. We ensure your
+                data is protected with industry-leading security measures.
+              </p>
+            </div>
+            {/* END: Moved 'Privacy & Security' down */}
           </div>
         </div>
 
