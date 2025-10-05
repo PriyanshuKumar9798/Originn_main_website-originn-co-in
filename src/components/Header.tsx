@@ -41,6 +41,7 @@ const Header = () => {
             <Button
               variant="ghost"
               className="text-primary-foreground hover:bg-primary-foreground/10 font-semibold text-sm"
+              onClick={() => navigate("/preorder")}
             >
               Preorder
             </Button>
@@ -94,6 +95,10 @@ const Header = () => {
             <Button
               variant="ghost"
               className="w-full text-left text-primary-foreground hover:bg-primary-foreground/10 font-semibold"
+              onClick={() => {
+                navigate("/preorder");
+                setMenuOpen(false);
+              }}
             >
               Preorder
             </Button>
