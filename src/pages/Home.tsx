@@ -2,92 +2,101 @@
 import { useEffect, useState } from "react";
 import StartupSection from "@/components/StartupSection";
 
-interface Startup {
-  _id: string;
-  companyName: string;
-  about: string;
-  description: string;
-  address: string;
-  category?: string;
-  founderDetails?: string[];
-  image?: string;
-  tagline?: string;
+interface Founder {
+  name: string;
+  designation: string;
+  institution: string;
+  photo?: string | null;
 }
 
-const API_BASE =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000"
-    : "https://backend-new-originn.vercel.app";
+interface TeamMember {
+  name: string;
+  designation: string;
+  institution: string;
+  photo?: string | null;
+}
+
+interface Product {
+  _id: string;
+  companyName: string;
+  registrationNo: string;
+  website?: string;
+  category?: string;
+  productType?: string;
+  description?: string;
+  logo?: string | null;
+  coverPhoto?: string | null;
+  linkedin?: string;
+  instagram?: string;
+  twitter?: string;
+  founders: Founder[];
+  team?: TeamMember[];
+  status?: string;
+}
+
+const API_BASE ="https://firstfound-platform-backend.vercel.app";
 
 const Home = () => {
-  const [startups, setStartups] = useState<Startup[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Fetch startups
   useEffect(() => {
-    const fetchStartups = async () => {
+    const fetchProducts = async () => {
       try {
-        const res = await fetch(`${[API_BASE]}/api/company/`);
+        const res = await fetch(`${API_BASE}/featureProducts/all`, { cache: "no-store" });
         const data = await res.json();
-        console.log("companuis at hoem", data);
-
-        setStartups(data);
-      } catch (error) {
-        console.error("Error fetching startups: ", error);
+        setProducts(data.data);
+      } catch (err) {
+        setError("Failed to fetch products");
       } finally {
         setLoading(false);
       }
     };
-    fetchStartups();
+    
+    fetchProducts();
   }, []);
 
-  if (loading) {
-    return <div className="text-center py-10">Loading startups...</div>;
-  }
+  if (loading) return <div className="text-center py-10">Loading startups...</div>;
+  if (error) return <div className="text-center py-10 text-red-600">{error}</div>;
 
   // Filters
-  const featuredStartups = startups.slice(0, 5);
-  const deepTechStartups = startups.filter((s) =>
+  const featuredStartups = products.slice(0, 5);
+  const healthcareStartups = products.filter((s) =>
     s.category?.toLowerCase().includes("healthcare")
   );
-  console.log("deepTechStartups", deepTechStartups);
-
-  const consumerTechStartups = startups.filter((s) =>
+  const consumerTechStartups = products.filter((s) =>
     s.category?.toLowerCase().includes("consumer tech")
   );
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <main className="flex-1">
         <StartupSection
           title="Featured Startups"
-          subtitle="Explore innovative startups from India's top innovation hubs"
+          subtitle="Explore innovative startups"
           startups={featuredStartups.map((s) => ({
             id: s._id,
             name: s.companyName,
             category: s.category ?? "Unknown",
-            description: s.description,
-            image:
-              s.image ??
-              "https://images.pexels.com/photos/34155605/pexels-photo-34155605.jpeg",
-            tagline: s.tagline,
-            creator: s.about,
+            description: s.description ?? "",
+            image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
+            tagline: s.productType,
+            creator: s.founders.map((f) => f.name).join(", "),
           }))}
         />
 
         <StartupSection
           title="Startups in HealthCare"
           subtitle="Advanced technology ventures pushing boundaries"
-          startups={deepTechStartups.map((s) => ({
+          startups={healthcareStartups.map((s) => ({
             id: s._id,
             name: s.companyName,
             category: s.category ?? "Healthcare",
-            description: s.description,
-            image:
-              s.image ??
-              "https://images.pexels.com/photos/34155605/pexels-photo-34155605.jpeg",
-            tagline: s.tagline,
-            creator: s.about,
+            description: s.description ?? "",
+            image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
+            tagline: s.productType,
+            creator: s.founders.map((f) => f.name).join(", "),
           }))}
         />
 
@@ -98,10 +107,10 @@ const Home = () => {
             id: s._id,
             name: s.companyName,
             category: s.category ?? "Consumer Tech",
-            description: s.description,
-            image: s.image ?? "https://placehold.co/400x300",
-            tagline: s.tagline,
-            creator: s.about,
+            description: s.description ?? "",
+            image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
+            tagline: s.productType,
+            creator: s.founders.map((f) => f.name).join(", "),
           }))}
         />
       </main>
