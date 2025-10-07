@@ -7,26 +7,38 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Get users from localStorage
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    
-    // Find user
-    const user = users.find(
-      (u) => u.email === formData.email && u.password === formData.password
-    );
+    try {
+      setLoading(true);
 
-    if (user) {
-      // Save current user session
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      // Navigate to dashboard - use window.location for navigation
+      const response = await fetch("https://firstfound-platform-backend.vercel.app/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Invalid email or password");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("fullName", JSON.stringify(data.user.fullName || {}))
+localStorage.setItem("currentUser", JSON.stringify(data.user || {})); 
+
+
       window.location.href = "/";
-    } else {
-      setError("Invalid email or password");
+    } catch (err) {
+      setError("Server error. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,23 +96,27 @@ const SignIn = () => {
               </div>
             </div>
 
-            <Button type="submit" className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold">
-              Sign In
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+            >
+              {loading ? "Signing In..." : "Sign In"}
             </Button>
           </form>
 
           <div className="text-center space-y-3">
             <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
+              Don’t have an account?{" "}
               <button
-                onClick={() => window.location.href = "/register"}
+                onClick={() => (window.location.href = "/register")}
                 className="text-blue-600 font-semibold hover:underline"
               >
                 Register here
               </button>
             </p>
             <button
-              onClick={() => window.location.href = "/"}
+              onClick={() => (window.location.href = "/")}
               className="text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center gap-2 mx-auto"
             >
               <Home className="h-4 w-4" />

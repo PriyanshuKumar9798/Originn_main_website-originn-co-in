@@ -7,14 +7,15 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -28,25 +29,34 @@ const Register = () => {
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    try {
+      setLoading(true);
 
-    if (users.some((u) => u.email === formData.email)) {
-      setError("Email already registered");
-      return;
+      const response = await fetch("https://firstfound-platform-backend.vercel.app/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Registration failed");
+        return;
+      }
+
+      alert("Registration successful! Please sign in.");
+      window.location.href = "/signin";
+    } catch (err) {
+      setError("Server error. Please try again later.");
+    } finally {
+      setLoading(false);
     }
-
-    const newUser = {
-      id: Date.now(),
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      createdAt: new Date().toISOString(),
-    };
-
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-    window.location.href = "/signin";
   };
 
   return (
@@ -75,8 +85,8 @@ const Register = () => {
               <Input
                 type="text"
                 placeholder="Enter your full name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 required
                 className="h-11"
               />
@@ -136,8 +146,12 @@ const Register = () => {
               </div>
             </div>
 
-            <Button type="submit" className="w-full h-11 bg-green-600 hover:bg-green-700 text-white font-semibold">
-              Create Account
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-11 bg-green-600 hover:bg-green-700 text-white font-semibold"
+            >
+              {loading ? "Creating Account..." : "Create Account"}
             </Button>
           </form>
 
@@ -145,14 +159,14 @@ const Register = () => {
             <p className="text-sm text-gray-600">
               Already have an account?{" "}
               <button
-                onClick={() => window.location.href = "/signin"}
+                onClick={() => (window.location.href = "/signin")}
                 className="text-green-600 font-semibold hover:underline"
               >
                 Sign in here
               </button>
             </p>
             <button
-              onClick={() => window.location.href = "/"}
+              onClick={() => (window.location.href = "/")}
               className="text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center gap-2 mx-auto"
             >
               <Home className="h-4 w-4" />

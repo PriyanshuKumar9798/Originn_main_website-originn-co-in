@@ -230,7 +230,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
               <p className="text-sm text-blue-600 mb-2 font-medium">Full Name</p>
-              <p className="text-lg font-bold text-gray-900">{currentUser.name}</p>
+              <p className="text-lg font-bold text-gray-900">{currentUser.displayName}</p>
             </div>
             <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
               <p className="text-sm text-purple-600 mb-2 font-medium">Email Address</p>
