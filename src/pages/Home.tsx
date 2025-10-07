@@ -44,7 +44,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${API_BASE}/featureProducts/all`, { cache: "no-store" });
+        const res = await fetch(`${API_BASE}/featureProducts`, { cache: "no-store" });
         const data = await res.json();
         setProducts(data.data);
       } catch (err) {

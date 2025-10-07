@@ -113,7 +113,7 @@ const DiscoverStartup = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${API_BASE}/featureProducts/all`, { cache: "no-store" });
+        const res = await fetch(`${API_BASE}/featureProducts`, { cache: "no-store" });
         const data = await res.json();
         setStartups(data.data);
       } catch (err) {
