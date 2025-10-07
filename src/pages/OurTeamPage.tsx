@@ -44,11 +44,11 @@ const teamMembers = [
     description: "Driving market penetration and user acquisition while contributing to product improvements and features."
   },
   { 
-    name: "Ashwajit Tayade", 
+    name: "Bhavani Shankar", 
     role: "Core Team Member", 
     focus: "Backend Development", 
     icon: Cpu,
-    institute: "IIT Madras",
+    institute: "NST Delhi",
     description: "Responsible for server-side logic, database management, and ensuring the platform's reliability and scalability."
   },
 ];
@@ -115,17 +115,7 @@ const OurTeamPage = () => {
         </div>
       </section>
 
-      {/* Call to Action / Footer Statement */}
-      {/* <section className="max-w-6xl mx-auto py-12 bg-gray-100 rounded-xl shadow-inner border-t-4 border-amber-500">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-800">
-            Driven by Passion, United by Vision
-          </h2>
-          <p className="mt-3 text-md text-gray-600 max-w-4xl mx-auto">
-            Each member brings a unique skill set and a deep commitment to our mission: turning entrepreneurial ideas into sustainable realities.
-          </p>
-        </div>
-      </section> */}
+      
 
     </div>
   );

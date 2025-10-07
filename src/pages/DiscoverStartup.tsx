@@ -165,14 +165,15 @@ const DiscoverStartup = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {filteredStartups.map((s) => (
             <StartupCard
-              key={s._id}
-              name={s.companyName}
-              category={s.category ?? "Unknown"}
-              description={s.description ?? ""}
-              image={s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300"}
-              tagline={s.productType}
-              creator={s.founders.map((f) => f.name).join(", ")}
-            />
+            key={s._id}
+            id={s._id} // 👈 pass ID here
+            name={s.companyName}
+            category={s.category ?? "Unknown"}
+            description={s.description ?? ""}
+            image={s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300"}
+            tagline={s.productType}
+            creator={s.founders.map((f) => f.name).join(", ")}
+          />
           ))}
         </div>
       </main>

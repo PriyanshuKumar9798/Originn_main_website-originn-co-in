@@ -1,16 +1,56 @@
-import { Bookmark, Linkedin, Twitter, Instagram, Facebook, Youtube, ExternalLink } from "lucide-react";
+import {
+  Bookmark,
+  Linkedin,
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  ExternalLink,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import coverPhoto from "@/assets/cover-photo.jpg";
-import startupLogo from "@/assets/startup-logo.jpg";
 
-export const StartupHeader = () => {
+interface StartupHeaderProps {
+  name: string;
+  logo: string;
+  coverPhoto: string;
+  category?: string;
+  website?: string;
+  linkedin?: string;
+  instagram?: string;
+  twitter?: string;
+  facebook?: string;
+  youtube?: string;
+  institute?: string;
+}
+
+export const StartupHeader = ({
+  name,
+  logo,
+  coverPhoto,
+  category,
+  website,
+  linkedin,
+  instagram,
+  twitter,
+  facebook,
+  youtube,
+  institute,
+}: StartupHeaderProps) => {
+  const socials = [
+    { icon: Linkedin, label: "LinkedIn", url: linkedin },
+    { icon: Twitter, label: "Twitter", url: twitter },
+    { icon: Instagram, label: "Instagram", url: instagram },
+    { icon: Facebook, label: "Facebook", url: facebook },
+    { icon: Youtube, label: "YouTube", url: youtube },
+  ].filter((s) => s.url); // only show if link exists
+
   return (
     <header className="w-full">
-      {/* Cover Photo with Gradient Overlay */}
+      {/* Cover Photo */}
       <div className="relative w-full h-56 md:h-72 overflow-hidden">
         <img
           src={coverPhoto}
-          alt="Originn cover"
+          alt={`${name} cover`}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/50" />
@@ -24,35 +64,38 @@ export const StartupHeader = () => {
             <div className="flex-shrink-0 -mt-20 md:-mt-24">
               <div className="w-36 h-36 md:w-44 md:h-44 rounded-2xl border-4 border-card bg-card shadow-hover overflow-hidden ring-2 ring-primary/10">
                 <img
-                  src={startupLogo}
-                  alt="Startup logo"
+                  src={logo}
+                  alt={`${name} logo`}
                   className="w-full h-full object-cover"
                 />
               </div>
             </div>
 
-            {/* Startup Info and Actions */}
+            {/* Startup Info */}
             <div className="flex-1 flex flex-col md:flex-row justify-between gap-4">
-              {/* Left: Name and Details */}
               <div className="flex-1">
                 <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
-                  Originn
+                  {name}
                 </h1>
                 <p className="text-muted-foreground text-lg mb-3 font-medium">
-                  Technology & Innovation • IIT Delhi
+                  {category}
+                  {institute ? ` • ${institute}` : ""}
                 </p>
-                <a
-                  href="https://originn.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-primary hover:text-primary-light transition-colors font-medium"
-                >
-                  www.originn.com
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+
+                {website && (
+                  <a
+                    href={website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-primary hover:text-primary-light transition-colors font-medium"
+                  >
+                    {website.replace(/^https?:\/\//, "")}
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
               </div>
 
-              {/* Right: Bookmark and Social Media */}
+              {/* Right: Bookmark + Socials */}
               <div className="flex flex-col gap-4 items-start md:items-end">
                 <Button
                   size="sm"
@@ -63,20 +106,17 @@ export const StartupHeader = () => {
                 </Button>
 
                 <div className="flex gap-2">
-                  {[
-                    { icon: Linkedin, label: "LinkedIn" },
-                    { icon: Twitter, label: "Twitter" },
-                    { icon: Instagram, label: "Instagram" },
-                    { icon: Facebook, label: "Facebook" },
-                    { icon: Youtube, label: "YouTube" },
-                  ].map(({ icon: Icon, label }) => (
-                    <button
+                  {socials.map(({ icon: Icon, label, url }) => (
+                    <a
                       key={label}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       aria-label={label}
                       className="w-11 h-11 rounded-full bg-primary hover:bg-primary-light text-primary-foreground flex items-center justify-center transition-all hover:shadow-lg hover:scale-110"
                     >
                       <Icon className="w-5 h-5" />
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>

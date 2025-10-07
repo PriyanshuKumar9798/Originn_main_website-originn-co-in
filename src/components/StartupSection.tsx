@@ -62,7 +62,7 @@ const StartupSection: React.FC<StartupSectionProps> = ({ title, subtitle, startu
             <div
               key={startup.id}
               className="w-[325px] flex-shrink-0 cursor-pointer"
-              onClick={() => navigate(`/startup-profile/${startup.id}`)}
+              onClick={() => navigate(`/Startups/${startup.id}`)}
             >
               <StartupCard {...startup} />
             </div>
