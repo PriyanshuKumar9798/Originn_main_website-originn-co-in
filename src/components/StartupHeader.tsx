@@ -45,24 +45,24 @@ export const StartupHeader = ({
   ].filter((s) => s.url); // only show if link exists
 
   return (
-    <header className="w-full">
+    <header className="w-full bg-card">
       {/* Cover Photo */}
-      <div className="relative w-full h-56 md:h-72 overflow-hidden">
+      <div className="relative w-full h-48 md:h-64 overflow-hidden bg-gradient-to-br from-primary to-primary/80">
         <img
           src={coverPhoto}
           alt={`${name} cover`}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-30"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/50" />
       </div>
 
       {/* Header Content */}
       <div className="relative bg-card border-b border-border">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto px-4 md:px-8 max-w-6xl">
           <div className="flex flex-col md:flex-row gap-6 py-6">
             {/* Logo */}
-            <div className="flex-shrink-0 -mt-20 md:-mt-24">
-              <div className="w-36 h-36 md:w-44 md:h-44 rounded-2xl border-4 border-card bg-card shadow-hover overflow-hidden ring-2 ring-primary/10">
+            <div className="flex-shrink-0 -mt-16 md:-mt-20">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-lg border-4 border-card bg-card shadow-lg overflow-hidden">
                 <img
                   src={logo}
                   alt={`${name} logo`}
@@ -72,14 +72,14 @@ export const StartupHeader = ({
             </div>
 
             {/* Startup Info */}
-            <div className="flex-1 flex flex-col md:flex-row justify-between gap-4">
+            <div className="flex-1 flex flex-col md:flex-row justify-between gap-6 pt-2">
               <div className="flex-1">
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-2 ">
                   {name}
                 </h1>
-                <p className="text-muted-foreground text-lg mb-3 font-medium">
+                <p className="text-muted-foreground text-base mb-2">
                   {category}
-                  {institute ? ` • ${institute}` : ""}
+                  {institute}
                 </p>
 
                 {website && (
@@ -99,13 +99,13 @@ export const StartupHeader = ({
               <div className="flex flex-col gap-4 items-start md:items-end">
                 <Button
                   size="sm"
-                  className="gap-2 bg-primary hover:bg-primary-light shadow-md"
+                  className="gap-2 bg-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   <Bookmark className="w-4 h-4" />
                   Bookmark
                 </Button>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2.5">
                   {socials.map(({ icon: Icon, label, url }) => (
                     <a
                       key={label}
@@ -113,9 +113,9 @@ export const StartupHeader = ({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="w-11 h-11 rounded-full bg-primary hover:bg-primary-light text-primary-foreground flex items-center justify-center transition-all hover:shadow-lg hover:scale-110"
+                      className="w-9 h-9 rounded bg-[#0A66C2] flex items-center justify-center hover:opacity-90 transition-opacity"
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-4.5 h-4.5 text-white" />
                     </a>
                   ))}
                 </div>
