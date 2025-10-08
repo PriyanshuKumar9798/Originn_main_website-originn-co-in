@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// import {logo} from "@/assets/Logo (2).png"
 
 const Header = () => {
   const navigate = useNavigate(); 
@@ -23,9 +24,11 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-primary text-primary-foreground border-b-4 border-foreground">
+    <header className="bg-[#192a51] text-white ">
+
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between gap-4 h-16">
+          
           {/* Logo */}
           <div className="flex items-center flex-shrink-0 cursor-pointer" onClick={() => navigate("/")}>
             <h1 className="text-2xl font-bold tracking-tight">Originn</h1>
