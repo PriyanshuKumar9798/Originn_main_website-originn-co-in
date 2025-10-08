@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import StartupSection from "@/components/StartupSection";
+import HowItWorks from "./HowItWorks";
+import TrustSection from "./TrustSection";
+import Hero from "./Hero";
 
 interface Founder {
   name: string;
@@ -70,7 +73,9 @@ const Home = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
+      <Hero/>
+
       <main className="flex-1">
         <StartupSection
           title="Featured Startups"
@@ -113,6 +118,8 @@ const Home = () => {
             creator: s.founders.map((f) => f.name).join(", "),
           }))}
         />
+        <HowItWorks/>
+        <TrustSection/>?
       </main>
     </div>
   );
