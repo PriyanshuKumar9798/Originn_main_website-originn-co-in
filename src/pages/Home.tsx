@@ -90,6 +90,7 @@ const Home = () => {
             creator: s.founders.map((f) => f.name).join(", "),
           }))}
         />
+         <HowItWorks/>
 
         <StartupSection
           title="Startups in HealthCare"
@@ -118,7 +119,7 @@ const Home = () => {
             creator: s.founders.map((f) => f.name).join(", "),
           }))}
         />
-        <HowItWorks/>
+        {/* <HowItWorks/> */}
         <TrustSection/>?
       </main>
     </div>
