@@ -46,14 +46,19 @@ const StartupSection: React.FC<StartupSectionProps> = ({ title, subtitle, startu
   )}
 {/* </div> */}
 
-          <div className="flex gap-2">
-            <Button variant="outline" size="icon" onClick={() => scroll("left")} className="h-8 w-8">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon" onClick={() => scroll("right")} className="h-8 w-8">
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+<div className="flex items-center">
+  {/* Other content on the left */}
+  
+  <div className="flex gap-2 ml-auto">
+    <Button variant="outline" size="icon" onClick={() => scroll("left")} className="h-8 w-8">
+      <ChevronLeft className="h-4 w-4" />
+    </Button>
+    <Button variant="outline" size="icon" onClick={() => scroll("right")} className="h-8 w-8">
+      <ChevronRight className="h-4 w-4" />
+    </Button>
+  </div>
+</div>
+
         </div>
 
         <div
