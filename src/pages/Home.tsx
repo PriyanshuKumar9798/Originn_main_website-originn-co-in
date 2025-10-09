@@ -77,19 +77,20 @@ const Home = () => {
       <Hero/>
 
       <main className="flex-1">
-        <StartupSection
-          title="Featured Startups"
-          subtitle="Explore innovative startups"
-          startups={featuredStartups.map((s) => ({
-            id: s._id,
-            name: s.companyName,
-            category: s.category ?? "Unknown",
-            description: s.description ?? "",
-            image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
-            tagline: s.productType,
-            creator: s.founders.map((f) => f.name).join(", "),
-          }))}
-        />
+      <StartupSection
+  title="Featured Startups"
+  subtitle="Explore innovative startups"
+  startups={featuredStartups.map((s) => ({
+    id: s._id,
+    name: s.companyName,
+    category: s.category ?? "Unknown",
+    description: s.description ?? "",
+    image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
+    tagline: s.productType,
+    creator: s.founders.map((f) => f.name).join(", "),
+  }))}
+/>
+
          <HowItWorks/>
 
         <StartupSection

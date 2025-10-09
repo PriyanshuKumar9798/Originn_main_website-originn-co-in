@@ -1,162 +1,93 @@
-import { Search, ShieldCheck, Rocket, TrendingUp, Sparkles, Award, Users, Zap } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Search, Shield, Rocket, TrendingUp } from "lucide-react";
+
+const steps = [
+  {
+    icon: Search,
+    title: "Discover",
+    description: "Explore curated startups and products from India's top design schools and innovation hubs.",
+  },
+  {
+    icon: Shield,
+    title: "Trust & Validate",
+    description: "Every listing is vetted. Funds are held in RBI-regulated escrow accounts with milestone-based releases.",
+  },
+  {
+    icon: Rocket,
+    title: "Pre-order & Support",
+    description: "Back innovative products before mass production. Be part of the creation journey from the very beginning.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Track Progress",
+    description: "Monitor real-time milestone updates and watch your supported ventures grow into market-ready products.",
+  },
+];
 
 const HowItWorks = () => {
-  const steps = [
-    {
-      icon: Search,
-      accentIcon: Sparkles,
-      title: "Discover",
-      description: "Explore curated startups and products from India's top innovation hubs, incubators, and design schools.",
-      gradient: "from-cyan-500 to-blue-600",
-      glowColor: "cyan",
-    },
-    {
-      icon: ShieldCheck,
-      accentIcon: Award,
-      title: "Trust & Validate",
-      description: "Every listing is vetted. Funds are held in RBI-regulated escrow accounts with milestone-based releases.",
-      gradient: "from-purple-500 to-indigo-600",
-      glowColor: "purple",
-    },
-    {
-      icon: Rocket,
-      accentIcon: Zap,
-      title: "Pre-order & Support",
-      description: "Back innovative products before mass production. Be part of the creation journey from the very beginning.",
-      gradient: "from-pink-500 to-rose-600",
-      glowColor: "pink",
-    },
-    {
-      icon: TrendingUp,
-      accentIcon: Users,
-      title: "Track Progress",
-      description: "Monitor real-time milestone updates and watch your supported ventures grow into market-ready products.",
-      gradient: "from-green-500 to-emerald-600",
-      glowColor: "green",
-    },
-  ];
-
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl animate-pulse-slow"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
-      
-      {/* Floating particles */}
-      <div className="absolute top-20 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-float"></div>
-      <div className="absolute bottom-20 right-1/4 w-2 h-2 bg-purple-400 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-pink-400 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
-      
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="py-20 bg-muted/30 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div className="absolute inset-0" style={{ 
+          backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary)) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }} />
+      </div>
+
+      <div className="container px-4 relative z-10">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-100 to-purple-100 rounded-full px-6 py-2 mb-4">
-            <Sparkles className="w-4 h-4 text-purple-600" />
-            <span className="text-sm font-bold text-purple-900">Simple & Transparent Process</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-purple-800 to-gray-900 bg-clip-text text-transparent mb-4">
-            How Originn Works
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">How Originn Works</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             A trusted platform that connects innovators with early adopters and investors
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            const AccentIcon = step.accentIcon;
-            return (
-              <Card 
-                key={index} 
-                className="relative p-8 text-center hover:shadow-2xl transition-all duration-500 bg-white/80 backdrop-blur-sm border-2 border-gray-100 group hover:scale-105 hover:border-purple-200 overflow-hidden"
-              >
-                {/* Number badge */}
-                <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-gray-600">{index + 1}</span>
-                </div>
+        <div className="relative">
+          {/* Connection Line with Gradient */}
+          <div className="hidden lg:block absolute top-[80px] left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.title}
+                  className="relative group"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {/* Step Card */}
+                  <div className="relative bg-card rounded-2xl p-8 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-hover)] transition-all duration-500 hover:-translate-y-3 border border-border/50 hover:border-primary/30 overflow-hidden">
+                    {/* Hover Gradient Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Corner Accent */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Icon with Animated Background */}
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-primary/10 blur-2xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500" />
+                      <div className="relative inline-flex p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform duration-500" />
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300 relative z-10">
+                      {step.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed relative z-10">
+                      {step.description}
+                    </p>
 
-                {/* Accent icon (background) */}
-                <div className="absolute top-8 right-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <AccentIcon className="w-32 h-32 text-gray-900" />
-                </div>
-
-                {/* Main icon container with gradient */}
-                <div className="relative mb-6">
-                  <div className={`w-20 h-20 bg-gradient-to-br ${step.gradient} rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:shadow-${step.glowColor}-500/50 transition-all duration-500 group-hover:rotate-6 group-hover:scale-110`}>
-                    <Icon className="h-10 w-10 text-white drop-shadow-lg" strokeWidth={2.5} />
+                    {/* Bottom Accent Line */}
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                   </div>
-                  
-                  {/* Glow effect */}
-                  <div className={`absolute inset-0 w-20 h-20 bg-gradient-to-br ${step.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity mx-auto`}></div>
                 </div>
-
-                {/* Step number indicator */}
-                <div className="flex items-center justify-center gap-2 mb-4">
-                  <div className={`h-1 w-12 bg-gradient-to-r ${step.gradient} rounded-full`}></div>
-                </div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-purple-600 group-hover:to-pink-600 transition-all">
-                  {step.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
-
-                {/* Bottom accent line */}
-                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${step.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
-              </Card>
-            );
-          })}
-        </div>
-
-        {/* Connection lines between cards (desktop only) */}
-        <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl pointer-events-none">
-          <svg className="w-full h-24" viewBox="0 0 1200 100" fill="none">
-            <path 
-              d="M 100 50 Q 400 20, 700 50 T 1100 50" 
-              stroke="url(#gradient)" 
-              strokeWidth="2" 
-              strokeDasharray="5,5"
-              className="animate-dash"
-            />
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.3" />
-                <stop offset="33%" stopColor="#a855f7" stopOpacity="0.3" />
-                <stop offset="66%" stopColor="#ec4899" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#10b981" stopOpacity="0.3" />
-              </linearGradient>
-            </defs>
-          </svg>
+              );
+            })}
+          </div>
         </div>
       </div>
-
-      {/* <style jsx>{`
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50% { opacity: 0.3; transform: scale(1.05); }
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes dash {
-          to { stroke-dashoffset: -10; }
-        }
-        
-        .animate-pulse-slow {
-          animation: pulse-slow 6s ease-in-out infinite;
-        }
-        
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-        
-        .animate-dash {
-          animation: dash 20s linear infinite;
-        }
-      `}</style> */}
     </section>
   );
 };

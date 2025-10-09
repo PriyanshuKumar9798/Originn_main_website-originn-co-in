@@ -5,7 +5,7 @@ import { StartupHeader } from "@/components/StartupHeader";
 import { ProductCard } from "@/components/ProductCard";
 import { TeamMember } from "@/components/TeamMember";
 import { Footer } from "@/components/Footer";
-import { Building2, GraduationCap, TrendingUp } from "lucide-react";
+import { Building2, GraduationCap, TrendingUp,Package } from "lucide-react";
 
 const API_BASE = "https://firstfound-platform-backend.vercel.app";
 
@@ -24,6 +24,7 @@ const StartupDescription = () => {
         if (!res.ok) throw new Error("Failed to fetch startup data");
         const data = await res.json();
         setStartup(data);
+        // console.log(data.institute)
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -32,6 +33,8 @@ const StartupDescription = () => {
     };
     if (id) fetchStartup();
   }, [id]);
+
+  // console.log(startup.json())
 
   if (loading)
     return <div className="text-center py-32 text-lg font-medium">Loading startup details...</div>;
@@ -137,16 +140,15 @@ const StartupDescription = () => {
 
                   {/* Product Section */}
                   <div className="pt-8">
-                    <div className="flex items-center gap-4 mb-6">
-                      {/* Icon */}
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <span className="text-primary font-bold text-lg">📦</span>
-                      </div>
+                  <div className="flex items-center gap-4 mb-6">
+      {/* Icon */}
+      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+        <Package className="w-6 h-6 text-primary" />
+      </div>
 
-                      {/* Title */}
-                      <h3 className="text-xl font-semibold text-foreground">Product Type</h3>
-                    </div>
-
+      {/* Title */}
+      <h3 className="text-xl font-semibold text-foreground">About Product</h3>
+    </div>
                     {/* Product Info - vertically aligned */}
                     <div className="pl-14 space-y-3">
                       <div>

@@ -33,7 +33,7 @@ const TypewriterText = ({ text, delay = 100, className = "" }: TypewriterTextPro
   return (
     <span className={className}>
       {displayedText}
-      <span className={`inline-block w-1 ml-1 ${showCursor ? "opacity-100" : "opacity-0"} transition-opacity`}>
+      <span className={`inline-block w-1 ml-3 ${showCursor ? "opacity-100" : "opacity-0"} transition-opacity`}>
         |
       </span>
     </span>
