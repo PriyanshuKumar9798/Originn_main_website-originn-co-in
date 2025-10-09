@@ -186,15 +186,18 @@ const Footer = () => {
             {/* END: Moved 'Stay Connected' up */}
 
             {/* START: Moved 'Privacy & Security' down */}
-            <div className="pt-4 border-t border-white/20">
-              <h4 className="font-bold text-lg text-orange-400 mb-4">
-                Privacy & Security
-              </h4>
-              <p className="text-sm text-primary-foreground/80 mb-4">
-                Your privacy and security are our top priorities. We ensure your
-                data is protected with industry-leading security measures.
-              </p>
-            </div>
+            <div 
+  className="pt-4 border-t border-white/20 cursor-pointer hover:bg-white/5 transition-colors rounded-lg p-4 -m-4"
+  onClick={() => window.location.href = '/privacy-security'}
+>
+  <h4 className="font-bold text-lg text-orange-400 mb-4">
+    Privacy & Security
+  </h4>
+  <p className="text-sm text-primary-foreground/80 mb-4">
+    Your privacy and security are our top priorities. We ensure your
+    data is protected with industry-leading security measures.
+  </p>
+</div>
             {/* END: Moved 'Privacy & Security' down */}
           </div>
         </div>

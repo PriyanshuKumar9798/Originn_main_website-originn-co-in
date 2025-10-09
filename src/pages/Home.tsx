@@ -37,7 +37,7 @@ interface Product {
   status?: string;
 }
 
-const API_BASE ="https://firstfound-platform-backend.vercel.app";
+const API_BASE = "https://firstfound-platform-backend.vercel.app";
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -56,7 +56,6 @@ const Home = () => {
         setLoading(false);
       }
     };
-    
     fetchProducts();
   }, []);
 
@@ -64,7 +63,6 @@ const Home = () => {
   if (error) return <div className="text-center py-10 text-red-600">{error}</div>;
 
   // Filters
-  const featuredStartups = products.slice(0, 5);
   const healthcareStartups = products.filter((s) =>
     s.category?.toLowerCase().includes("healthcare")
   );
@@ -74,24 +72,25 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <Hero/>
+      <Hero />
 
       <main className="flex-1">
-      <StartupSection
-  title="Featured Startups"
-  subtitle="Explore innovative startups"
-  startups={featuredStartups.map((s) => ({
-    id: s._id,
-    name: s.companyName,
-    category: s.category ?? "Unknown",
-    description: s.description ?? "",
-    image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
-    tagline: s.productType,
-    creator: s.founders.map((f) => f.name).join(", "),
-  }))}
-/>
+        {/* ✅ This now shows all startups across all domains */}
+        <StartupSection
+          title="Featured Startups"
+          subtitle="Explore innovative startups across all domains"
+          startups={products.map((s) => ({
+            id: s._id,
+            name: s.companyName,
+            category: s.category ?? "Unknown",
+            description: s.description ?? "",
+            image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
+            tagline: s.productType,
+            creator: s.founders.map((f) => f.name).join(", "),
+          }))}
+        />
 
-         <HowItWorks/>
+        <HowItWorks />
 
         <StartupSection
           title="Startups in HealthCare"
@@ -120,8 +119,8 @@ const Home = () => {
             creator: s.founders.map((f) => f.name).join(", "),
           }))}
         />
-        {/* <HowItWorks/> */}
-        <TrustSection/>?
+
+        <TrustSection />
       </main>
     </div>
   );
