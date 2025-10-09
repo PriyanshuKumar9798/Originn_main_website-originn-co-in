@@ -43,6 +43,8 @@ const StartupDescription = () => {
 
   return (
     <div className="min-h-screen bg-background">
+
+      
       {/* Startup Header */}
       <StartupHeader
         name={startup.companyName}

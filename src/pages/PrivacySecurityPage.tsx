@@ -1,367 +1,319 @@
-"use client";
 import React, { useState } from "react";
-import {
-  Shield,
-  Lock,
-  Eye,
-  DollarSign,
-  CheckCircle,
-  Clock,
-  ArrowRight,
-  Package,
-  Wrench,
-  Truck,
-  Star,
-  ArrowLeft,
-} from "lucide-react";
+import { Shield, Lock, FileText, UserCheck, AlertCircle, Globe, Eye, Download, CheckCircle, Star, Sparkles } from "lucide-react";
 
 export default function PrivacySecurityPage() {
-  const [activeTab, setActiveTab] = useState("escrow");
+  const [activeSection, setActiveSection] = useState(null);
 
-  const handleBackToDashboard = () => {
-    window.history.back();
-  };
-
-  // Sample projects
-  const projects = [
+  const sections = [
     {
-      id: "PRJ001",
-      name: "Smart Home Device Startup",
-      founder: "Tech Innovations Inc.",
-      totalAmount: 50000,
-      preorderedAmount: 50000,
-      releasedAmount: 25000,
-      inEscrow: 25000,
-      milestones: [
-        {
-          id: 1,
-          name: "Raw Material Procurement",
-          description: "Purchase materials for prototype manufacturing",
-          amount: 15000,
-          status: "completed",
-          releaseDate: "2025-09-15",
-          icon: Package,
-        },
-        {
-          id: 2,
-          name: "Manufacturing & Production",
-          description: "Complete manufacturing of first batch",
-          amount: 10000,
-          status: "completed",
-          releaseDate: "2025-10-01",
-          icon: Wrench,
-        },
-        {
-          id: 3,
-          name: "Quality Testing",
-          description: "Quality assurance and product testing",
-          amount: 8000,
-          status: "in_progress",
-          expectedDate: "2025-10-20",
-          icon: Star,
-        },
-        {
-          id: 4,
-          name: "Shipping & Delivery",
-          description: "Final packaging and delivery to backers",
-          amount: 12000,
-          status: "pending",
-          expectedDate: "2025-11-10",
-          icon: Truck,
-        },
-      ],
-    },
-  ];
-
-  const getStatusInfo = (status: string) => {
-    switch (status) {
-      case "completed":
-        return {
-          color: "bg-green-500/10 text-green-400 border-green-500/30",
-          text: "Completed - Funds Released",
-        };
-      case "in_progress":
-        return {
-          color: "bg-yellow-500/10 text-yellow-400 border-yellow-500/30",
-          text: "In Progress - Funds in Escrow",
-        };
-      case "pending":
-        return {
-          color: "bg-blue-500/10 text-blue-400 border-blue-500/30",
-          text: "Pending - Funds in Escrow",
-        };
-      default:
-        return {
-          color: "bg-gray-500/10 text-gray-400 border-gray-500/30",
-          text: "Unknown",
-        };
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1020] via-[#141c2f] to-[#1a2236] text-white py-10 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-10">
-          <button
-            onClick={handleBackToDashboard}
-            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors mb-5"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Back to Dashboard
-          </button>
-
-          <div className="flex items-center gap-3 mb-3">
-            <Shield className="w-10 h-10 text-accent" />
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-accent to-blue-400 bg-clip-text text-transparent">
-              Privacy & Security
-            </h1>
+      id: 1,
+      icon: UserCheck,
+      title: "Our Commitment to Your Privacy",
+      color: "from-blue-500 to-cyan-500",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200",
+      content: (
+        <>
+          <p className="text-gray-700 leading-relaxed">
+            Welcome to <span className="font-bold text-blue-600">Originn</span> ("Originn," "we," "us," or "our"). Our mission is to
+            build a trusted ecosystem for backers, startups, and investors. Protecting your personal
+            data is fundamental to that trust.
+          </p>
+          <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-l-4 border-blue-500 rounded-r-lg">
+            <p className="text-gray-800 font-medium">
+              This Privacy Policy explains how we collect, use, process, and safeguard your information
+              when you use our platform and services. We comply with India's{" "}
+              <span className="font-bold text-blue-600">Digital Personal Data Protection (DPDP) Act, 2023</span>. 
+              Originn acts as a <span className="font-bold text-blue-600">Data Fiduciary</span> responsible for your data.
+            </p>
           </div>
-          <p className="text-gray-400 text-lg max-w-3xl">
-            Your funds are protected with milestone-based escrow. Funds are
-            released only after verified completion of each milestone.
+          <p className="mt-4 text-gray-600 italic">
+            By using our website, you agree to the practices described in this policy.
+          </p>
+        </>
+      )
+    },
+    {
+      id: 2,
+      icon: FileText,
+      title: "The Information We Collect",
+      color: "from-purple-500 to-pink-500",
+      bgColor: "bg-purple-50",
+      borderColor: "border-purple-200",
+      content: (
+        <>
+          <p className="text-gray-700 font-semibold mb-4">
+            We collect only what's necessary to provide our services, ensure security, and comply with laws. 
+            <span className="text-purple-600 ml-2">Consent is always obtained before collection.</span>
+          </p>
+          <div className="space-y-4">
+            {[
+              { title: "For All Users", desc: "name, email, password, technical data (IP, device info, cookies), and communication records.", color: "purple" },
+              { title: "For Backers", desc: "transaction and shipping details, contact number, and content you post.", color: "pink" },
+              { title: "For Startups & Founders", desc: "business, KYC, legal, and financial information for due diligence and payouts.", color: "indigo" },
+              { title: "For Investors", desc: "accreditation, professional, and verification details for regulatory compliance.", color: "violet" }
+            ].map((item, idx) => (
+              <div key={idx} className={`p-4 bg-${item.color}-50 border-l-4 border-${item.color}-400 rounded-r-lg hover:shadow-md transition-shadow`}>
+                <h4 className={`font-bold text-${item.color}-700 mb-1`}>{item.title}</h4>
+                <p className="text-gray-600 text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    },
+    {
+      id: 3,
+      icon: Globe,
+      title: "How We Use Your Information",
+      color: "from-emerald-500 to-teal-500",
+      bgColor: "bg-emerald-50",
+      borderColor: "border-emerald-200",
+      content: (
+        <>
+          <p className="text-gray-700 font-semibold mb-4">
+            We use your data only for purposes you've consented to:
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              "Operate and manage platform functions",
+              "Ensure safety via verification",
+              "Process secure payments",
+              "Provide customer support",
+              "Comply with RBI, SEBI regulations"
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-emerald-200 hover:border-emerald-400 transition-colors">
+                <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                <span className="text-gray-700 text-sm">{item}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    },
+    {
+      id: 4,
+      icon: Lock,
+      title: "Data Sharing and Disclosure",
+      color: "from-orange-500 to-red-500",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200",
+      content: (
+        <>
+          <div className="mb-4 p-4 bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-400 rounded-lg">
+            <p className="text-red-700 font-bold text-lg flex items-center gap-2">
+              <Shield className="w-5 h-5" />
+              We never sell your data.
+            </p>
+          </div>
+          <p className="text-gray-700 mb-4">
+            We share it only with trusted, DPA-bound partners:
+          </p>
+          <div className="space-y-3">
+            {[
+              { label: "Startups", desc: "for order fulfillment and backer shipping details" },
+              { label: "Investors", desc: "for verified startup insights via Originn Intelligence Platform" },
+              { label: "Service Partners", desc: "like Razorpay (payments), Castler (escrow), verification agencies" },
+              { label: "Legal Authorities", desc: "when required by law or official requests" }
+            ].map((item, idx) => (
+              <div key={idx} className="flex gap-3 p-3 bg-white rounded-lg border border-orange-200">
+                <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <span className="font-bold text-gray-800">{item.label}:</span>
+                  <span className="text-gray-600 ml-2">{item.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    },
+    {
+      id: 5,
+      icon: UserCheck,
+      title: "Your Data Protection Rights",
+      color: "from-yellow-500 to-amber-500",
+      bgColor: "bg-yellow-50",
+      borderColor: "border-yellow-300",
+      content: (
+        <>
+          <p className="text-gray-700 mb-4">
+            You have full control of your data under the <span className="font-bold text-yellow-600">DPDP Act</span>:
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              { icon: Eye, title: "Access", desc: "Download a copy of your data anytime" },
+              { icon: FileText, title: "Correction", desc: "Edit inaccurate information in your profile" },
+              { icon: AlertCircle, title: "Erasure", desc: "Delete your account and data permanently" },
+              { icon: Download, title: "Withdraw Consent", desc: "Manage data permissions via dashboard" }
+            ].map((item, idx) => (
+              <div key={idx} className="p-4 bg-white rounded-xl border-2 border-yellow-200 hover:border-yellow-400 hover:shadow-lg transition-all group">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors">
+                    <item.icon className="w-5 h-5 text-yellow-600" />
+                  </div>
+                  <h4 className="font-bold text-gray-800">{item.title}</h4>
+                </div>
+                <p className="text-gray-600 text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    },
+    {
+      id: 6,
+      icon: Lock,
+      title: "Our Commitment to Data Security",
+      color: "from-indigo-500 to-blue-500",
+      bgColor: "bg-indigo-50",
+      borderColor: "border-indigo-200",
+      content: (
+        <>
+          <p className="text-gray-700 font-semibold mb-4">
+            We adopt a "Privacy-by-Design" model with:
+          </p>
+          <div className="space-y-4">
+            {[
+              { icon: Shield, text: "End-to-end encryption (SSL/TLS and at rest)", color: "indigo" },
+              { icon: Lock, text: "Protection against XSS, CSRF, and SQL injection", color: "blue" },
+              { icon: UserCheck, text: "Role-Based Access Control (RBAC) for employees", color: "cyan" },
+              { icon: Star, text: "Independent third-party audits and penetration tests", color: "purple" }
+            ].map((item, idx) => (
+              <div key={idx} className={`flex items-center gap-4 p-4 bg-gradient-to-r from-${item.color}-50 to-white rounded-lg border border-${item.color}-200 hover:shadow-md transition-shadow`}>
+                <div className={`p-3 bg-${item.color}-100 rounded-full`}>
+                  <item.icon className={`w-6 h-6 text-${item.color}-600`} />
+                </div>
+                <p className="text-gray-700 font-medium">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    },
+    {
+      id: 7,
+      icon: AlertCircle,
+      title: "Changes to This Policy",
+      color: "from-gray-500 to-slate-500",
+      bgColor: "bg-gray-50",
+      borderColor: "border-gray-300",
+      content: (
+        <div className="p-6 bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl border border-gray-200">
+          <p className="text-gray-700 leading-relaxed">
+            We may update this Privacy Policy occasionally. Any significant changes will be posted on
+            our website and communicated via email where applicable. We're committed to keeping you
+            informed about how we protect your data.
           </p>
         </div>
+      )
+    }
+  ];
 
-        {/* Tabs */}
-        <div className="flex flex-wrap gap-4 mb-10 border-b border-white/10 pb-3">
-          {["escrow", "how", "security"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`pb-2 px-4 font-medium transition-all rounded-md ${
-                activeTab === tab
-                  ? "text-accent border-b-2 border-accent"
-                  : "text-gray-400 hover:text-white"
-              }`}
-            >
-              {tab === "escrow"
-                ? "Milestone-Based Escrow"
-                : tab === "how"
-                ? "How It Works"
-                : "Security Features"}
-            </button>
-          ))}
-        </div>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Animated Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-40 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+      </div>
 
-        {/* Escrow Section */}
-        {activeTab === "escrow" && (
-          <div className="space-y-8">
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className="bg-[#1f2a40]/80 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-xl hover:shadow-accent/20 transition"
-              >
-                {/* Header */}
-                <div className="flex flex-col md:flex-row items-start justify-between mb-6 border-b border-white/10 pb-4">
-                  <div>
-                    <h2 className="text-2xl font-semibold">{project.name}</h2>
-                    <p className="text-gray-400">
-                      Founder: {project.founder}
-                    </p>
-                  </div>
-                  <div className="mt-4 md:mt-0 text-right">
-                    <p className="text-sm text-gray-400 mb-1">
-                      Total Preordered
-                    </p>
-                    <p className="text-3xl font-bold text-accent">
-                      ${project.preorderedAmount.toLocaleString()}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Summary cards */}
-                <div className="grid md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-blue-500/10 p-4 rounded-xl border border-blue-500/30">
-                    <Lock className="w-6 h-6 text-blue-400 mb-1" />
-                    <p className="text-gray-400 text-sm">In Escrow</p>
-                    <h4 className="text-2xl font-bold text-blue-400">
-                      ${project.inEscrow.toLocaleString()}
-                    </h4>
-                  </div>
-                  <div className="bg-green-500/10 p-4 rounded-xl border border-green-500/30">
-                    <CheckCircle className="w-6 h-6 text-green-400 mb-1" />
-                    <p className="text-gray-400 text-sm">Released</p>
-                    <h4 className="text-2xl font-bold text-green-400">
-                      ${project.releasedAmount.toLocaleString()}
-                    </h4>
-                  </div>
-                  <div className="bg-orange-500/10 p-4 rounded-xl border border-orange-500/30">
-                    <DollarSign className="w-6 h-6 text-orange-400 mb-1" />
-                    <p className="text-gray-400 text-sm">Total Value</p>
-                    <h4 className="text-2xl font-bold text-orange-400">
-                      ${project.totalAmount.toLocaleString()}
-                    </h4>
-                  </div>
-                </div>
-
-                {/* Milestones */}
-                <div className="space-y-5">
-                  <h3 className="text-xl font-semibold mb-2">
-                    Project Milestones
-                  </h3>
-                  {project.milestones.map((milestone, index) => {
-                    const Icon = milestone.icon;
-                    const status = getStatusInfo(milestone.status);
-                    const isLast = index === project.milestones.length - 1;
-
-                    return (
-                      <div key={milestone.id}>
-                        <div className="flex gap-4 bg-[#28344f]/60 p-5 rounded-xl border border-white/10 hover:border-accent/40 transition-all duration-200">
-                          <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                              milestone.status === "completed"
-                                ? "bg-green-500/20"
-                                : milestone.status === "in_progress"
-                                ? "bg-yellow-500/20"
-                                : "bg-blue-500/20"
-                            }`}
-                          >
-                            <Icon
-                              className={`w-6 h-6 ${
-                                milestone.status === "completed"
-                                  ? "text-green-400"
-                                  : milestone.status === "in_progress"
-                                  ? "text-yellow-400"
-                                  : "text-blue-400"
-                              }`}
-                            />
-                          </div>
-
-                          <div className="flex-1">
-                            <div className="flex justify-between flex-wrap gap-2">
-                              <div>
-                                <h4 className="font-semibold">
-                                  {milestone.name}
-                                </h4>
-                                <p className="text-gray-400 text-sm">
-                                  {milestone.description}
-                                </p>
-                              </div>
-                              <p className="text-accent font-bold text-xl">
-                                ${milestone.amount.toLocaleString()}
-                              </p>
-                            </div>
-
-                            <div className="flex flex-wrap items-center gap-3 mt-3">
-                              <span
-                                className={`px-3 py-1 rounded-full text-xs font-medium border ${status.color}`}
-                              >
-                                {status.text}
-                              </span>
-                              <span className="text-sm text-gray-400">
-                                {milestone.status === "completed"
-                                  ? `Released on ${milestone.releaseDate}`
-                                  : `Expected: ${milestone.expectedDate}`}
-                              </span>
-                            </div>
-
-                            {milestone.status === "in_progress" && (
-                              <div className="mt-3 p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/30 text-yellow-400 text-sm flex items-center gap-2">
-                                <Clock className="w-4 h-4" />
-                                Founder is currently working on this milestone.
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {!isLast && (
-                          <div className="flex justify-center py-2">
-                            <ArrowRight className="w-5 h-5 text-white/20 rotate-90" />
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+      <div className="relative z-10 py-16 px-4 md:px-10 lg:px-20">
+        {/* Hero Header */}
+        <div className="max-w-5xl mx-auto mb-16 text-center">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+              <div className="relative p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl">
+                <Shield className="w-16 h-16 text-white" />
               </div>
-            ))}
-          </div>
-        )}
-
-        {/* How It Works */}
-        {activeTab === "how" && (
-          <div className="space-y-8">
-            <div className="bg-[#1f2a40]/80 backdrop-blur-md border border-accent/30 rounded-2xl p-8 shadow-xl">
-              <h2 className="text-3xl font-bold text-accent mb-6">
-                How Milestone-Based Escrow Works
-              </h2>
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="flex items-start gap-4 mb-5">
-                  <div className="w-10 h-10 bg-accent text-primary rounded-full flex items-center justify-center font-bold">
-                    {i + 1}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1">
-                      {
-                        [
-                          "You Preorder & Money Goes to Escrow",
-                          "Milestone 1: Procurement",
-                          "Milestone 2: Manufacturing",
-                          "Subsequent Milestones",
-                          "Your Protection",
-                        ][i]
-                      }
-                    </h3>
-                    <p className="text-gray-300 text-sm">
-                      {
-                        [
-                          "When you back a startup, your payment is securely held in escrow until verification.",
-                          "Founder completes the first milestone (e.g., raw materials). Funds are released after verification.",
-                          "When production completes, the next escrow portion is released.",
-                          "This continues for each milestone — shipping, testing, etc.",
-                          "If a milestone isn’t completed, remaining funds stay safe and refundable.",
-                        ][i]
-                      }
-                    </p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
-        )}
+          
+          <h1 className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Privacy & Security Policy
+          </h1>
+          
+          <p className="text-2xl text-gray-600 font-semibold mb-4 flex items-center justify-center gap-2">
+            <Sparkles className="w-6 h-6 text-yellow-500" />
+            Your Trust, Our Commitment
+          </p>
+          
+          {/* <div className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg border-2 border-blue-100"> */}
+            {/* <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> */}
 
-        {/* Security Features */}
-        {activeTab === "security" && (
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              {
-                icon: Shield,
-                color: "text-green-400",
-                title: "Escrow Protection",
-                text: "Funds are held securely and released only after verified completion.",
-              },
-              {
-                icon: Lock,
-                color: "text-blue-400",
-                title: "Bank-Level Security",
-                text: "Your data is encrypted and stored in PCI-DSS compliant servers.",
-              },
-              {
-                icon: Eye,
-                color: "text-purple-400",
-                title: "Full Transparency",
-                text: "Track milestones and fund releases in real time.",
-              },
-              {
-                icon: DollarSign,
-                color: "text-yellow-400",
-                title: "Refund Protection",
-                text: "If milestones aren’t met, remaining escrow funds are refunded.",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="bg-[#28344f]/70 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-accent/40 transition"
-              >
-                <item.icon className={`w-10 h-10 ${item.color} mb-3`} />
-                <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
-                <p className="text-gray-300 text-sm">{item.text}</p>
-              </div>
-            ))}
+
+        </div>
+
+        {/* Main Content */}
+        <div className="max-w-5xl mx-auto">
+          <div className="space-y-8">
+            {sections.map((section, idx) => {
+              const Icon = section.icon;
+              const isActive = activeSection === section.id;
+              
+              return (
+                <div
+                  key={section.id}
+                  className={`group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 ${
+                    isActive ? 'border-blue-400 ring-4 ring-blue-100' : 'border-gray-100'
+                  }`}
+                  onMouseEnter={() => setActiveSection(section.id)}
+                  onMouseLeave={() => setActiveSection(null)}
+                >
+                  {/* Section Header */}
+                  <div className={`p-6 bg-gradient-to-r ${section.color} cursor-pointer`}>
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-white/90 rounded-xl shadow-lg group-hover:scale-110 transition-transform">
+                        <Icon className="w-8 h-8 text-gray-800" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3">
+                          <span className="px-3 py-1 bg-white/80 rounded-full text-sm font-bold text-gray-800">
+                            {String(idx + 1).padStart(2, '0')}
+                          </span>
+                          <h2 className="text-2xl font-bold text-white drop-shadow-lg">
+                            {section.title}
+                          </h2>
+                        </div>
+                      </div>
+                      <div className={`transform transition-transform ${isActive ? 'rotate-180' : ''}`}>
+                        <AlertCircle className="w-6 h-6 text-white" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Section Content */}
+                  <div className="p-8">
+                    {section.content}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        )}
+
+          {/* Footer */}
+          {/* <div className="mt-16 p-8 bg-gradient-to-r from-slate-800 via-gray-800 to-slate-900 rounded-2xl shadow-2xl text-center">
+            <div className="flex justify-center mb-4">
+              <div className="flex gap-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                ))}
+              </div>
+            </div>
+            <p className="text-white text-lg font-semibold mb-2">
+              © {new Date().getFullYear()} Originn. All rights reserved.
+            </p>
+            <p className="text-gray-400 text-sm flex items-center justify-center gap-2">
+              <Shield className="w-4 h-4" />
+              Your data security is paramount to our mission.
+            </p>
+          </div> */}
+        </div>
       </div>
+
+       
     </div>
   );
 }
