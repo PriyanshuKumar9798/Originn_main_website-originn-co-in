@@ -78,9 +78,8 @@ export const StartupHeader = ({
                   {name}
                 </h1>
                 <p className="text-muted-foreground text-base mb-2">
-                  {category}
-                  {institute}
-                </p>
+  {category} <span className="mx-2">•</span> {institute}
+</p>
 
                 {website && (
                   <a

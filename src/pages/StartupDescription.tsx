@@ -154,14 +154,14 @@ const StartupDescription = () => {
                     {/* Product Info - vertically aligned */}
                     <div className="pl-14 space-y-3">
                       <div>
-                        <span className="block text-xs text-primary-foreground/70">Product Type</span>
+                        <span className="block text-xs text-black">Product Type</span>
                         <span className="block text-lg font-bold text-foreground">
                           {startup.productType || "N/A"}
                         </span>
                       </div>
 
                       <div>
-                        <span className="block text-xs text-primary-foreground/70">Target Market</span>
+                        <span className="block text-xs text-black">Target Market</span>
                         <span className="block text-lg font-bold text-foreground">
                           {startup.targetMarket || "N/A"}
                         </span>
