@@ -5,7 +5,7 @@ import { StartupHeader } from "@/components/StartupHeader";
 import { ProductCard } from "@/components/ProductCard";
 import { TeamMember } from "@/components/TeamMember";
 import { Footer } from "@/components/Footer";
-import { Building2, GraduationCap, TrendingUp,Package } from "lucide-react";
+import { Building2, GraduationCap, TrendingUp, Package } from "lucide-react";
 
 const API_BASE = "https://firstfound-platform-backend.vercel.app";
 
@@ -141,31 +141,20 @@ const StartupDescription = () => {
                   )}
 
                   {/* Product Section */}
-                  <div className="pt-8">
-                  <div className="flex items-center gap-4 mb-6">
-      {/* Icon */}
-      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-        <Package className="w-6 h-6 text-primary" />
-      </div>
-
-      {/* Title */}
-      <h3 className="text-xl font-semibold text-foreground">About Product</h3>
-    </div>
-                    {/* Product Info - vertically aligned */}
-                    <div className="pl-14 space-y-3">
-                      <div>
-                        <span className="block text-xs text-black">Product Type</span>
-                        <span className="block text-lg font-bold text-foreground">
-                          {startup.productType || "N/A"}
-                        </span>
+                  <div className="group">
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-xl group-hover:shadow-primary/30 transition-shadow">
+                        <Package className="w-6 h-6 text-primary-foreground" />
                       </div>
-
                       <div>
-                        <span className="block text-xs text-black">Target Market</span>
-                        <span className="block text-lg font-bold text-foreground">
-                          {startup.targetMarket || "N/A"}
-                        </span>
+                        <h2 className="text-2xl font-bold text-foreground mb-1">About Product</h2>
+                        <div className="w-16 h-1 bg-gradient-to-r from-primary to-transparent rounded-full" />
                       </div>
+                    </div>
+                    <div className="pl-16">
+                      <p className="text-muted-foreground text-lg leading-relaxed">
+                        {startup.productDescription || "Product description not available."}
+                      </p>
                     </div>
                   </div>
                 </div>

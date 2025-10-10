@@ -2,30 +2,71 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-// import {logo} from "@/assets/Logo (2).png"
+import { useNavigate, useLocation } from "react-router-dom";
 
-const Header = () => {
-  const navigate = useNavigate(); 
+const Header = ({ onSearch }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
+    const user = JSON.parse(sessionStorage.getItem("currentUser") || "null");
     setCurrentUser(user);
   }, []);
 
+  // Clear search when navigating away from home
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setSearchQuery("");
+    }
+  }, [location.pathname]);
+
   const handleLogout = () => {
-    localStorage.removeItem("currentUser");
+    sessionStorage.removeItem("currentUser");
     setCurrentUser(null);
     setUserMenuOpen(false);
     navigate("/");
   };
 
-  return (
-    <header className="bg-[#192a51] text-white ">
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    // Trigger search in real-time as user types
+    if (onSearch) {
+      onSearch(query);
+    }
+  };
 
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      // Navigate to home if not already there
+      if (location.pathname !== "/") {
+        navigate("/");
+      }
+      // Trigger search
+      if (onSearch) {
+        onSearch(searchQuery);
+      }
+    }
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearchSubmit();
+    }
+  };
+
+  const handleSearchIconClick = () => {
+    handleSearchSubmit();
+  };
+
+  return (
+    <header className="bg-[#192a51] text-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between gap-4 h-16">
           
@@ -37,11 +78,17 @@ const Header = () => {
           {/* Search Bar */}
           <div className="flex-1 max-w-2xl">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search 
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/60 cursor-pointer hover:text-white/80 transition-colors" 
+                onClick={handleSearchIconClick}
+              />
               <Input
                 type="search"
                 placeholder="Search startups & products..."
-                className="w-full pl-10 pr-4 py-2 bg-white/10 border-white/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-white/20 focus:border-white/40 rounded-lg"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyDown={handleSearchKeyDown}
+                className="w-full pl-10 pr-4 py-2 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:bg-white/20 focus:border-white/40 rounded-lg"
               />
             </div>
           </div>
@@ -135,7 +182,6 @@ const Header = () => {
                 </div>
               </>
             ) : (
-              /* Desktop Sign In */
               <Button
                 variant="default"
                 className="bg-orange-500 text-white hover:bg-orange-600 font-semibold px-4 py-2 text-sm hidden lg:inline-flex"

@@ -1,12 +1,12 @@
 import {
-  Bookmark,
-  Linkedin,
-  Twitter,
-  Instagram,
-  Facebook,
-  Youtube,
-  ExternalLink,
-} from "lucide-react";
+  FaLinkedin,
+  FaXTwitter,
+  FaInstagram,
+  FaFacebook,
+  FaYoutube,
+  FaBookmark,
+} from "react-icons/fa6";
+import { FaExternalLinkAlt } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 
 interface StartupHeaderProps {
@@ -37,12 +37,17 @@ export const StartupHeader = ({
   institute,
 }: StartupHeaderProps) => {
   const socials = [
-    { icon: Linkedin, label: "LinkedIn", url: linkedin },
-    { icon: Twitter, label: "Twitter", url: twitter },
-    { icon: Instagram, label: "Instagram", url: instagram },
-    { icon: Facebook, label: "Facebook", url: facebook },
-    { icon: Youtube, label: "YouTube", url: youtube },
-  ].filter((s) => s.url); // only show if link exists
+    { icon: FaLinkedin, label: "LinkedIn", url: linkedin, color: "#0A66C2" },
+    { icon: FaXTwitter, label: "X", url: twitter, color: "#000000" },
+    {
+      icon: FaInstagram,
+      label: "Instagram",
+      url: instagram,
+      color: "linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4)",
+    },
+    { icon: FaFacebook, label: "Facebook", url: facebook, color: "#1877F2" },
+    { icon: FaYoutube, label: "YouTube", url: youtube, color: "#FF0000" },
+  ].filter((s) => s.url);
 
   return (
     <header className="w-full bg-card">
@@ -74,12 +79,13 @@ export const StartupHeader = ({
             {/* Startup Info */}
             <div className="flex-1 flex flex-col md:flex-row justify-between gap-6 pt-2">
               <div className="flex-1">
-                <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-2 ">
+                <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-2">
                   {name}
                 </h1>
+
                 <p className="text-muted-foreground text-base mb-2">
-  {category} <span className="mx-2">•</span> {institute}
-</p>
+                  {category} <span className="mx-2">•</span> {institute}
+                </p>
 
                 {website && (
                   <a
@@ -89,30 +95,35 @@ export const StartupHeader = ({
                     className="inline-flex items-center gap-1 text-primary hover:text-primary-light transition-colors font-medium"
                   >
                     {website.replace(/^https?:\/\//, "")}
-                    <ExternalLink className="w-4 h-4" />
+                    <FaExternalLinkAlt className="w-4 h-4" />
                   </a>
                 )}
               </div>
 
-              {/* Right: Bookmark + Socials */}
+              {/* Right Side: Bookmark + Socials */}
               <div className="flex flex-col gap-4 items-start md:items-end">
                 <Button
                   size="sm"
                   className="gap-2 bg-primary hover:bg-primary hover:text-primary-foreground"
                 >
-                  <Bookmark className="w-4 h-4" />
+                  <FaBookmark className="w-4 h-4" />
                   Bookmark
                 </Button>
 
                 <div className="flex gap-2.5">
-                  {socials.map(({ icon: Icon, label, url }) => (
+                  {socials.map(({ icon: Icon, label, url, color }) => (
                     <a
                       key={label}
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="w-9 h-9 rounded bg-[#0A66C2] flex items-center justify-center hover:opacity-90 transition-opacity"
+                      className="w-9 h-9 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
+                      style={{
+                        background: color.startsWith("linear")
+                          ? color
+                          : color,
+                      }}
                     >
                       <Icon className="w-4.5 h-4.5 text-white" />
                     </a>
