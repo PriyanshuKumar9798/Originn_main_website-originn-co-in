@@ -111,7 +111,12 @@ const StartupDescription = () => {
                         {startup.description}
                       </p>
                     </div>
+
                   </div>
+                  <div className="w-full h-px bg-black my-2" />
+
+
+
 
                   {/* Institute Info */}
                   {startup.institute && (
@@ -139,6 +144,7 @@ const StartupDescription = () => {
                       </div>
                     </div>
                   )}
+                  <div className="w-full h-px bg-black my-2" />
 
                   {/* Product Section */}
                   <div className="group">
@@ -213,7 +219,7 @@ const StartupDescription = () => {
                     {/* Quick Info */}
                     {startup.website && (
                       <div className="mt-8 pt-8 border-t border-white/20">
-                        <div className="text-sm text-primary-foreground/80 mb-2">Quick Links</div>
+                        {/* <div className="text-sm text-primary-foreground/80 mb-2">Quick Links</div>
                         <a 
                           href={startup.website} 
                           target="_blank" 
@@ -221,7 +227,7 @@ const StartupDescription = () => {
                           className="text-sm underline hover:text-white transition-colors"
                         >
                           Visit Website →
-                        </a>
+                        </a> */}
                       </div>
                     )}
                   </div>

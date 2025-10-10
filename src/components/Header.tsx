@@ -11,7 +11,10 @@ const Header = ({ onSearch }) => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
+  // Load user from sessionStorage
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("currentUser") || "null");
     setCurrentUser(user);
@@ -24,6 +27,24 @@ const Header = ({ onSearch }) => {
     }
   }, [location.pathname]);
 
+  // Scroll hide/show behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   const handleLogout = () => {
     sessionStorage.removeItem("currentUser");
     setCurrentUser(null);
@@ -34,23 +55,13 @@ const Header = ({ onSearch }) => {
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    
-    // Trigger search in real-time as user types
-    if (onSearch) {
-      onSearch(query);
-    }
+    if (onSearch) onSearch(query);
   };
 
   const handleSearchSubmit = () => {
     if (searchQuery.trim()) {
-      // Navigate to home if not already there
-      if (location.pathname !== "/") {
-        navigate("/");
-      }
-      // Trigger search
-      if (onSearch) {
-        onSearch(searchQuery);
-      }
+      if (location.pathname !== "/") navigate("/");
+      if (onSearch) onSearch(searchQuery);
     }
   };
 
@@ -66,20 +77,29 @@ const Header = ({ onSearch }) => {
   };
 
   return (
-    <header className="bg-[#192a51] text-white">
+    <header
+      className={`sticky top-0 z-50 bg-white shadow-lg border-b border-gray-200 transition-transform duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between gap-4 h-16">
           
           {/* Logo */}
-          <div className="flex items-center flex-shrink-0 cursor-pointer" onClick={() => navigate("/")}>
-            <h1 className="text-2xl font-bold tracking-tight">Originn</h1>
+          <div
+            className="flex items-center flex-shrink-0 cursor-pointer"
+            onClick={() => navigate("/")}
+          >
+            <h1 className="text-2xl font-bold tracking-tight text-[#192a51] hover:text-[#2a3f6f] transition-all duration-300">
+              Originn
+            </h1>
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-2xl">
-            <div className="relative">
-              <Search 
-                className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/60 cursor-pointer hover:text-white/80 transition-colors" 
+          <div className="flex-1 max-w-2xl hidden md:flex">
+            <div className="relative w-full">
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 cursor-pointer hover:text-gray-600 transition-colors"
                 onClick={handleSearchIconClick}
               />
               <Input
@@ -88,23 +108,27 @@ const Header = ({ onSearch }) => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
-                className="w-full pl-10 pr-4 py-2 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:bg-white/20 focus:border-white/40 rounded-lg"
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 focus:bg-white focus:border-[#192a51] focus:ring-2 focus:ring-[#192a51]/20 rounded-lg transition-all duration-300 hover:bg-white"
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-2">
+          <nav className="hidden lg:flex items-center gap-6">
             <Button
               variant="ghost"
-              className="text-primary-foreground hover:bg-primary-foreground/10 font-semibold text-sm"
+              className="relative text-[#192a51] hover:text-[#2a3f6f] font-medium transition-all duration-300 text-sm
+               after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#192a51] 
+               after:transition-all after:duration-300 hover:after:w-full pb-1"
               onClick={() => navigate("/discover-startup")}
             >
               Discover Startup
             </Button>
             <Button
               variant="ghost"
-              className="text-primary-foreground hover:bg-primary-foreground/10 font-semibold text-sm"
+              className="relative text-[#192a51] hover:text-[#2a3f6f] font-medium transition-all duration-300 text-sm
+               after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#192a51] 
+               after:transition-all after:duration-300 hover:after:w-full pb-1"
               onClick={() => navigate("/preorder")}
             >
               Preorder
@@ -116,7 +140,9 @@ const Header = ({ onSearch }) => {
             >
               <Button
                 variant="ghost"
-                className="text-primary-foreground hover:bg-primary-foreground/10 font-semibold text-sm"
+                className="relative text-[#192a51] hover:text-[#2a3f6f] font-medium transition-all duration-300 text-sm
+               after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#192a51] 
+               after:transition-all after:duration-300 hover:after:w-full pb-1"
               >
                 Launch Your Startup
               </Button>
@@ -127,7 +153,6 @@ const Header = ({ onSearch }) => {
           <div className="flex items-center gap-3 flex-shrink-0">
             {currentUser ? (
               <>
-                {/* Desktop User Menu */}
                 <div className="hidden lg:block relative">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -184,7 +209,7 @@ const Header = ({ onSearch }) => {
             ) : (
               <Button
                 variant="default"
-                className="bg-orange-500 text-white hover:bg-orange-600 font-semibold px-4 py-2 text-sm hidden lg:inline-flex"
+                className="bg-[#192a51] hover:bg-[#2a3f6f] text-white font-semibold px-4 py-2 text-sm hidden lg:inline-flex"
                 onClick={() => navigate("/signin")}
               >
                 Sign In
@@ -193,7 +218,7 @@ const Header = ({ onSearch }) => {
 
             {/* Mobile Hamburger */}
             <button
-              className="lg:hidden p-2 rounded-md hover:bg-white/10"
+              className="lg:hidden p-2 rounded-md hover:bg-gray-100"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -205,7 +230,7 @@ const Header = ({ onSearch }) => {
         {menuOpen && (
           <div className="lg:hidden mt-2 space-y-2 pb-4">
             {currentUser && (
-              <div className="bg-white/10 rounded-lg p-3 mb-3">
+              <div className="bg-gray-100 rounded-lg p-3 mb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
                     <User className="w-6 h-6 text-white" />
@@ -220,7 +245,7 @@ const Header = ({ onSearch }) => {
             
             <Button
               variant="ghost"
-              className="w-full text-left text-primary-foreground hover:bg-primary-foreground/10 font-semibold"
+              className="w-full text-left text-[#192a51] hover:bg-[#2a3f6f]/10 font-semibold"
               onClick={() => {
                 navigate("/discover-startup");
                 setMenuOpen(false);
@@ -230,7 +255,7 @@ const Header = ({ onSearch }) => {
             </Button>
             <Button
               variant="ghost"
-              className="w-full text-left text-primary-foreground hover:bg-primary-foreground/10 font-semibold"
+              className="w-full text-left text-[#192a51] hover:bg-[#2a3f6f]/10 font-semibold"
               onClick={() => {
                 navigate("/preorder");
                 setMenuOpen(false);
@@ -245,7 +270,7 @@ const Header = ({ onSearch }) => {
             >
               <Button
                 variant="ghost"
-                className="w-full text-left text-primary-foreground hover:bg-primary-foreground/10 font-semibold"
+                className="w-full text-left text-[#192a51] hover:bg-[#2a3f6f]/10 font-semibold"
               >
                 Launch Your Startup
               </Button>
@@ -255,7 +280,7 @@ const Header = ({ onSearch }) => {
               <>
                 <Button
                   variant="ghost"
-                  className="w-full text-left text-primary-foreground hover:bg-primary-foreground/10 font-semibold flex items-center gap-2"
+                  className="w-full text-left text-[#192a51] hover:bg-[#2a3f6f]/10 font-semibold flex items-center gap-2"
                   onClick={() => {
                     navigate("/dashboard");
                     setMenuOpen(false);
@@ -279,7 +304,7 @@ const Header = ({ onSearch }) => {
             ) : (
               <Button
                 variant="default"
-                className="w-full bg-orange-500 text-white hover:bg-orange-600 font-semibold"
+                className="w-full bg-[#192a51] text-white hover:bg-[#2a3f6f] font-semibold"
                 onClick={() => {
                   navigate("/signin");
                   setMenuOpen(false);

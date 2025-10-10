@@ -1,7 +1,9 @@
 import React from "react";
+import { FaXTwitter} from "react-icons/fa6";
 import {
   Facebook,
-  Twitter,
+
+
   Linkedin,
   Instagram,
   Mail,
@@ -31,9 +33,9 @@ const Footer = () => {
             <div className="flex items-center gap-3 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-orange-500 rounded-full blur-md group-hover:blur-lg transition-all duration-300"></div>
-                <div className="relative h-14 w-14 rounded-full bg-orange-500 flex items-center justify-center shadow-xl ring-4 ring-white/20 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl font-bold text-white">O</span>
-                </div>
+                {/* <div className="relative h-14 w-14 rounded-full bg-orange-500 flex items-center justify-center shadow-xl ring-4 ring-white/20 group-hover:scale-110 transition-transform duration-300"> */}
+                  {/* <span className="text-2xl font-bold text-white">O</span> */}
+                {/* </div> */}
               </div>
               <h3 className="text-2xl font-bold tracking-tight">
                 Originn
@@ -150,14 +152,14 @@ const Footer = () => {
                   className="p-3 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-sky-500 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-sky-500/50 group"
                   aria-label="Twitter"
                 >
-                  <Twitter
+                  <FaXTwitter
                     size={20}
                     className="group-hover:rotate-12 transition-transform"
                   />
                 </a>
 
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/company/originn-co-in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-blue-700 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-blue-700/50 group"
@@ -170,7 +172,7 @@ const Footer = () => {
                 </a>
 
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/originn.co.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-pink-600 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-pink-600/50 group"

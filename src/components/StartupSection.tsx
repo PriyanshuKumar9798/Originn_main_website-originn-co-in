@@ -38,9 +38,9 @@ const StartupSection: React.FC<StartupSectionProps> = ({ title, subtitle, startu
     <section className="py-12 border-t-2 border-gray-200">
       <div className="container mx-auto px-6  ">
       <div className="text-center mb-16">
-  <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">{title}</h1>
+  <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#192a51]">{title}</h1>
   {subtitle && (
-    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+    <p className="text-xl text-[#192a51] max-w-2xl mx-auto">
       {subtitle}
     </p>
   )}

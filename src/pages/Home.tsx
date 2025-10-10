@@ -114,10 +114,11 @@ const Home = () => {
             name: s.companyName,
             category: s.category ?? "Consumer Tech",
             description: s.description ?? "",
-            image: s.coverPhoto ?? s.logo ?? "https://placehold.co/400x300",
+            image: s.coverPhoto ?? s.logo ?? "https://placehold.co/500x300",
             tagline: s.productType,
             creator: s.founders.map((f) => f.name).join(", "),
           }))}
+        
         />
 
         <TrustSection />

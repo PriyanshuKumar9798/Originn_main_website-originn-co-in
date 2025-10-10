@@ -36,8 +36,8 @@ const HowItWorks = () => {
 
       <div className="container px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">How Originn Works</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#192a51]">How Originn Works</h2>
+          <p className="text-xl text-[#192a51] max-w-2xl mx-auto">
             A trusted platform that connects innovators with early adopters and investors
           </p>
         </div>

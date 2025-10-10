@@ -46,8 +46,8 @@ const TrustAsService = () => {
       
       <div className="container px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Trust as a Service</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#192a51]">Trust as a Service</h2>
+          <p className="text-xl text-[#192a51] max-w-3xl mx-auto">
             Originn is engineered to solve the trust deficit between backers, startups, and investors
           </p>
         </div>
