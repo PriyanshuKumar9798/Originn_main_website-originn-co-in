@@ -1,54 +1,51 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/Layout"
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import DiscoverStartup from "./pages/DiscoverStartup";
-import StartupProfile from "./pages/StartupProfile";
-import Preorder from "./pages/Preorder";
-import SignIn from "./pages/SignIn";
+import { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Navbar } from './components/Navbar'
+import { LoginReminderModal } from './components/LoginReminderModal'
+import { HomePage } from './pages/HomePage'
+import { Discover } from './pages/Discover'
 
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import OurTeamPage from "./pages/OurTeamPage";
-import FaqPage from "./pages/FaqPage";
-import StartupDescription from "./pages/StartupDescription";
-import PrivacySecurityPage from "./pages/PrivacySecurityPage";
+import { AboutUs } from './pages/AboutUs'
+import { PrivacyPolicy } from './pages/PrivacyPolicy'
+import { TermsOfService } from './pages/TermsOfService'
+import { ContactUs } from './pages/ContactUs'
+import { StartupDetail } from './pages/StartupDetail'
+import { PreOrder } from './pages/PreOrder'
 
-const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Layout>
+const App = () => {
+  const [showLoginModal, setShowLoginModal] = useState(false)
+
+  useEffect(() => {
+    const openLogin = () => setShowLoginModal(true)
+    window.addEventListener('originn:open-login', openLogin as EventListener)
+    return () => window.removeEventListener('originn:open-login', openLogin as EventListener)
+  }, [])
+
+  const handleCloseLogin = () => {
+    setShowLoginModal(false)
+  }
+
+  return (
+    <BrowserRouter>
+      <div className="min-h-screen bg-white text-slate-900">
+        <Navbar />
+        <main className="pt-20">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/discover-startup" element={<DiscoverStartup />} />
-            <Route path="/startup-profile" element={<StartupProfile />} />
-            <Route path="/preorder" element={<Preorder />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/OurTeam" element={<OurTeamPage />} />
-            <Route path="/FaqPage" element={<FaqPage/>}/>
-            <Route path="/Startups/:id" element={<StartupDescription />} />
-            <Route path="/privacy-security" element={<PrivacySecurityPage/>}/>
-
-            {/* privacy-security */}
-
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/discover" element={<Discover />} />
+            <Route path="/preorder/:id" element={<PreOrder />} />
+            <Route path="/startup/:id" element={<StartupDetail />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/contact" element={<ContactUs />} />
           </Routes>
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+        </main>
+        <LoginReminderModal open={showLoginModal} onClose={handleCloseLogin} />
+      </div>
+    </BrowserRouter>
+  )
+}
 
-export default App;
+export default App

@@ -1,99 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Hide scrollbar for webkit browsers */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 215 28% 17%;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 28% 17%;
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 28% 17%;
-
-    --primary: 217 51% 21%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 210 17% 95%;
-    --secondary-foreground: 217 51% 21%;
-
-    --muted: 210 17% 95%;
-    --muted-foreground: 215 16% 47%;
-
-    --accent: 210 17% 95%;
-    --accent-foreground: 217 51% 21%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 51% 21%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+/* Custom animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-
-  .dark {
-    --background: 217 51% 21%;
-    --foreground: 0 0% 98%;
-
-    --card: 217 51% 21%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 217 51% 21%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 217 51% 21%;
-
-    --secondary: 217 32% 27%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 217 32% 27%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 217 32% 27%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 217 32% 27%;
-    --input: 217 32% 27%;
-    --ring: 212 27% 84%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
-  }
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
 }
+
