@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Mail, Bell, Sparkles, Rocket, Zap, Star } from 'lucide-react'
 import { Footer } from '../components/Footer'
 
-export const PreOrder = () => {
+export const Preorder = () => {
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [animationKey, setAnimationKey] = useState(0)

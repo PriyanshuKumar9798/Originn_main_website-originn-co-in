@@ -10,7 +10,8 @@ import { PrivacyPolicy } from './pages/PrivacyPolicy'
 import { TermsOfService } from './pages/TermsOfService'
 import { ContactUs } from './pages/ContactUs'
 import { StartupDetail } from './pages/StartupDetail'
-import { PreOrder } from './pages/PreOrder'
+import { Preorder } from './pages/Preorder'
+
 
 
 const App = () => {
@@ -34,7 +35,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/discover" element={<Discover />} />
-            <Route path="/preorder/:id" element={<PreOrder />} />
+            <Route path="/preorder/:id" element={<Preorder />} />
             <Route path="/startup/:id" element={<StartupDetail />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
