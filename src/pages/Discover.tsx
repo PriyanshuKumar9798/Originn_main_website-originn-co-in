@@ -8,8 +8,9 @@ const LOGIN_DISMISS_KEY = 'originn.loginReminder.dismissed'
 
 export const Discover = () => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [selectedStage, setSelectedStage] = useState('All')
+  // detachable chip filters
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedStages, setSelectedStages] = useState<string[]>([])
   const [sortBy, setSortBy] = useState('trending')
   const [showModal, setShowModal] = useState(false)
 
@@ -187,8 +188,8 @@ export const Discover = () => {
   const filteredStartups = startups.filter(startup => {
     const matchesSearch = startup.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          startup.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === 'All' || startup.category === selectedCategory
-    const matchesStage = selectedStage === 'All' || startup.stage === selectedStage
+    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(startup.category)
+    const matchesStage = selectedStages.length === 0 || selectedStages.includes(startup.stage)
     
     return matchesSearch && matchesCategory && matchesStage
   })
@@ -209,21 +210,33 @@ export const Discover = () => {
             </p>
           </div>
 
-          {/* Search and Filters */}
+          {/* Filters */}
           <div className="flex flex-col gap-5">
-            {/* Search Bar */}
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search startups, categories, or keywords..."
-                  aria-label="Search startups"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+            {/* Detachable chips bar */}
+            <div className="flex items-center gap-2 flex-wrap min-h-[40px] rounded-xl bg-white border border-slate-300 px-3 py-2">
+              <span className="text-sm text-slate-500 mr-1">Filters:</span>
+              {[...selectedCategories.map(v => ({ type: 'Category', value: v })), ...selectedStages.map(v => ({ type: 'Stage', value: v }))].map((chip, idx) => (
+                <button
+                  key={`${chip.type}-${chip.value}-${idx}`}
+                  onClick={() => {
+                    if (chip.type === 'Category') setSelectedCategories(prev => prev.filter(c => c !== chip.value))
+                    else setSelectedStages(prev => prev.filter(s => s !== chip.value))
+                  }}
+                  className="group flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-full text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 cursor-pointer"
+                  aria-label={`Remove ${chip.type} ${chip.value}`}
+                >
+                  <span className="font-medium">{chip.value}</span>
+                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-slate-600 border border-slate-300 group-hover:bg-slate-50">×</span>
+                </button>
+              ))}
+              {(selectedCategories.length > 0 || selectedStages.length > 0) && (
+                <button
+                  onClick={() => { setSelectedCategories([]); setSelectedStages([]) }}
+                  className="ml-auto text-sm text-blue-600 hover:underline cursor-pointer"
+                >
+                  Clear all
+                </button>
+              )}
             </div>
 
             {/* Chip Filters */}
@@ -252,9 +265,9 @@ export const Discover = () => {
                 {categories.map((category) => (
                   <button
                     key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    aria-pressed={selectedCategory === category}
-                    className={`whitespace-nowrap px-3 py-2 rounded-full text-sm border transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${selectedCategory === category ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'}`}
+                    onClick={() => setSelectedCategories(prev => prev.includes(category) ? prev.filter(c => c !== category) : category === 'All' ? [] : [...prev.filter(c => c !== 'All'), category])}
+                    aria-pressed={selectedCategories.includes(category)}
+                    className={`whitespace-nowrap px-3 py-2 rounded-full text-sm border transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${selectedCategories.includes(category) ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'}`}
                   >
                     {category}
                   </button>
@@ -268,9 +281,9 @@ export const Discover = () => {
                   {stages.map((stage) => (
                     <button
                       key={stage}
-                      onClick={() => setSelectedStage(stage)}
-                      aria-pressed={selectedStage === stage}
-                      className={`whitespace-nowrap px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${selectedStage === stage ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'}`}
+                      onClick={() => setSelectedStages(prev => prev.includes(stage) ? prev.filter(s => s !== stage) : stage === 'All' ? [] : [...prev.filter(s => s !== 'All'), stage])}
+                      aria-pressed={selectedStages.includes(stage)}
+                      className={`whitespace-nowrap px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${selectedStages.includes(stage) ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'}`}
                     >
                       {stage}
                     </button>
@@ -322,8 +335,8 @@ export const Discover = () => {
               {filteredStartups.length} Startups Found
             </h2>
             <p className="text-slate-600">
-              {selectedCategory !== 'All' && `in ${selectedCategory}`}
-              {selectedStage !== 'All' && ` • ${selectedStage} stage`}
+              {selectedCategories.length > 0 && `in ${selectedCategories.join(', ')}`}
+              {selectedStages.length > 0 && ` • ${selectedStages.join(', ')} stage${selectedStages.length > 1 ? 's' : ''}`}
             </p>
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-600">
