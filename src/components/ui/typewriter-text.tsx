@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
  
 export interface TypewriterProps {
-  text: string | string[];
+  text: string | string[] | React.ReactNode;
   speed?: number;
   cursor?: string;
   loop?: boolean;
@@ -26,13 +26,23 @@ export function Typewriter({
   const [isDeleting, setIsDeleting] = useState(false);
   const [textArrayIndex, setTextArrayIndex] = useState(0);
  
+  // Check if text is a React node
+  if (typeof text !== 'string' && !Array.isArray(text)) {
+    return (
+      <span className={className}>
+        {text}
+        <span className="animate-pulse">{cursor}</span>
+      </span>
+    );
+  }
+
   // Validate and process input text
   const textArray = Array.isArray(text) ? text : [text];
   const currentText = textArray[textArrayIndex] || "";
- 
+
   useEffect(() => {
     if (!currentText) return;
- 
+
     const timeout = setTimeout(
       () => {
         if (!isDeleting) {
@@ -54,7 +64,7 @@ export function Typewriter({
       },
       isDeleting ? deleteSpeed : speed,
     );
- 
+
     return () => clearTimeout(timeout);
   }, [
     currentIndex,
@@ -67,7 +77,7 @@ export function Typewriter({
     displayText,
     text,
   ]);
- 
+
   return (
     <span className={className}>
       {displayText}

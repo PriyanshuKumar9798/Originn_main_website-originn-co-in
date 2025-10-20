@@ -2,25 +2,20 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { 
   ArrowLeft, 
-  Share2, 
   Users, 
-  Shield, 
+  Share2,
   CheckCircle, 
-  ExternalLink,
-  Calendar,
-  MapPin,
+ 
   Linkedin,
   Twitter,
-  Instagram,
-  Rocket,
+  Facebook,
+  Globe,
   Bookmark,
-  FileText,
-  GraduationCap,
-  Package,
-  BarChart3,
   Building2,
-  MessageCircle,
-  Briefcase
+  Edit3,
+  TrendingUp,
+  GraduationCap,
+  Package
 } from 'lucide-react'
 import { Footer } from '../components/Footer'
 
@@ -42,37 +37,6 @@ interface StartupData {
   institute: string
   learnMoreUrl: string
   isBookmarked: boolean
-  founder: {
-    name: string
-    title: string
-    image: string
-    bio: string
-  }
-  coFounder?: {
-    name: string
-    title: string
-    image: string
-    bio: string
-  }
-  milestones: Array<{
-    title: string
-    description: string
-    status: 'completed' | 'current' | 'upcoming'
-    date: string
-  }>
-  features: Array<{
-    title: string
-    description: string
-    icon: string
-  }>
-  gallery: string[]
-  videoUrl?: string
-  socialLinks: {
-    website?: string
-    linkedin?: string
-    twitter?: string
-    instagram?: string
-  }
   location: string
   founded: string
   teamSize: string
@@ -80,156 +44,79 @@ interface StartupData {
   currentStage: string
   productType: string
   targetMarket: string
-  posts: Array<{
-    id: string
+  founders: Array<{
+    name: string
     title: string
-    content: string
-    date: string
-    author: string
-    image?: string
+    image: string
+    bio: string
+    linkedin: string
   }>
-  jobs: Array<{
-    id: string
-    title: string
-    department: string
-    location: string
-    type: string
-    description: string
-    requirements: string[]
-  }>
+  socialLinks: {
+    website?: string
+    linkedin?: string
+    twitter?: string
+    facebook?: string
+  }
 }
 
 export const StartupDetail = () => {
   const { id } = useParams<{ id: string }>()
   const [startup, setStartup] = useState<StartupData | null>(null)
   const [isBookmarked, setIsBookmarked] = useState(false)
-  const [activeTab, setActiveTab] = useState<'about' | 'posts' | 'team' | 'jobs'>('about')
+  const [activeTab, setActiveTab] = useState<'about' | 'behind' | 'team' | 'collaborate' | 'jobs'>('about')
 
-  // Mock data - in real app, this would come from API
+  // Mock data matching the image
   useEffect(() => {
     const mockStartup: StartupData = {
       id: id || '1',
-      title: "Razorpay",
-      subtitle: "FinTech Payment Solutions",
-      description: "We identify ourselves as disruptors in the digital payments space and our vision is to power the financial ecosystem for other disruptors.",
-      longDescription: "We identify ourselves as disruptors in the digital payments space and our vision is to power the financial ecosystem for other disruptors. Like attracts like and Razorpay actively looks to partner with established companies and startups that have either broken the glass ceiling in their industry or are set to. The Razorpay Product Suite today comprises verticals, along with Payment Gateway, like Payment Links, Payment Pages, Subscriptions, Smart Collect, Route, Razorpay Capital, RazorpayX, Payroll and Thirdwatch.",
+      title: "Recruit",
+      subtitle: "UI/UX designers - how would you like to work within a successful SaaS based firm in downtown Toronto, building customized tools",
+      description: "UI/UX designers - how would you like to work within a successful SaaS based firm in downtown Toronto, building customized tools",
+      longDescription: "We identify ourselves as disruptors in the smart home technology space and our vision is to power the digital ecosystem for modern Indian households. Like attracts like, and Techinnovate actively looks to partner with established companies and startups that have either broken the glass ceiling in their industry or are set to. The Techinnovate Product Suite today comprises verticals, along with our flagship Smart Hub, including Voice Assistant, Smart Lighting, Security Systems, Energy Management, and Connected Appliances. Each product is designed for the Indian consumer in mind, addressing unique challenges while maintaining global quality standards.",
       category: "FinTech",
       price: "₹12,999",
       backers: "1,241",
       daysLeft: 21,
-      bannerImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop&crop=center",
-      company: "Razorpay",
+      bannerImage: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200&h=400&fit=crop&crop=center",
+      company: "Recruit",
       raised: "₹45.2L",
       goal: "₹50L",
-      logo: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop&crop=center",
-      institute: "IIT Roorkee",
-      learnMoreUrl: "bit.ly/razorpay_learnmore",
+      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=100&h=100&fit=crop&crop=center",
+      institute: "IIT Delhi",
+      learnMoreUrl: "https://recruit.com",
       isBookmarked: false,
-      founder: {
-        name: "Sumit",
-        title: "Founder",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-        bio: "Former Google engineer with 8+ years in AI/ML. Led smart home initiatives at major tech companies."
-      },
-      coFounder: {
-        name: "Rahul",
-        title: "Co-founder",
-        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-        bio: "Former Google engineer with 8+ years in AI/ML. Led smart home initiatives at major tech companies."
-      },
-      milestones: [
-        {
-          title: "Prototype Development",
-          description: "Core AI algorithms and hardware integration",
-          status: 'completed',
-          date: "2024-01-15"
-        },
-        {
-          title: "Beta Testing",
-          description: "Limited user testing with 100 early adopters",
-          status: 'completed',
-          date: "2024-03-20"
-        },
-        {
-          title: "Manufacturing Setup",
-          description: "Production line establishment and quality control",
-          status: 'current',
-          date: "2024-06-01"
-        },
-        {
-          title: "Product Launch",
-          description: "Official launch and shipping to backers",
-          status: 'upcoming',
-          date: "2024-08-15"
-        }
-      ],
-      features: [
-        {
-          title: "AI Learning",
-          description: "Adapts to your lifestyle and preferences automatically",
-          icon: "brain"
-        },
-        {
-          title: "Energy Efficient",
-          description: "Reduces energy consumption by up to 40%",
-          icon: "leaf"
-        },
-        {
-          title: "Voice Control",
-          description: "Natural language processing for seamless interaction",
-          icon: "mic"
-        },
-        {
-          title: "Security First",
-          description: "End-to-end encryption and privacy protection",
-          icon: "shield"
-        }
-      ],
-      gallery: [
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-        "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop",
-        "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop"
-      ],
-      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      socialLinks: {
-        website: "https://razorpay.com",
-        linkedin: "https://linkedin.com/company/razorpay",
-        twitter: "https://twitter.com/razorpay",
-        instagram: "https://instagram.com/razorpay"
-      },
-      location: "Bangalore, India",
+      location: "California, United States",
       founded: "2023",
       teamSize: "12",
       awards: ["Best IoT Innovation 2024", "TechCrunch Startup of the Year"],
-      currentStage: "Series A/B/C Stage",
-      productType: "Service",
-      targetMarket: "D2C",
-      posts: [
+      currentStage: "Prototype Stage",
+      productType: "Digital Service (FinTech)",
+      targetMarket: "B2B & B2C",
+      founders: [
         {
-          id: "1",
-          title: "Latest Product Update",
-          content: "We're excited to announce our new payment gateway features that will revolutionize digital payments.",
-          date: "2024-01-15",
-          author: "Sumit",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop"
+          name: "Rajesh Kumar",
+          title: "Co-Founder & CEO",
+          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+          bio: "10+ years in IoT and smart home technology. Previously led product development at a Fortune 500 tech company. IIT Bombay alumnus with a passion for making technology accessible to every Indian household.",
+          linkedin: "https://linkedin.com/in/rajesh-kumar"
+        },
+        {
+          name: "Priya Sharma",
+          title: "Co-Founder & CTO",
+          image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+          bio: "AI and machine learning expert with PhD from Stanford. Previously worked on voice recognition systems at a leading tech company. Dedicated to building AI that understands and serves Indian users.",
+          linkedin: "https://linkedin.com/in/priya-sharma"
         }
       ],
-      jobs: [
-        {
-          id: "1",
-          title: "Senior Software Engineer",
-          department: "Engineering",
-          location: "Bangalore",
-          type: "Full-time",
-          description: "We're looking for a talented software engineer to join our growing team.",
-          requirements: ["5+ years experience", "React/Node.js", "Payment systems knowledge"]
-        }
-      ]
+      socialLinks: {
+        website: "https://recruit.com",
+        linkedin: "https://linkedin.com/company/recruit",
+        twitter: "https://twitter.com/recruit",
+        facebook: "https://facebook.com/recruit"
+      }
     }
     setStartup(mockStartup)
   }, [id])
-
 
   const handleBookmark = () => {
     setIsBookmarked(!isBookmarked)
@@ -245,22 +132,21 @@ export const StartupDetail = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-slate-600">Loading startup details...</p>
-          <p className="text-sm text-slate-500 mt-2">ID: {id}</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Cover Photo Section */}
-      <section className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
+    <div className="min-h-screen bg-white">
+      {/* Banner Section */}
+      <section className="relative h-80 overflow-visible">
         <img
           src={startup.bannerImage}
           alt={startup.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         
         {/* Header Navigation */}
         <div className="absolute top-0 left-0 right-0 z-10">
@@ -268,112 +154,92 @@ export const StartupDetail = () => {
             <div className="flex items-center justify-between">
               <Link
                 to="/"
-                className="inline-flex items-center gap-2 text-white hover:text-blue-200 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-slate-700 hover:text-slate-900 transition-colors cursor-pointer px-4 py-2 rounded-full"
               >
-                <ArrowLeft className="h-5 w-5" />
-                Back to Home
+                <ArrowLeft className="h-4 w-4" />
+                Back
               </Link>
               
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handleBookmark}
-                  className={`p-2 rounded-lg transition-colors cursor-pointer ${
-                    isBookmarked 
-                      ? 'bg-blue-100/20 text-blue-200 hover:bg-blue-100/30' 
-                      : 'bg-white/20 text-white hover:bg-white/30'
-                  }`}
-                >
-                  <Bookmark className={`h-5 w-5 ${isBookmarked ? 'fill-current' : ''}`} />
-                </button>
-                <button
-                  onClick={handleShare}
-                  className="p-2 rounded-lg bg-white/20 text-white hover:bg-white/30 transition-colors cursor-pointer"
-                >
-                  <Share2 className="h-5 w-5" />
-                </button>
-              </div>
             </div>
           </div>
         </div>
 
-        {/* Cover Photo Content */}
-        <div className="absolute bottom-0 left-0 right-0 z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-            <div className="flex items-end gap-6">
-              {/* Logo */}
-              <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                <img
-                  src={startup.logo}
-                  alt={startup.title}
-                  className="w-20 h-20 sm:w-28 sm:h-28 rounded-xl object-cover"
-                />
+        {/* Overlaying Profile Card - aligned with main container */}
+        <div className="absolute inset-x-0 -bottom-30 z-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-white rounded-3xl shadow-lg border border-slate-200 p-5 sm:p-6 max-w-3xl relative">
+            {/* Actions row (icon-only) in top-right */}
+            <div className="absolute top-4 right-4 flex items-center gap-2">
+              <button className="w-9 h-9 bg-white border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer rounded-full flex items-center justify-center shadow-sm">
+                <Edit3 className="h-4 w-4 text-slate-600" />
+              </button>
+              <button onClick={handleBookmark} className="w-9 h-9 bg-white border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer rounded-full flex items-center justify-center shadow-sm">
+                <Bookmark className="h-4 w-4 text-slate-600" />
+              </button>
+              <button onClick={handleShare} className="w-9 h-9 bg-white border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer rounded-full flex items-center justify-center shadow-sm">
+                <Share2 className="h-4 w-4 text-slate-600" />
+              </button>
+              </div>
+              <div className="flex items-start gap-4">
+              {/* Profile Picture */}
+              <div className="w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
+                  <Building2 className="h-4 w-4 text-slate-900" />
+                </div>
               </div>
 
-              {/* Company Info */}
-              <div className="flex-1 text-white">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">{startup.title}</h1>
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="bg-blue-500/80 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {startup.category}
-                  </span>
-                  <span className="bg-emerald-500/80 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {startup.institute}
-                  </span>
+              {/* Profile Info */}
+              <div className="flex-1">
+                <h1 className="text-2xl font-extrabold text-slate-900 mb-1 tracking-tight">{startup.title}</h1>
+                <div className="flex items-center gap-2 text-slate-700 text-sm sm:text-[15px] mb-3">
+                  <span className="underline underline-offset-4">{startup.location}</span>
+                  <span className="text-slate-400">•</span>
+                  <span className="font-medium">{startup.category}</span>
+                  <span className="text-slate-400">•</span>
+                  <span className="font-medium">{startup.institute}</span>
                 </div>
-                <a
-                  href={startup.learnMoreUrl}
-                  className="inline-flex items-center gap-1 text-blue-200 hover:text-blue-100 font-medium cursor-pointer"
-                >
-                  Learn more <ExternalLink className="h-4 w-4" />
-                </a>
-              </div>
+                <p className="text-slate-700 leading-relaxed mb-4 text-sm sm:text-base">{startup.subtitle}</p>
 
               {/* Social Links */}
-              <div className="flex flex-col gap-3">
-                <button
-                  onClick={handleBookmark}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
-                    isBookmarked 
-                      ? 'bg-blue-500/80 text-white hover:bg-blue-500' 
-                      : 'bg-white/20 text-white hover:bg-white/30'
-                  }`}
-                >
-                  {isBookmarked ? 'Bookmarked' : 'Bookmark'}
-                </button>
-                <div className="flex gap-2">
-                  <a
-                    href={startup.socialLinks.linkedin}
-                    className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors cursor-pointer"
-                  >
-                    <Linkedin className="h-4 w-4 text-white" />
+                <div className="flex items-center gap-2.5">
+                  <a href={startup.socialLinks.linkedin} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+                    <Linkedin className="h-4 w-4 text-blue-600" />
                   </a>
-                  <a
-                    href={startup.socialLinks.twitter}
-                    className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors cursor-pointer"
-                  >
-                    <Twitter className="h-4 w-4 text-white" />
+                  <a href={startup.socialLinks.twitter} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+                    <Twitter className="h-4 w-4 text-blue-600" />
                   </a>
-                  <a
-                    href={startup.socialLinks.instagram}
-                    className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors cursor-pointer"
-                  >
-                    <Instagram className="h-4 w-4 text-white" />
+                  <a href={startup.socialLinks.website} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+                    <Globe className="h-4 w-4 text-slate-700" />
+                  </a>
+                  <a href={startup.socialLinks.facebook} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+                    <Facebook className="h-4 w-4 text-blue-600" />
                   </a>
                 </div>
+              </div>
+              
+              
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Navigation Tabs */}
-      <section className="bg-white border-b border-slate-200">
+
+      {/* Main Content */}
+      <section className="pt-36 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Main Content */}
+            <div className="lg:col-span-2">
+
+      {/* Navigation Tabs */}
+              <div className="border-b border-slate-200 mb-8">
           <nav className="flex space-x-8">
             {[
               { id: 'about', label: 'About' },
-              { id: 'posts', label: 'Posts' },
+                    { id: 'behind', label: 'Behind the Scenes' },
               { id: 'team', label: 'Team' },
+                    { id: 'collaborate', label: 'Collaborate' },
               { id: 'jobs', label: 'Jobs' }
             ].map((tab) => (
               <button
@@ -390,258 +256,179 @@ export const StartupDetail = () => {
             ))}
           </nav>
         </div>
-      </section>
 
-      {/* Main Content */}
-      <section className="py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2">
-              {/* About Tab */}
+              {/* Tab Content */}
               {activeTab === 'about' && (
                 <div className="space-y-8">
                   {/* Company Overview */}
-                  <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <div>
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <FileText className="h-5 w-5 text-blue-600" />
+                      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                        <Building2 className="h-4 w-4 text-slate-600" />
                       </div>
                       <h2 className="text-xl font-bold text-slate-900">Company Overview</h2>
                     </div>
-                    <p className="text-slate-600 leading-relaxed">
+                    <p className="text-slate-700 leading-relaxed">
                       {startup.longDescription}
                     </p>
                   </div>
 
-                  {/* Institute */}
-                  <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                  {/* Incubation & Background */}
+                  <div>
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                        <GraduationCap className="h-5 w-5 text-emerald-600" />
+                      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                        <GraduationCap className="h-4 w-4 text-slate-600" />
                       </div>
-                      <h2 className="text-xl font-bold text-slate-900">Institute</h2>
+                      <h2 className="text-xl font-bold text-slate-900">Incubation & Background</h2>
                     </div>
-                    <p className="text-slate-600 leading-relaxed">
-                      {startup.longDescription}
+                    <p className="text-slate-700 leading-relaxed">
+                      Techinnovate was incubated at the Indian Institute of Technology (IIT) Bangalore's prestigious innovation center, where it received mentorship from industry veterans and access to cutting-edge research facilities. This foundation has been instrumental in our rapid development and validation process. The startup has also been recognized by the Government of India's Startup India initiative and has received seed funding from leading angel investors in the technology sector. Our team's expertise spans hardware engineering, software development, IoT protocols, and user experience design.
                     </p>
                   </div>
 
-                  {/* About Product */}
-                  <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                  {/* About the Product */}
+                  <div>
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <Package className="h-5 w-5 text-purple-600" />
+                      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                        <Package className="h-4 w-4 text-slate-600" />
                       </div>
-                      <h2 className="text-xl font-bold text-slate-900">About Product</h2>
+                      <h2 className="text-xl font-bold text-slate-900">About the Product</h2>
                     </div>
-                    <p className="text-slate-600 leading-relaxed">
-                      Product description not available.
+                    
+                    {/* Current Development Stage */}
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-3">Current Development Stage</h3>
+                      <div className="flex items-center gap-2 mb-3">
+                        <CheckCircle className="h-5 w-5 text-green-500" />
+                        <span className="font-medium text-slate-900">Functional Prototype Ready for Validation</span>
+                      </div>
+                      <p className="text-slate-700 leading-relaxed">
+                        We have successfully developed a working prototype that demonstrates all core functionalities. The product integrates seamlessly with existing home infrastructure and supports voice commands in multiple Indian languages including Hindi, Tamil, and Bengali.
                     </p>
                   </div>
-                </div>
-              )}
 
-              {/* Posts Tab */}
-              {activeTab === 'posts' && (
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3 mb-6">
-                    <h2 className="text-2xl font-bold text-slate-900">Latest Updates</h2>
+                    {/* Key Features */}
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-3">Key Features</h3>
+                      <ul className="space-y-2">
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-slate-700">Multi-language voice control with 95% accuracy</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-slate-700">Seamless integration with 50+ smart home devices</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-slate-700">AI-powered energy optimization saving up to 30% on electricity bills</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-slate-700">Built-in security features with facial recognition</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-slate-700">Offline functionality for critical operations</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    {/* Problem We Solve */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-slate-900 mb-3">Problem We Solve</h3>
+                      <p className="text-slate-700 leading-relaxed">
+                        Most smart home solutions in India are either too expensive, require complex installation, or lack support for regional languages. Our product bridges this gap by offering an affordable, easy-to-install solution that truly understands the Indian context and user needs.
+                      </p>
+                    </div>
                   </div>
                   
-                  {startup.posts.length > 0 ? (
-                    <div className="space-y-4">
-                      {startup.posts.map((post) => (
-                        <div key={post.id} className="bg-white rounded-2xl p-6 border border-slate-200">
-                          <div className="flex items-start gap-4">
-                            {post.image && (
-                              <img
-                                src={post.image}
-                                alt={post.title}
-                                className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                              />
-                            )}
-                            <div className="flex-1">
-                              <h3 className="font-semibold text-slate-900 mb-2">{post.title}</h3>
-                              <p className="text-slate-600 mb-3">{post.content}</p>
-                              <div className="flex items-center gap-4 text-sm text-slate-500">
-                                <span>By {post.author}</span>
-                                <span>{post.date}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="bg-white rounded-2xl p-12 border border-slate-200 text-center">
-                      <MessageCircle className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                      <p className="text-slate-500">No posts yet for this startup.</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Team Tab */}
-              {activeTab === 'team' && (
-                <div className="space-y-6">
-                  <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold text-slate-900 mb-2">Meet Our Team</h2>
-                    <p className="text-slate-600">The minds behind {startup.title}'s innovation</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {/* Founder */}
-                    <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-                      <div className="w-20 h-20 bg-slate-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                        <img
-                          src={startup.founder.image}
-                          alt={startup.founder.name}
-                          className="w-16 h-16 rounded-full object-cover"
-                        />
+                  {/* Meet the Founders */}
+                  <div>
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                        <Users className="h-4 w-4 text-slate-600" />
                       </div>
-                      <h3 className="font-semibold text-slate-900 mb-1">{startup.founder.name}</h3>
-                      <p className="text-slate-600 text-sm">{startup.founder.title}</p>
+                      <h2 className="text-xl font-bold text-slate-900">Meet the Founders</h2>
                     </div>
 
-                    {/* Co-founder */}
-                    {startup.coFounder && (
-                      <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-                        <div className="w-20 h-20 bg-slate-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {startup.founders.map((founder, index) => (
+                        <div key={index} className="flex items-start gap-4">
                           <img
-                            src={startup.coFounder.image}
-                            alt={startup.coFounder.name}
-                            className="w-16 h-16 rounded-full object-cover"
+                            src={founder.image}
+                            alt={founder.name}
+                            className="w-16 h-16 rounded-full object-cover flex-shrink-0"
                           />
-                        </div>
-                        <h3 className="font-semibold text-slate-900 mb-1">{startup.coFounder.name}</h3>
-                        <p className="text-slate-600 text-sm">{startup.coFounder.title}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Jobs Tab */}
-              {activeTab === 'jobs' && (
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3 mb-6">
-                    <h2 className="text-2xl font-bold text-slate-900">Join Our Team</h2>
-                  </div>
-                  
-                  {startup.jobs.length > 0 ? (
-                    <div className="space-y-4">
-                      {startup.jobs.map((job) => (
-                        <div key={job.id} className="bg-white rounded-2xl p-6 border border-slate-200">
-                          <div className="flex items-start justify-between mb-4">
-                            <div>
-                              <h3 className="text-lg font-semibold text-slate-900 mb-1">{job.title}</h3>
-                              <div className="flex items-center gap-4 text-sm text-slate-600">
-                                <span>{job.department}</span>
-                                <span>•</span>
-                                <span>{job.location}</span>
-                                <span>•</span>
-                                <span>{job.type}</span>
-                              </div>
-                            </div>
-                            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
-                              Apply
-                            </button>
-                          </div>
-                          <p className="text-slate-600 mb-4">{job.description}</p>
-                          <div>
-                            <h4 className="font-medium text-slate-900 mb-2">Requirements:</h4>
-                            <ul className="space-y-1">
-                              {job.requirements.map((req, index) => (
-                                <li key={index} className="text-sm text-slate-600 flex items-center gap-2">
-                                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full" />
-                                  {req}
-                                </li>
-                              ))}
-                            </ul>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-slate-900 mb-1">{founder.name}</h3>
+                            <p className="text-slate-600 text-sm mb-2">{founder.title}</p>
+                            <a
+                              href={founder.linkedin}
+                              className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm font-medium mb-3"
+                            >
+                              View LinkedIn
+                              <Linkedin className="h-3 w-3" />
+                            </a>
+                            <p className="text-slate-700 text-sm leading-relaxed">{founder.bio}</p>
                           </div>
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    <div className="bg-white rounded-2xl p-12 border border-slate-200 text-center">
-                      <Briefcase className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                      <p className="text-slate-500">No job openings listed yet.</p>
+                  </div>
                     </div>
                   )}
+
+              {/* Other tabs content can be added here */}
+              {activeTab !== 'about' && (
+                <div className="text-center py-12">
+                  <p className="text-slate-500">Content for {activeTab} tab coming soon...</p>
                 </div>
               )}
             </div>
 
-            {/* Sidebar */}
+            {/* Right Column - Current Stage Card */}
+            
             <div className="lg:col-span-1">
-              <div className="sticky top-8 space-y-6">
-                {/* Current Stage */}
-                <div className="bg-white rounded-2xl p-6 border border-slate-200">
+             
+
+              <div className="sticky top-24">
+                <div className="bg-blue-900 text-white rounded-2xl p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <BarChart3 className="h-5 w-5 text-blue-600" />
+                 
+                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <TrendingUp className="h-4 w-4 text-white" />
                     </div>
-                    <h3 className="font-semibold text-slate-900">Current Stage</h3>
+                    <h3 className="font-bold text-white">Current Stage</h3>
                   </div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <Rocket className="h-4 w-4 text-blue-600" />
-                    <span className="text-sm font-medium text-slate-900">{startup.currentStage}</span>
+                  
+                  <div className="bg-blue-700 text-blue-100 px-3 py-1 rounded-full text-sm font-medium mb-4 inline-block">
+                    {startup.currentStage}
                   </div>
-                  <p className="text-sm text-slate-600 mb-4">{startup.longDescription}</p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                      <span className="text-slate-600">Product Type: <span className="font-medium">{startup.productType}</span></span>
+                  
+                  <p className="text-blue-100 text-sm leading-relaxed mb-6">
+                    At Razorpay, we believe that technology should enhance human experience, not complicate it. We are a consumer technology startup dedicated to designing and building a new generation of smart payment solutions that are intuitive, beautiful, and focused on your well-being. Our flagship product line includes an intelligent payment gateway that personalizes your transactions, a seamless UPI integration to improve your digital experience, and a minimalist dashboard that helps you manage your finances without digital clutter. We are committed to sustainability, using eco-friendly practices and ensuring our services are energy-efficient. Razorpay is more than just digital payments; it's about creating a financial environment that helps you live a healthier, more mindful, and more connected life.
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-1.5 h-1.5 bg-blue-300 rounded-full" />
+                        <span className="text-blue-200 text-sm font-medium">Product Type</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                      <span className="text-slate-600">Target Market: <span className="font-medium">{startup.targetMarket}</span></span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Company Info */}
-                <div className="bg-white rounded-2xl p-6 border border-slate-200">
-                  <h3 className="font-semibold text-slate-900 mb-4">Company Information</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-slate-500" />
-                      <span className="text-slate-600">{startup.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-slate-500" />
-                      <span className="text-slate-600">Founded {startup.founded}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-slate-500" />
-                      <span className="text-slate-600">{startup.teamSize} team members</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Building2 className="h-4 w-4 text-slate-500" />
-                      <span className="text-slate-600">{startup.institute}</span>
-                    </div>
+                      <div className="bg-blue-800 text-white px-3 py-1 rounded text-sm font-medium">
+                        {startup.productType}
                   </div>
                 </div>
 
-                {/* Trust Indicators */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Shield className="h-5 w-5 text-blue-600" />
-                    <h3 className="font-semibold text-slate-900">Trust & Safety</h3>
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-1.5 h-1.5 bg-blue-300 rounded-full" />
+                        <span className="text-blue-200 text-sm font-medium">Target Market</span>
                   </div>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      <span className="text-slate-600">Verified startup credentials</span>
+                      <div className="bg-blue-800 text-white px-3 py-1 rounded text-sm font-medium">
+                        {startup.targetMarket}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      <span className="text-slate-600">Secure payment processing</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      <span className="text-slate-600">30-day money back guarantee</span>
                     </div>
                   </div>
                 </div>

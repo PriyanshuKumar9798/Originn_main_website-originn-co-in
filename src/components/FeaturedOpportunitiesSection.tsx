@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Users, Clock, Heart, ExternalLink, Rocket, TrendingUp, Star } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Heart, ExternalLink, Rocket, TrendingUp, Star } from 'lucide-react'
 
 export const FeaturedOpportunitiesSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -20,7 +20,9 @@ export const FeaturedOpportunitiesSection = () => {
       bannerImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=240&fit=crop&crop=center",
       company: "TechNest India",
       raised: "₹45.2L",
-      goal: "₹50L"
+      goal: "₹50L",
+      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=100&h=100&fit=crop&crop=center",
+      institute: "IIT Delhi"
     },
     {
       id: 2,
@@ -34,7 +36,9 @@ export const FeaturedOpportunitiesSection = () => {
       bannerImage: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=240&fit=crop&crop=center",
       company: "GreenFuture Labs",
       raised: "₹78.5L",
-      goal: "₹75L"
+      goal: "₹75L",
+      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
+      institute: "IISc Bangalore"
     },
     {
       id: 3,
@@ -48,7 +52,9 @@ export const FeaturedOpportunitiesSection = () => {
       bannerImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=240&fit=crop&crop=center",
       company: "MediAI Solutions",
       raised: "₹1.2Cr",
-      goal: "₹1Cr"
+      goal: "₹1Cr",
+      logo: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=100&h=100&fit=crop&crop=center",
+      institute: "AIIMS Delhi"
     },
     {
       id: 4,
@@ -62,7 +68,9 @@ export const FeaturedOpportunitiesSection = () => {
       bannerImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&crop=center",
       company: "PayTech Ventures",
       raised: "₹32.8L",
-      goal: "₹40L"
+      goal: "₹40L",
+      logo: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=100&h=100&fit=crop&crop=center",
+      institute: "IIM Ahmedabad"
     },
     {
       id: 5,
@@ -76,7 +84,9 @@ export const FeaturedOpportunitiesSection = () => {
       bannerImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=240&fit=crop&crop=center",
       company: "EduTech Innovations",
       raised: "₹89.7L",
-      goal: "₹80L"
+      goal: "₹80L",
+      logo: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&h=100&fit=crop&crop=center",
+      institute: "BITS Pilani"
     }
   ]
 
@@ -220,24 +230,18 @@ export const FeaturedOpportunitiesSection = () => {
                 <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 text-white">
                   <h3 className="text-base sm:text-lg font-bold mb-1 group-hover:text-blue-200 transition-colors duration-300">{startup.title}</h3>
                   <p className="text-xs sm:text-sm opacity-90 mb-2 group-hover:opacity-100 transition-opacity duration-300 line-clamp-2">{startup.subtitle}</p>
-                  <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                    <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-semibold group-hover:bg-blue-600 transition-colors duration-300">
-                      Pre-order now
-                    </span>
-                    <span className="bg-slate-800/80 text-white px-2 py-1 rounded text-xs group-hover:bg-slate-700/90 transition-colors duration-300">
-                      {startup.category}
-                    </span>
-                  </div>
+                   <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                     <span className="bg-slate-800/80 text-white px-2 py-1 rounded text-xs group-hover:bg-slate-700/90 transition-colors duration-300">
+                       {startup.category}
+                     </span>
+                   </div>
                 </div>
               </div>
 
               {/* Content Area */}
               <div className="p-4 sm:p-6 relative">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-1 rounded group-hover:bg-slate-200 transition-colors duration-300">
-                    {startup.price}
-                  </span>
-                  <button className="text-slate-400 hover:text-red-500 transition-colors cursor-pointer group-hover:scale-110 transform duration-300">
+                <div className="absolute top-4 right-4">
+                  <button aria-label="Add to favorites" className="text-slate-400 hover:text-red-500 transition-colors cursor-pointer group-hover:scale-110 transform duration-300">
                     <Heart className="h-4 w-4" />
                   </button>
                 </div>
@@ -246,16 +250,20 @@ export const FeaturedOpportunitiesSection = () => {
                   {startup.description}
                 </h4>
 
-                <div className="flex items-center justify-between text-xs sm:text-sm text-slate-600 mb-4">
-                  <div className="flex items-center gap-1">
-                    <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="truncate">{startup.backers} backers</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span>{startup.daysLeft} days left</span>
-                  </div>
-                </div>
+                 {/* Logo and Institute */}
+                 <div className="flex items-center gap-3 mb-4">
+                   <div className="w-12 h-12 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-slate-200">
+                     <img
+                       src={startup.logo}
+                       alt={`${startup.company} logo`}
+                       className="w-10 h-10 object-cover rounded-md"
+                     />
+                   </div>
+                   <div>
+                     <p className="text-sm font-medium text-slate-700">{startup.institute}</p>
+                     <p className="text-xs text-slate-500">Affiliated Institute</p>
+                   </div>
+                 </div>
 
                 {/* Hover details panel */}
                 <div className="absolute bottom-0 left-0 right-0 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-30">
@@ -273,16 +281,19 @@ export const FeaturedOpportunitiesSection = () => {
                         Limited Time
                       </span>
                     </div>
-                    <div className="flex items-center justify-between text-xs text-slate-600 mb-3">
-                      <div className="flex items-center gap-1">
-                        <Users className="h-3 w-3" />
-                        <span>{startup.backers} backers</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        <span>{startup.daysLeft} days left</span>
-                      </div>
-                    </div>
+                     <div className="flex items-center gap-2 text-xs text-slate-600 mb-3">
+                       <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-slate-200">
+                         <img
+                           src={startup.logo}
+                           alt={`${startup.company} logo`}
+                           className="w-6 h-6 object-cover rounded-md"
+                         />
+                       </div>
+                       <div>
+                         <p className="text-xs font-medium text-slate-700">{startup.institute}</p>
+                         <p className="text-[10px] text-slate-500">Affiliated Institute</p>
+                       </div>
+                     </div>
                     <Link 
                       to={`/startup/${startup.id}`}
                       className="w-full py-2 px-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg font-semibold transition-colors cursor-pointer flex items-center justify-center gap-2 shadow"

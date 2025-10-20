@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, ArrowRight, Heart, Shield, CreditCard, CheckCircle } from 'lucide-react'
+import { Mail, Phone, MapPin, ArrowRight, Shield, CreditCard, CheckCircle } from 'lucide-react'
 
 export const Footer = () => {
     return (
@@ -15,9 +15,9 @@ export const Footer = () => {
                 <div className="h-8 w-8 rounded-full bg-blue-600 text-white grid place-items-center font-black">Og</div>
                 <span className="text-2xl font-bold">Originn</span>
               </div>
-              <p className="text-slate-300 text-sm">
+              {/* <p className="text-slate-300 text-sm">
                 Built with <Heart className="inline h-3 w-3 text-red-500" /> in India for the world
-              </p>
+              </p> */}
             </div>
 
             {/* Contact Information */}
@@ -71,14 +71,14 @@ export const Footer = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-2 mb-6">
+            {/* <div className="space-y-2 mb-6">
               <button className="w-full py-2 px-4 bg-blue-600 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors cursor-pointer">
                 Start Your Campaign
               </button>
               <button className="w-full py-2 px-4 border border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors cursor-pointer">
                 Become an Investor
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* Middle Columns - Navigation Links */}
@@ -89,67 +89,14 @@ export const Footer = () => {
               <h3 className="text-sm font-semibold mb-4">For Startups</h3>
               <ul className="space-y-2 text-sm text-slate-300">
                 <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Launch Campaign</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Raise Funds</a></li>
+                {/* <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Raise Funds</a></li>
                 <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Find Mentors</a></li>
                 <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Startup Resources</a></li>
                 <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Success Stories</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Pricing Plans</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Pricing Plans</a></li> */}
               </ul>
-            </div>
-
-            {/* For Investors */}
-            <div>
-              <h3 className="text-sm font-semibold mb-4">For Investors</h3>
-              <ul className="space-y-2 text-sm text-slate-300">
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Discover Startups</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Investment Opportunities</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Portfolio Management</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Due Diligence</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Market Insights</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Investor Dashboard</a></li>
-              </ul>
-            </div>
-
-            {/* Platform */}
-            <div>
-              <h3 className="text-sm font-semibold mb-4">Platform</h3>
-              <ul className="space-y-2 text-sm text-slate-300">
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">How It Works</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Escrow Protection</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Milestone Tracking</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Verification Process</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Success Metrics</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">API Documentation</a></li>
-              </ul>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <h3 className="text-sm font-semibold mb-4">Resources</h3>
-              <ul className="space-y-2 text-sm text-slate-300">
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Blog</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Case Studies</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Webinars</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Startup Guide</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Investment Guide</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Help Center</a></li>
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h3 className="text-sm font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-sm text-slate-300">
-                <li><a href="/about" className="hover:text-blue-400 transition-colors cursor-pointer">About Us</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Our Team</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Careers</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Press Kit</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Partners</a></li>
-                <li><a href="/contact" className="hover:text-blue-400 transition-colors cursor-pointer">Contact Us</a></li>
-              </ul>
-            </div>
-
-            {/* Legal */}
+               {/* Legal */}
+               <br/>
             <div>
               <h3 className="text-sm font-semibold mb-4">Legal</h3>
               <ul className="space-y-2 text-sm text-slate-300">
@@ -161,6 +108,63 @@ export const Footer = () => {
                 <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Compliance</a></li>
               </ul>
             </div>
+            </div>
+
+            
+
+            {/* For Investors */}
+            {/* <div>
+              <h3 className="text-sm font-semibold mb-4">For Investors</h3>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Discover Startups</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Investment Opportunities</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Portfolio Management</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Due Diligence</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Market Insights</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Investor Dashboard</a></li>
+              </ul>
+            </div> */}
+
+            {/* Platform */}
+            <div>
+              <h3 className="text-sm font-semibold mb-4">Platform</h3>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">How It Works</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Escrow Protection</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Milestone Tracking</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Verification Process</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Success Metrics</a></li>
+                {/* <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">API Documentation</a></li> */}
+              </ul>
+            </div>
+
+            {/* Resources */}
+            {/* <div>
+              <h3 className="text-sm font-semibold mb-4">Resources</h3>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Blog</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Case Studies</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Webinars</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Startup Guide</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Investment Guide</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Help Center</a></li>
+              </ul>
+            </div> */}
+
+            {/* Company */}
+            <div>
+              <h3 className="text-sm font-semibold mb-4">Company</h3>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li><a href="/about" className="hover:text-blue-400 transition-colors cursor-pointer">About Us</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Our Team</a></li>
+                {/* <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Careers</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Press Kit</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors cursor-pointer">Partners</a></li> */}
+                <li><a href="/contact" className="hover:text-blue-400 transition-colors cursor-pointer">Contact Us</a></li>
+              </ul>
+            </div>
+
+           
           </div>
 
           {/* Right Column - Featured & Awards */}
@@ -175,10 +179,10 @@ export const Footer = () => {
                 <h4 className="text-xs font-semibold mb-1">Success Stories</h4>
                 <p className="text-xs text-slate-400">Read about successful campaigns</p>
               </div>
-              <div className="bg-slate-800 p-3 rounded-lg">
+              {/* <div className="bg-slate-800 p-3 rounded-lg">
                 <h4 className="text-xs font-semibold mb-1">Awards & Recognition</h4>
                 <p className="text-xs text-slate-400">Industry recognition and achievements</p>
-              </div>
+              </div> */}
             </div>
 
             {/* Trust Badges */}

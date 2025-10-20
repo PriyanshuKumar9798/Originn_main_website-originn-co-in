@@ -1,12 +1,50 @@
-import { useState } from 'react'
-import { ArrowRight, ChevronDown, ChevronUp, Rocket, ShieldCheck, Timer, BadgeCheck, Boxes } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import {  Rocket, ShieldCheck, Boxes } from 'lucide-react'
 import { Player } from '@lottiefiles/react-lottie-player'
-import { Typewriter } from './ui/typewriter-text'
+
 
 export const Hero = () => {
-  const [expanded, setExpanded] = useState(false)
+  const [expanded] = useState(false)
+  const [displayText, setDisplayText] = useState('')
+  const [showCursor, setShowCursor] = useState(true)
+  
+  const fullText = "The next big thing is happening here."
+  const blueStartIndex = fullText.indexOf("happening here")
+  
+  useEffect(() => {
+    let currentIndex = 0
+    let isDeleting = false
+    
+    const typeText = () => {
+      if (!isDeleting && currentIndex < fullText.length) {
+        setDisplayText(fullText.slice(0, currentIndex + 1))
+        currentIndex++
+        setTimeout(typeText, 100)
+      } else if (!isDeleting && currentIndex === fullText.length) {
+        setTimeout(() => {
+          isDeleting = true
+          typeText()
+        }, 2000)
+      } else if (isDeleting && currentIndex > 0) {
+        setDisplayText(fullText.slice(0, currentIndex - 1))
+        currentIndex--
+        setTimeout(typeText, 50)
+      } else if (isDeleting && currentIndex === 0) {
+        isDeleting = false
+        setTimeout(typeText, 500)
+      }
+    }
+    
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev)
+    }, 500)
+    
+    typeText()
+    
+    return () => clearInterval(cursorInterval)
+  }, [])
 
-  const handleToggleKnowMore = () => setExpanded((v) => !v)
+
 
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-8">
@@ -14,18 +52,24 @@ export const Hero = () => {
         {/* Left copy */}
         <div>
           <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight">
-            Welcome to <span className="text-blue-600">Originn</span>
+            {displayText.slice(0, blueStartIndex)}
+            {displayText.length > blueStartIndex && (
+              <span className="text-blue-600">
+                {displayText.slice(blueStartIndex)}
+              </span>
+            )}
+            {showCursor && <span className="animate-pulse">|</span>}
           </h1>
-          <div className="mt-4 text-lg text-slate-600 max-w-xl">
+          {/* <div className="mt-4 text-xlg text-slate-600 max-w-xl">
             <Typewriter
               text="The next big thing is happening here."
               speed={100}
               loop={true}
               className="text-xl font-medium text-slate-700"
             />
-          </div>
+          </div> */}
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          {/* <div className="mt-6 flex flex-wrap items-center gap-3">
             <button className="inline-flex items-center gap-2 rounded-full bg-blue-600 text-white px-6 py-3 font-semibold hover:bg-blue-700 transition-colors cursor-pointer" aria-label="Explore live campaigns">
               Explore Live Campaigns <ArrowRight className="h-4 w-4" />
             </button>
@@ -37,7 +81,7 @@ export const Hero = () => {
             >
               {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />} Know more
             </button>
-          </div>
+          </div> */}
 
           {/* Expandable Know More */}
           <div id="hero-know-more" className={`overflow-hidden transition-[max-height] duration-500 ${expanded ? 'max-h-[600px] mt-8' : 'max-h-0'}`}>
@@ -49,9 +93,9 @@ export const Hero = () => {
           </div>
         </div>
 
-        {/* Right bento grid */}
-        <div className="grid grid-cols-3 grid-rows-4 gap-4 h-[500px]">
-          {/* Large card spanning 2x2 */}
+        {/* Right cards grid - 3 cards only */}
+        <div className="grid grid-cols-1 gap-6 h-[500px]">
+          {/* First card - Live Campaigns */}
           <BentoCard
             title="Live Campaigns"
             desc="Back exciting startups"
@@ -61,10 +105,10 @@ export const Hero = () => {
             iconColor="text-blue-600"
             Icon={Rocket}
             lottieUrl="https://assets9.lottiefiles.com/packages/lf20_jtbfg2nb.json"
-            className="col-span-2 row-span-2 border border-blue-200"
+            className="row-span-1 border border-blue-200"
           />
           
-          {/* Small cards */}
+          {/* Second card - Pre-Order */}
           <BentoCard
             title="Pre‑Order"
             desc="Secure your spot"
@@ -74,8 +118,10 @@ export const Hero = () => {
             iconColor="text-emerald-600"
             Icon={Boxes}
             lottieUrl="https://assets9.lottiefiles.com/packages/lf20_wnqlfojb.json"
-            className="col-span-1 row-span-1 border border-emerald-200"
+            className="row-span-1 border border-emerald-200"
           />
+          
+          {/* Third card - Escrow */}
           <BentoCard
             title="Escrow"
             desc="RBI‑regulated safety"
@@ -85,33 +131,7 @@ export const Hero = () => {
             iconColor="text-teal-600"
             Icon={ShieldCheck}
             lottieUrl="https://assets4.lottiefiles.com/packages/lf20_zrqthn6o.json"
-            className="col-span-1 row-span-1 border border-teal-200"
-          />
-          
-          {/* Medium card spanning 2 columns */}
-          <BentoCard
-            title="Milestones"
-            desc="Production tracking"
-            color="bg-gradient-to-br from-purple-50 to-violet-100"
-            pattern="bg-[conic-gradient(from_0deg,rgba(147,51,234,0.12)_0deg,transparent_60deg,rgba(147,51,234,0.12)_120deg,transparent_180deg)] bg-[length:28px_28px]"
-            iconBg="bg-purple-100"
-            iconColor="text-purple-600"
-            Icon={Timer}
-            lottieUrl="https://assets2.lottiefiles.com/packages/lf20_8wREpI.json"
-            className="col-span-2 row-span-1 border border-purple-200"
-          />
-          
-          {/* Small card */}
-          <BentoCard
-            title="Verified"
-            desc="Curated startups"
-            color="bg-gradient-to-br from-rose-50 to-pink-100"
-            pattern="bg-[radial-gradient(circle_at_1px_1px,rgba(244,63,94,0.15)_1px,transparent_0)] bg-[length:22px_22px]"
-            iconBg="bg-rose-100"
-            iconColor="text-rose-600"
-            Icon={BadgeCheck}
-            lottieUrl="https://assets5.lottiefiles.com/packages/lf20_kyu7xb1v.json"
-            className="col-span-1 row-span-1 border border-rose-200"
+            className="row-span-1 border border-teal-200"
           />
         </div>
       </div>
