@@ -3,15 +3,6 @@ import { Player } from '@lottiefiles/react-lottie-player'
 
 export const MarketingSliderSection = () => {
 
-  const getButtonBgColor = (cardId: number) => {
-    switch (cardId) {
-      case 1: return 'bg-blue-600 hover:bg-blue-700'
-      case 2: return 'bg-yellow-600 hover:bg-yellow-700'
-      case 5: return 'bg-purple-600 hover:bg-purple-700'
-      case 6: return 'bg-amber-600 hover:bg-amber-700'
-      default: return 'bg-blue-600 hover:bg-blue-700'
-    }
-  }
 
   const marketingCards = [
     {
@@ -25,7 +16,6 @@ export const MarketingSliderSection = () => {
       cardBg: "bg-gradient-to-br from-blue-50 to-indigo-100",
       borderColor: "border-blue-200",
       lottieUrl: "https://assets5.lottiefiles.com/packages/lf20_0yfsb3.json", // Rocket launch animation
-      cta: "Get Started",
       stats: "500+ Startups Launched"
     },
     {
@@ -39,7 +29,6 @@ export const MarketingSliderSection = () => {
       cardBg: "bg-gradient-to-br from-yellow-50 to-orange-100",
       borderColor: "border-yellow-200",
       lottieUrl: "https://assets5.lottiefiles.com/packages/lf20_2glqweqs.json", // Growth chart animation
-      cta: "Explore Tools",
       stats: "₹2.5Cr+ Raised"
     },
     {
@@ -53,7 +42,6 @@ export const MarketingSliderSection = () => {
       cardBg: "bg-gradient-to-br from-purple-50 to-violet-100",
       borderColor: "border-purple-200",
       lottieUrl: "https://assets5.lottiefiles.com/packages/lf20_0yfsb3.json", // Award/trophy animation
-      cta: "Join Community",
       stats: "10K+ Members"
     },
     {
@@ -67,7 +55,6 @@ export const MarketingSliderSection = () => {
       cardBg: "bg-gradient-to-br from-amber-50 to-yellow-100",
       borderColor: "border-amber-200",
       lottieUrl: "https://assets5.lottiefiles.com/packages/lf20_2glqweqs.json", // Lightbulb/idea animation
-      cta: "Learn More",
       stats: "100% Secure"
     }
   ]
@@ -115,16 +102,10 @@ export const MarketingSliderSection = () => {
                   </p>
                 </div>
 
-                {/* Bottom Section with Stats and Button */}
-                <div className="flex items-center justify-between gap-2 mt-auto pt-1">
-                  <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-slate-400">
-                    <TrendingUp className="h-3 w-3 flex-shrink-0" />
-                    <span>{card.stats}</span>
-                  </div>
-                  
-                  <button aria-label={card.cta} className={`py-1.5 px-3.5 rounded-md font-semibold text-white text-xs sm:text-sm transition-all duration-200 transform group-hover:scale-105 shadow-sm hover:shadow-md ${getButtonBgColor(card.id)}`}>
-                    {card.cta}
-                  </button>
+                {/* Bottom Section with Stats */}
+                <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-slate-400 mt-auto pt-1">
+                  <TrendingUp className="h-3 w-3 flex-shrink-0" />
+                  <span>{card.stats}</span>
                 </div>
 
                 {/* Lottie Animation - Positioned at top right to avoid text overlap */}

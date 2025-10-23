@@ -170,9 +170,7 @@ export const StartupDetail = () => {
             <div className="bg-white rounded-3xl shadow-lg border border-slate-200 p-5 sm:p-6 max-w-3xl relative">
             {/* Actions row (icon-only) in top-right */}
             <div className="absolute top-4 right-4 flex items-center gap-2">
-              <button className="w-9 h-9 bg-white border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer rounded-full flex items-center justify-center shadow-sm">
-                <Edit3 className="h-4 w-4 text-slate-600" />
-              </button>
+           
               <button onClick={handleBookmark} className="w-9 h-9 bg-white border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer rounded-full flex items-center justify-center shadow-sm">
                 <Bookmark className="h-4 w-4 text-slate-600" />
               </button>

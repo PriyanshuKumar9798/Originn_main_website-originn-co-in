@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Search, BriefcaseBusiness, LogIn } from 'lucide-react'
+import { Button } from './ui/Button'
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -62,12 +63,12 @@ export const Navbar = () => {
 
           {/* Actions */}
           <div className="ml-auto flex items-center gap-2">
-            <button className="hidden md:inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 text-amber-800 px-3 py-1.5 text-sm font-medium hover:bg-amber-100 transition-colors cursor-pointer" aria-label="For Startups">
+            <Button variant="secondary" size="sm" className="hidden md:inline-flex" aria-label="For Startups">
               <BriefcaseBusiness className="h-4 w-4" /> For Startups
-            </button>
-            <button onClick={handleOpenLogin} className="inline-flex items-center gap-2 rounded-full bg-blue-600 text-white px-4 py-2 text-sm font-semibold hover:bg-blue-700 transition-colors cursor-pointer" aria-label="Sign in">
+            </Button>
+            <Button onClick={handleOpenLogin} variant="primary" size="md" showArrow aria-label="Sign in">
               <LogIn className="h-4 w-4" /> Sign In
-            </button>
+            </Button>
           </div>
         </div>
       </div>

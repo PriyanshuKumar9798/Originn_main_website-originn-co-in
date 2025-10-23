@@ -87,6 +87,70 @@ export const FeaturedOpportunitiesSection = () => {
       goal: "₹80L",
       logo: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&h=100&fit=crop&crop=center",
       institute: "BITS Pilani"
+    },
+    {
+      id: 6,
+      title: "MediConnect",
+      subtitle: "Telemedicine Platform",
+      description: "AI-powered telemedicine connecting patients with specialists | Healthcare innovation",
+      category: "HealthTech",
+      price: "₹2,999",
+      backers: "2,891",
+      daysLeft: 18,
+      bannerImage: null, // No image - will use fallback
+      company: "MedTech Innovations",
+      raised: "₹67.3L",
+      goal: "₹80L",
+      logo: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&crop=center",
+      institute: "AIIMS Delhi"
+    },
+    {
+      id: 7,
+      title: "EduVerse",
+      subtitle: "VR Learning Platform",
+      description: "Immersive virtual reality education for interactive learning | EdTech innovation",
+      category: "EdTech",
+      price: "₹6,999",
+      backers: "1,876",
+      daysLeft: 35,
+      bannerImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=240&fit=crop&crop=center",
+      company: "EduTech Solutions",
+      raised: "₹43.2L",
+      goal: "₹60L",
+      logo: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=100&h=100&fit=crop&crop=center",
+      institute: "IIT Bombay"
+    },
+    {
+      id: 8,
+      title: "FinSecure",
+      subtitle: "Blockchain Security Platform",
+      description: "Blockchain-based financial security for banks | FinTech innovation",
+      category: "FinTech",
+      price: "₹9,999",
+      backers: "1,987",
+      daysLeft: 28,
+      bannerImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&crop=center",
+      company: "SecureFinance",
+      raised: "₹56.7L",
+      goal: "₹70L",
+      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
+      institute: "IIM Bangalore"
+    },
+    {
+      id: 9,
+      title: "FitTracker Pro",
+      subtitle: "AI Fitness Device",
+      description: "Advanced fitness tracking with AI coaching | Wearable technology",
+      category: "Fitness",
+      price: "₹7,999",
+      backers: "3,124",
+      daysLeft: 6,
+      bannerImage: null, // No image - will use fallback
+      company: "FitTech Labs",
+      raised: "₹89.4L",
+      goal: "₹1Cr",
+      logo: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&h=100&fit=crop&crop=center",
+      institute: "IIT Delhi"
     }
   ]
 
@@ -215,101 +279,63 @@ export const FeaturedOpportunitiesSection = () => {
             <Link
               key={startup.id}
               to={`/startup/${startup.id}`}
-              className="flex-shrink-0 w-72 sm:w-80 lg:w-96 bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group relative"
+              className="flex-shrink-0 w-72 sm:w-80 lg:w-96 group block bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
             >
-              {/* Black translucent overlay on hover - covers entire card */}
-              <div className="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl z-20"></div>
-              {/* Banner Image */}
-              <div className="relative h-40 sm:h-48 overflow-hidden">
-                <img
-                  src={startup.bannerImage}
-                  alt={startup.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-black/60 transition-colors duration-300" />
-                <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 text-white">
-                  <h3 className="text-base sm:text-lg font-bold mb-1 group-hover:text-blue-200 transition-colors duration-300">{startup.title}</h3>
-                  <p className="text-xs sm:text-sm opacity-90 mb-2 group-hover:opacity-100 transition-opacity duration-300 line-clamp-2">{startup.subtitle}</p>
-                   <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                     <span className="bg-slate-800/80 text-white px-2 py-1 rounded text-xs group-hover:bg-slate-700/90 transition-colors duration-300">
-                       {startup.category}
-                     </span>
-                   </div>
+              {/* Top Section - Image with Overlay */}
+              <div className="relative h-48 overflow-hidden">
+                {/* Use actual image if available, otherwise fallback to abstract background */}
+                {startup.bannerImage ? (
+                  <img
+                    src={startup.bannerImage}
+                    alt={startup.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+                    {/* Abstract 3D Elements Background - Off-white with blue theme */}
+                    <div className="w-full h-full flex items-end justify-center space-x-4 pb-8">
+                      {/* Blue Cylinder with Bird */}
+                      <div className="w-8 h-16 bg-blue-400 rounded-full relative">
+                        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full"></div>
+                      </div>
+                      {/* Blue Block with Character */}
+                      <div className="w-10 h-12 bg-blue-500 rounded relative">
+                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-300 rounded-full"></div>
+                      </div>
+                      {/* Light Blue Block with Figure */}
+                      <div className="w-8 h-14 bg-blue-300 rounded relative">
+                        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-2 h-6 bg-blue-200 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Bookmark Icon */}
+                <button className="absolute top-3 left-3 w-8 h-8 bg-white rounded flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors">
+                  <Heart className="h-4 w-4 text-gray-600" />
+                </button>
+
+                {/* Category Tag */}
+                <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                  {startup.category}
+                </div>
+
+                {/* Description Overlay (on hover) */}
+                <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="text-sm leading-relaxed">
+                    {startup.description}
+                  </p>
                 </div>
               </div>
 
-              {/* Content Area */}
-              <div className="p-4 sm:p-6 relative">
-                <div className="absolute top-4 right-4">
-                  <button aria-label="Add to favorites" className="text-slate-400 hover:text-red-500 transition-colors cursor-pointer group-hover:scale-110 transform duration-300">
-                    <Heart className="h-4 w-4" />
-                  </button>
-                </div>
-
-                <h4 className="text-base sm:text-lg font-bold text-slate-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
-                  {startup.description}
-                </h4>
-
-                 {/* Logo and Institute */}
-                 <div className="flex items-center gap-3 mb-4">
-                   <div className="w-12 h-12 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-slate-200">
-                     <img
-                       src={startup.logo}
-                       alt={`${startup.company} logo`}
-                       className="w-10 h-10 object-cover rounded-md"
-                     />
-                   </div>
-                   <div>
-                     <p className="text-sm font-medium text-slate-700">{startup.institute}</p>
-                     <p className="text-xs text-slate-500">Affiliated Institute</p>
-                   </div>
-                 </div>
-
-                {/* Hover details panel */}
-                <div className="absolute bottom-0 left-0 right-0 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-30">
-                  <div className="backdrop-blur-xl bg-gradient-to-br from-white/90 via-white/85 to-white/80 border border-white/70 shadow-lg rounded-xl p-4 m-4">
-                    <h4 className="text-slate-900 font-bold text-sm mb-2">Why Choose This?</h4>
-                    <p className="text-slate-700 text-xs mb-3 line-clamp-2">{startup.description}</p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-[10px] font-medium">
-                        {startup.category}
-                      </span>
-                      <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full text-[10px] font-medium">
-                        Early Bird
-                      </span>
-                      <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-[10px] font-medium">
-                        Limited Time
-                      </span>
-                    </div>
-                     <div className="flex items-center gap-2 text-xs text-slate-600 mb-3">
-                       <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-slate-200">
-                         <img
-                           src={startup.logo}
-                           alt={`${startup.company} logo`}
-                           className="w-6 h-6 object-cover rounded-md"
-                         />
-                       </div>
-                       <div>
-                         <p className="text-xs font-medium text-slate-700">{startup.institute}</p>
-                         <p className="text-[10px] text-slate-500">Affiliated Institute</p>
-                       </div>
-                     </div>
-                    <Link 
-                      to={`/startup/${startup.id}`}
-                      className="w-full py-2 px-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg font-semibold transition-colors cursor-pointer flex items-center justify-center gap-2 shadow"
-                    >
-                      <span>View Details</span>
-                      <ExternalLink className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="text-xs sm:text-sm">
-                    <span className="text-slate-500">by </span>
-                    <span className="font-semibold text-slate-700 group-hover:text-blue-600 transition-colors duration-300 truncate">{startup.company}</span>
-                  </div>
-                </div>
+              {/* Bottom Section - Text Content */}
+              <div className="p-4">
+                <h3 className="text-lg font-bold text-gray-900 mb-1">
+                  {startup.title} • {startup.institute}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {startup.description.split('|')[0] || startup.description}
+                </p>
               </div>
             </Link>
           ))}

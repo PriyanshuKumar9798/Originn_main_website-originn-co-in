@@ -205,7 +205,7 @@ export const Footer = () => {
       </div>
 
       {/* Location-based Startups */}
-      <div className="bg-slate-800 py-6">
+      {/* <div className="bg-slate-800 py-6">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h3 className="text-sm font-semibold mb-4">Startups by Location</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 text-xs">
@@ -225,7 +225,7 @@ export const Footer = () => {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Bottom Section - Security & Payment */}
       <div className="bg-slate-950 py-4">
