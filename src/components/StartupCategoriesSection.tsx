@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Heart, ExternalLink, Building2, Zap, Brain, Shield, Smartphone, GraduationCap } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Heart, Building2, Zap, Brain, Shield, Smartphone, GraduationCap } from 'lucide-react'
 
 type Startup = {
   id: number
@@ -11,7 +11,7 @@ type Startup = {
   price: string
   backers: string
   daysLeft: number
-  bannerImage: string
+  bannerImage: string | null
   company: string
   raised: string
   goal: string

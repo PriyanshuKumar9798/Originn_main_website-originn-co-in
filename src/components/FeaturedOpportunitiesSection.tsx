@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Heart, ExternalLink, Rocket, TrendingUp, Star } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Heart, Rocket, TrendingUp, Star } from 'lucide-react'
 
 export const FeaturedOpportunitiesSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)

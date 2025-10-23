@@ -12,7 +12,6 @@ import {
   Globe,
   Bookmark,
   Building2,
-  Edit3,
   TrendingUp,
   GraduationCap,
   Package
