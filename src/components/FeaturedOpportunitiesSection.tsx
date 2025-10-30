@@ -1,165 +1,57 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Heart, Rocket, TrendingUp, Star } from 'lucide-react'
+import { fetchStartups, fetchFilters, type StartupItem, type FiltersResponse } from '../lib/api'
 
 export const FeaturedOpportunitiesSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const autoScrollRef = useRef<number | null>(null)
+  const [apiItems, setApiItems] = useState<StartupItem[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [filters, setFilters] = useState<FiltersResponse | null>(null)
+  const [search, setSearch] = useState('')
+  const [category, setCategory] = useState<string | ''>('')
 
-  const startups = [
-    {
-      id: 1,
-      title: "SmartHome Pro",
-      subtitle: "AI-Powered Smart Home Ecosystem",
-      description: "Pre-order the next-gen smart home controller | Early bird pricing available",
-      category: "IoT",
-      price: "₹12,999",
-      backers: "1,241",
-      daysLeft: 21,
-      bannerImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=240&fit=crop&crop=center",
-      company: "TechNest India",
-      raised: "₹45.2L",
-      goal: "₹50L",
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=100&h=100&fit=crop&crop=center",
-      institute: "IIT Delhi"
-    },
-    {
-      id: 2,
-      title: "EcoCharge",
-      subtitle: "Portable Solar Power Station",
-      description: "Sustainable energy solution for outdoor adventures | CleanTech innovation",
-      category: "CleanTech",
-      price: "₹8,999",
-      backers: "2,156",
-      daysLeft: 4,
-      bannerImage: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=240&fit=crop&crop=center",
-      company: "GreenFuture Labs",
-      raised: "₹78.5L",
-      goal: "₹75L",
-      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
-      institute: "IISc Bangalore"
-    },
-    {
-      id: 3,
-      title: "HealthAI Monitor",
-      subtitle: "Personal Health Assistant Device",
-      description: "AI-powered health monitoring with real-time insights | Healthcare innovation",
-      category: "HealthTech",
-      price: "₹15,999",
-      backers: "3,892",
-      daysLeft: 28,
-      bannerImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=240&fit=crop&crop=center",
-      company: "MediAI Solutions",
-      raised: "₹1.2Cr",
-      goal: "₹1Cr",
-      logo: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=100&h=100&fit=crop&crop=center",
-      institute: "AIIMS Delhi"
-    },
-    {
-      id: 4,
-      title: "PaySecure",
-      subtitle: "Next-Gen Payment Terminal",
-      description: "Secure, contactless payment solution for small businesses | FinTech innovation",
-      category: "FinTech",
-      price: "₹6,499",
-      backers: "1,567",
-      daysLeft: 10,
-      bannerImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&crop=center",
-      company: "PayTech Ventures",
-      raised: "₹32.8L",
-      goal: "₹40L",
-      logo: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=100&h=100&fit=crop&crop=center",
-      institute: "IIM Ahmedabad"
-    },
-    {
-      id: 5,
-      title: "LearnBot AI",
-      subtitle: "Personalized Learning Companion",
-      description: "AI tutor for personalized education | EdTech revolution",
-      category: "EdTech",
-      price: "₹9,999",
-      backers: "4,123",
-      daysLeft: 15,
-      bannerImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=240&fit=crop&crop=center",
-      company: "EduTech Innovations",
-      raised: "₹89.7L",
-      goal: "₹80L",
-      logo: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&h=100&fit=crop&crop=center",
-      institute: "BITS Pilani"
-    },
-    {
-      id: 6,
-      title: "MediConnect",
-      subtitle: "Telemedicine Platform",
-      description: "AI-powered telemedicine connecting patients with specialists | Healthcare innovation",
-      category: "HealthTech",
-      price: "₹2,999",
-      backers: "2,891",
-      daysLeft: 18,
-      bannerImage: null, // No image - will use fallback
-      company: "MedTech Innovations",
-      raised: "₹67.3L",
-      goal: "₹80L",
-      logo: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&crop=center",
-      institute: "AIIMS Delhi"
-    },
-    {
-      id: 7,
-      title: "EduVerse",
-      subtitle: "VR Learning Platform",
-      description: "Immersive virtual reality education for interactive learning | EdTech innovation",
-      category: "EdTech",
-      price: "₹6,999",
-      backers: "1,876",
-      daysLeft: 35,
-      bannerImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=240&fit=crop&crop=center",
-      company: "EduTech Solutions",
-      raised: "₹43.2L",
-      goal: "₹60L",
-      logo: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=100&h=100&fit=crop&crop=center",
-      institute: "IIT Bombay"
-    },
-    {
-      id: 8,
-      title: "FinSecure",
-      subtitle: "Blockchain Security Platform",
-      description: "Blockchain-based financial security for banks | FinTech innovation",
-      category: "FinTech",
-      price: "₹9,999",
-      backers: "1,987",
-      daysLeft: 28,
-      bannerImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&crop=center",
-      company: "SecureFinance",
-      raised: "₹56.7L",
-      goal: "₹70L",
-      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
-      institute: "IIM Bangalore"
-    },
-    {
-      id: 9,
-      title: "FitTracker Pro",
-      subtitle: "AI Fitness Device",
-      description: "Advanced fitness tracking with AI coaching | Wearable technology",
-      category: "Fitness",
-      price: "₹7,999",
-      backers: "3,124",
-      daysLeft: 6,
-      bannerImage: null, // No image - will use fallback
-      company: "FitTech Labs",
-      raised: "₹89.4L",
-      goal: "₹1Cr",
-      logo: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&h=100&fit=crop&crop=center",
-      institute: "IIT Delhi"
+  //
+
+  // Load available filters (category list)
+  useEffect(() => {
+    const loadFilters = async () => {
+      try {
+        const f = await fetchFilters()
+        setFilters(f)
+      } catch (e) {
+        // swallow; UI will still work without dropdown options
+      }
     }
-  ]
+    loadFilters()
+  }, [])
+
+  // Load featured startups from API
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true)
+        const res = await fetchStartups({ limit: 12, sort_by: 'created_at', order: 'desc', search: search || null, category: category || null })
+        setApiItems(res.data)
+      } catch (e: any) {
+        setError(e?.message || 'Failed to load featured startups')
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [search, category])
 
   // Auto scroll effect
   useEffect(() => {
-    const startAutoScroll = () => {
+        const startAutoScroll = () => {
       autoScrollRef.current = window.setInterval(() => {
         setCurrentIndex((prevIndex) => {
-          const nextIndex = (prevIndex + 1) % startups.length
+          const total = (apiItems.length || 1)
+          const nextIndex = (prevIndex + 1) % total
           if (scrollRef.current) {
             const cardWidth = 320 // Card width + gap
             scrollRef.current.scrollTo({
@@ -179,7 +71,7 @@ export const FeaturedOpportunitiesSection = () => {
         clearInterval(autoScrollRef.current)
       }
     }
-  }, [startups.length])
+  }, [apiItems.length])
 
   const scrollToIndex = (index: number) => {
     if (scrollRef.current) {
@@ -200,7 +92,7 @@ export const FeaturedOpportunitiesSection = () => {
     setTimeout(() => {
       autoScrollRef.current = window.setInterval(() => {
         setCurrentIndex((prevIndex) => {
-          const nextIndex = (prevIndex + 1) % startups.length
+          const nextIndex = (prevIndex + 1) % (apiItems.length || 1)
           if (scrollRef.current) {
             const cardWidth = 320
             scrollRef.current.scrollTo({
@@ -215,14 +107,30 @@ export const FeaturedOpportunitiesSection = () => {
   }
 
   const handlePrev = () => {
-    const newIndex = currentIndex > 0 ? currentIndex - 1 : startups.length - 1
+    const total = apiItems.length || 1
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : total - 1
     scrollToIndex(newIndex)
   }
 
   const handleNext = () => {
-    const newIndex = currentIndex < startups.length - 1 ? currentIndex + 1 : 0
+    const total = apiItems.length || 1
+    const newIndex = currentIndex < total - 1 ? currentIndex + 1 : 0
     scrollToIndex(newIndex)
   }
+
+  const renderSkeleton = (count = 3) => (
+    <div className="flex gap-4 sm:gap-6 overflow-x-hidden pb-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="flex-shrink-0 w-72 sm:w-80 lg:w-96 bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="h-48 bg-slate-200 animate-pulse" />
+          <div className="p-4 space-y-2">
+            <div className="h-4 bg-slate-200 rounded w-3/4 animate-pulse" />
+            <div className="h-3 bg-slate-200 rounded w-full animate-pulse" />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-white">
@@ -249,6 +157,28 @@ export const FeaturedOpportunitiesSection = () => {
               </div>
             </div>
           </div>
+          {/* Search + Category */}
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search startups…"
+              className="w-full sm:w-64 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Search startups"
+            />
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full sm:w-56 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Filter by Category"
+            >
+              <option value="">All categories</option>
+              {filters?.categories?.values?.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </div>
           
           {/* Navigation arrows */}
           <div className="flex items-center gap-2 self-end lg:self-auto">
@@ -269,17 +199,31 @@ export const FeaturedOpportunitiesSection = () => {
           </div>
         </div>
 
+        {/* Error/Loading */}
+        {error && <div className="text-sm text-red-600 mb-2">{error}</div>}
+        {loading && renderSkeleton(4)}
+
         {/* Cards Container */}
+        {!loading && (
         <div 
           ref={scrollRef}
           className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide pb-4"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {startups.map((startup) => (
+          {apiItems.map((it) => {
+            const startup = {
+              id: it.id,
+              title: it.company_name,
+              description: it.about_startup || '',
+              category: it.category || '',
+              bannerImage: null as string | null,
+              institute: '',
+            }
+            return (
             <Link
               key={startup.id}
               to={`/startup/${startup.id}`}
-              className="flex-shrink-0 w-72 sm:w-80 lg:w-96 group block bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
+              className="flex-shrink-0 w-72 sm:w-80 lg:w-96 group block bg-white rounded-2xl shadow-lg transition-all duration-300 cursor-pointer overflow-hidden will-change-transform will-change-opacity hover:-translate-y-1 hover:shadow-2xl hover:ring-1 hover:ring-blue-200/70"
             >
               {/* Top Section - Image with Overlay */}
               <div className="relative h-48 overflow-hidden">
@@ -288,22 +232,22 @@ export const FeaturedOpportunitiesSection = () => {
                   <img
                     src={startup.bannerImage}
                     alt={startup.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
                     {/* Abstract 3D Elements Background - Off-white with blue theme */}
                     <div className="w-full h-full flex items-end justify-center space-x-4 pb-8">
                       {/* Blue Cylinder with Bird */}
-                      <div className="w-8 h-16 bg-blue-400 rounded-full relative">
+                      <div className="w-8 h-16 bg-blue-400 rounded-full relative transform transition-transform duration-500 group-hover:translate-y-[-2px]">
                         <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full"></div>
                       </div>
                       {/* Blue Block with Character */}
-                      <div className="w-10 h-12 bg-blue-500 rounded relative">
+                      <div className="w-10 h-12 bg-blue-500 rounded relative transform transition-transform duration-500 group-hover:-translate-y-1">
                         <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-300 rounded-full"></div>
                       </div>
                       {/* Light Blue Block with Figure */}
-                      <div className="w-8 h-14 bg-blue-300 rounded relative">
+                      <div className="w-8 h-14 bg-blue-300 rounded relative transform transition-transform duration-500 group-hover:-translate-y-0.5">
                         <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-2 h-6 bg-blue-200 rounded"></div>
                       </div>
                     </div>
@@ -331,19 +275,20 @@ export const FeaturedOpportunitiesSection = () => {
               {/* Bottom Section - Text Content */}
               <div className="p-4">
                 <h3 className="text-lg font-bold text-gray-900 mb-1">
-                  {startup.title} • {startup.institute}
+                  {startup.title} {startup.institute ? `• ${startup.institute}` : ''}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  {startup.description.split('|')[0] || startup.description}
+                  {startup.description ? (startup.description.split('|')[0]) : 'Discover innovative products from top startups.'}
                 </p>
               </div>
-            </Link>
-          ))}
-        </div>
+            </Link>)
+          })}
+        </div>)}
 
         {/* Dots indicator */}
+        {!loading && (
         <div className="flex justify-center gap-2 mt-6 sm:mt-8">
-          {startups.map((_, index) => (
+          {apiItems.map((_, index) => (
             <button
               key={index}
               onClick={() => scrollToIndex(index)}
@@ -353,7 +298,7 @@ export const FeaturedOpportunitiesSection = () => {
               aria-label={`Go to startup ${index + 1}`}
             />
           ))}
-        </div>
+        </div>)}
       </div>
     </section>
   )

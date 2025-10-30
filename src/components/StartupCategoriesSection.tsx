@@ -1,23 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Heart, Building2, Zap, Brain, Shield, Smartphone, GraduationCap } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Heart, Building2 } from 'lucide-react'
+import { fetchStartups, fetchFilters, type StartupItem, type FiltersResponse } from '../lib/api'
 
-type Startup = {
-  id: number
-  title: string
-  subtitle: string
-  description: string
-  category: string
-  price: string
-  backers: string
-  daysLeft: number
-  bannerImage: string | null
-  company: string
-  raised: string
-  goal: string
-  logo: string
-  institute: string
-}
 
 type Category = {
   id: string
@@ -25,312 +10,79 @@ type Category = {
   icon: React.ComponentType<{ className?: string }>
   color: string
   bgColor: string
-  startups: Startup[]
 }
 
 export const StartupCategoriesSection = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [selectedCategory, setSelectedCategory] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [items, setItems] = useState<StartupItem[]>([])
+  const [filters, setFilters] = useState<FiltersResponse | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterCategory, setFilterCategory] = useState<string | null>(null)
+  const [filterStage, setFilterStage] = useState<string | null>(null)
+  const [filterInstitute, setFilterInstitute] = useState<string | null>(null)
+  const [filterProductType, setFilterProductType] = useState<string | null>(null)
+  const [filterTargetMarket, setFilterTargetMarket] = useState<string | null>(null)
 
-  const categories: Category[] = [
-    {
-      id: 'all',
-      name: 'All Startups',
-      icon: Building2,
-      color: 'text-slate-600',
-      bgColor: 'bg-slate-100',
-      startups: [
-        {
-          id: 1,
-          title: "SmartHome Pro",
-          subtitle: "AI-Powered Smart Home Ecosystem",
-          description: "Pre-order the next-gen smart home controller | Early bird pricing available",
-          category: "IoT",
-          price: "₹12,999",
-          backers: "1,241",
-          daysLeft: 21,
-          bannerImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=240&fit=crop&crop=center",
-          company: "TechNest India",
-          raised: "₹45.2L",
-          goal: "₹50L",
-          logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=100&h=100&fit=crop&crop=center",
-          institute: "IIT Delhi"
-        },
-        {
-          id: 2,
-          title: "EcoCharge",
-          subtitle: "Portable Solar Power Station",
-          description: "Sustainable energy solution for outdoor adventures | CleanTech innovation",
-          category: "CleanTech",
-          price: "₹8,999",
-          backers: "2,156",
-          daysLeft: 4,
-          bannerImage: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=240&fit=crop&crop=center",
-          company: "GreenFuture Labs",
-          raised: "₹78.5L",
-          goal: "₹75L",
-          logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
-          institute: "IISc Bangalore"
-        },
-        {
-          id: 3,
-          title: "HealthAI Monitor",
-          subtitle: "Personal Health Assistant Device",
-          description: "AI-powered health monitoring with real-time insights | Healthcare innovation",
-          category: "HealthTech",
-          price: "₹15,999",
-          backers: "3,892",
-          daysLeft: 28,
-          bannerImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=240&fit=crop&crop=center",
-          company: "MediAI Solutions",
-          raised: "₹1.2Cr",
-          goal: "₹1Cr",
-          logo: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=100&h=100&fit=crop&crop=center",
-          institute: "AIIMS Delhi"
-        },
-        {
-          id: 4,
-          title: "MediConnect",
-          subtitle: "Telemedicine Platform",
-          description: "AI-powered telemedicine connecting patients with specialists | Healthcare innovation",
-          category: "HealthTech",
-          price: "₹2,999",
-          backers: "2,891",
-          daysLeft: 18,
-          bannerImage: null, // No image - will use fallback
-          company: "MedTech Innovations",
-          raised: "₹67.3L",
-          goal: "₹80L",
-          logo: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&crop=center",
-          institute: "AIIMS Delhi"
-        },
-        {
-          id: 5,
-          title: "EduVerse",
-          subtitle: "VR Learning Platform",
-          description: "Immersive virtual reality education for interactive learning | EdTech innovation",
-          category: "EdTech",
-          price: "₹6,999",
-          backers: "1,876",
-          daysLeft: 35,
-          bannerImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=240&fit=crop&crop=center",
-          company: "EduTech Solutions",
-          raised: "₹43.2L",
-          goal: "₹60L",
-          logo: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=100&h=100&fit=crop&crop=center",
-          institute: "IIT Bombay"
-        },
-        {
-          id: 6,
-          title: "FinSecure",
-          subtitle: "Blockchain Security Platform",
-          description: "Blockchain-based financial security for banks | FinTech innovation",
-          category: "FinTech",
-          price: "₹9,999",
-          backers: "1,987",
-          daysLeft: 28,
-          bannerImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&crop=center",
-          company: "SecureFinance",
-          raised: "₹56.7L",
-          goal: "₹70L",
-          logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
-          institute: "IIM Bangalore"
-        },
-        {
-          id: 7,
-          title: "FitTracker Pro",
-          subtitle: "AI Fitness Device",
-          description: "Advanced fitness tracking with AI coaching | Wearable technology",
-          category: "Fitness",
-          price: "₹7,999",
-          backers: "3,124",
-          daysLeft: 6,
-          bannerImage: null, // No image - will use fallback
-          company: "FitTech Labs",
-          raised: "₹89.4L",
-          goal: "₹1Cr",
-          logo: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&h=100&fit=crop&crop=center",
-          institute: "IIT Delhi"
-        }
-      ]
-    },
-    {
-      id: 'fintech',
-      name: 'FinTech',
-      icon: Shield,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100',
-      startups: [
-        {
-          id: 4,
-          title: "PaySecure",
-          subtitle: "Next-Gen Payment Terminal",
-          description: "Secure, contactless payment solution for small businesses | FinTech innovation",
-          category: "FinTech",
-          price: "₹6,499",
-          backers: "1,567",
-          daysLeft: 10,
-          bannerImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&crop=center",
-          company: "PayTech Ventures",
-          raised: "₹32.8L",
-          goal: "₹40L",
-          logo: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=100&h=100&fit=crop&crop=center",
-          institute: "IIM Ahmedabad"
-        },
-        {
-          id: 5,
-          title: "CryptoWallet Pro",
-          subtitle: "Secure Digital Asset Management",
-          description: "Advanced cryptocurrency wallet with multi-chain support | Blockchain innovation",
-          category: "FinTech",
-          price: "₹4,999",
-          backers: "2,834",
-          daysLeft: 18,
-          bannerImage: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&h=240&fit=crop&crop=center",
-          company: "BlockChain Solutions",
-          raised: "₹67.3L",
-          goal: "₹60L",
-          logo: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=100&h=100&fit=crop&crop=center",
-          institute: "IIT Bombay"
-        }
-      ]
-    },
-    {
-      id: 'healthtech',
-      name: 'HealthTech',
-      icon: Brain,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-100',
-      startups: [
-        {
-          id: 6,
-          title: "MediScan AI",
-          subtitle: "AI-Powered Medical Diagnosis",
-          description: "Revolutionary medical imaging with AI analysis | Healthcare breakthrough",
-          category: "HealthTech",
-          price: "₹25,999",
-          backers: "1,923",
-          daysLeft: 12,
-          bannerImage: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=240&fit=crop&crop=center",
-          company: "MediTech Innovations",
-          raised: "₹1.8Cr",
-          goal: "₹2Cr",
-          logo: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop&crop=center",
-          institute: "AIIMS Delhi"
-        },
-        {
-          id: 7,
-          title: "VitalTracker",
-          subtitle: "Wearable Health Monitor",
-          description: "Advanced health tracking with real-time alerts | Personal healthcare",
-          category: "HealthTech",
-          price: "₹7,999",
-          backers: "3,456",
-          daysLeft: 25,
-          bannerImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=240&fit=crop&crop=center",
-          company: "HealthWear Tech",
-          raised: "₹95.2L",
-          goal: "₹1Cr",
-          logo: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=100&h=100&fit=crop&crop=center",
-          institute: "IISc Bangalore"
-        }
-      ]
-    },
-    {
-      id: 'edtech',
-      name: 'EdTech',
-      icon: GraduationCap,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100',
-      startups: [
-        {
-          id: 8,
-          title: "LearnBot AI",
-          subtitle: "Personalized Learning Companion",
-          description: "AI tutor for personalized education | EdTech revolution",
-          category: "EdTech",
-          price: "₹9,999",
-          backers: "4,123",
-          daysLeft: 15,
-          bannerImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=240&fit=crop&crop=center",
-          company: "EduTech Innovations",
-          raised: "₹89.7L",
-          goal: "₹80L",
-          logo: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&h=100&fit=crop&crop=center",
-          institute: "BITS Pilani"
-        },
-        {
-          id: 9,
-          title: "VirtualClass Pro",
-          subtitle: "Immersive Learning Platform",
-          description: "VR-powered educational experiences | Next-gen learning",
-          category: "EdTech",
-          price: "₹19,999",
-          backers: "2,789",
-          daysLeft: 8,
-          bannerImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=240&fit=crop&crop=center",
-          company: "VR Education Labs",
-          raised: "₹1.1Cr",
-          goal: "₹1.2Cr",
-          logo: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=100&h=100&fit=crop&crop=center",
-          institute: "IIT Kanpur"
-        }
-      ]
-    },
-    {
-      id: 'cleantech',
-      name: 'CleanTech',
-      icon: Zap,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100',
-      startups: [
-        {
-          id: 10,
-          title: "SolarGrid Pro",
-          subtitle: "Smart Solar Energy Management",
-          description: "Intelligent solar panel optimization system | Sustainable energy",
-          category: "CleanTech",
-          price: "₹18,999",
-          backers: "1,456",
-          daysLeft: 22,
-          bannerImage: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=240&fit=crop&crop=center",
-          company: "SolarTech Solutions",
-          raised: "₹76.8L",
-          goal: "₹80L",
-          logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop&crop=center",
-          institute: "IIT Madras"
-        }
-      ]
-    },
-    {
-      id: 'iot',
-      name: 'IoT',
-      icon: Smartphone,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100',
-      startups: [
-        {
-          id: 11,
-          title: "SmartFarm IoT",
-          subtitle: "Agricultural IoT Solution",
-          description: "Connected farming with smart sensors | Precision agriculture",
-          category: "IoT",
-          price: "₹14,999",
-          backers: "2,234",
-          daysLeft: 16,
-          bannerImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=240&fit=crop&crop=center",
-          company: "AgriTech Solutions",
-          raised: "₹58.4L",
-          goal: "₹60L",
-          logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=100&h=100&fit=crop&crop=center",
-          institute: "IIT Kharagpur"
-        }
-      ]
+  // Dynamic categories for chips (no 'All Startups' chip)
+  const chipCategories: Category[] = useMemo(() => {
+    const apiValues = filters?.categories?.values || []
+    return apiValues.map((c) => ({ id: c.value, name: c.label, icon: Building2, color: 'text-blue-600', bgColor: 'bg-blue-100' }))
+  }, [filters])
+
+  const currentCategory = chipCategories.find(cat => cat.id === selectedCategory) || { id: '', name: 'All Startups', icon: Building2, color: 'text-slate-600', bgColor: 'bg-slate-100' }
+
+  // Load available filters once
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const f = await fetchFilters()
+        setFilters(f)
+      } catch (e) {
+        // ignore; UI still works
+      }
     }
-  ]
+    load()
+  }, [])
 
-  const currentCategory = categories.find(cat => cat.id === selectedCategory) || categories[0]
-  const currentStartups = currentCategory.startups
+  // Fetch startups when filters change
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const res = await fetchStartups({
+          limit: 12,
+          sort_by: 'created_at',
+          order: 'desc',
+          category: filterCategory ?? null,
+          stage: filterStage ?? null,
+          institute: filterInstitute ?? null,
+          product_type: filterProductType ?? null,
+          target_market: filterTargetMarket ?? null,
+          search: searchTerm || null,
+        })
+        setItems(res.data)
+        setCurrentIndex(0)
+      } catch (e: any) {
+        setError(e?.message || 'Failed to load startups')
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [filterCategory, filterStage, filterInstitute, filterProductType, filterTargetMarket, searchTerm])
+
+  const currentStartups = items.map((it) => ({
+    id: it.id,
+    title: it.company_name,
+    description: it.about_startup || '',
+    category: it.category || '',
+    bannerImage: null as string | null,
+    institute: '',
+  }))
 
   const handlePrev = () => {
     const newIndex = currentIndex > 0 ? currentIndex - 1 : currentStartups.length - 1
@@ -345,7 +97,34 @@ export const StartupCategoriesSection = () => {
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategory(categoryId)
     setCurrentIndex(0)
+    const available = (filters?.categories?.values || []).map((c) => c.value)
+    if (available.includes(categoryId)) {
+      setFilterCategory(categoryId)
+    }
   }
+
+  const clearChip = (type: 'search'|'category'|'stage'|'institute'|'product'|'market') => {
+    if (type === 'search') setSearchTerm('')
+    if (type === 'category') { setFilterCategory(null); setSelectedCategory('') }
+    if (type === 'stage') setFilterStage(null)
+    if (type === 'institute') setFilterInstitute(null)
+    if (type === 'product') setFilterProductType(null)
+    if (type === 'market') setFilterTargetMarket(null)
+  }
+
+  const renderSkeleton = (count = 4) => (
+    <div className="flex gap-4 sm:gap-6 overflow-x-hidden pb-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="flex-shrink-0 w-72 sm:w-80 lg:w-96 bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="h-48 bg-slate-200 animate-pulse" />
+          <div className="p-4 space-y-2">
+            <div className="h-4 bg-slate-200 rounded w-3/4 animate-pulse" />
+            <div className="h-3 bg-slate-200 rounded w-full animate-pulse" />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-slate-50">
@@ -360,9 +139,114 @@ export const StartupCategoriesSection = () => {
           </p>
         </div>
 
-        {/* Category Filter */}
+        {/* Filters */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 mb-4">
+          <input
+            type="text"
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Search startups…"
+            aria-label="Search startups"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <select
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Filter by Category"
+            value={filterCategory ?? ''}
+            onChange={(e) => setFilterCategory(e.target.value || null)}
+          >
+            <option value="">Category</option>
+            {filters?.categories?.values?.map((c) => (
+              <option key={c.value} value={c.value}>{c.label}</option>
+            ))}
+          </select>
+
+          <select
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Filter by Stage"
+            value={filterStage ?? ''}
+            onChange={(e) => setFilterStage(e.target.value || null)}
+          >
+            <option value="">Stage</option>
+            {filters?.stages?.values?.map((s) => (
+              <option key={s.value} value={s.value}>{s.label}</option>
+            ))}
+          </select>
+
+          <select
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Filter by Institute"
+            value={filterInstitute ?? ''}
+            onChange={(e) => setFilterInstitute(e.target.value || null)}
+          >
+            <option value="">Institute</option>
+            {filters?.institutes?.values?.map((i) => (
+              <option key={i.value} value={i.value}>{i.label}</option>
+            ))}
+          </select>
+
+          <select
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Filter by Product Type"
+            value={filterProductType ?? ''}
+            onChange={(e) => setFilterProductType(e.target.value || null)}
+          >
+            <option value="">Product Type</option>
+            {filters?.product_types?.values?.map((p) => (
+              <option key={p.value} value={p.value}>{p.label}</option>
+            ))}
+          </select>
+
+          <select
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Filter by Target Market"
+            value={filterTargetMarket ?? ''}
+            onChange={(e) => setFilterTargetMarket(e.target.value || null)}
+          >
+            <option value="">Target Market</option>
+            {filters?.target_markets?.values?.map((t) => (
+              <option key={t.value} value={t.value}>{t.label}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Active filter chips */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {searchTerm && (
+            <button onClick={() => clearChip('search')} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+              Search: {searchTerm} ×
+            </button>
+          )}
+          {filterCategory && (
+            <button onClick={() => clearChip('category')} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+              Category: {filterCategory} ×
+            </button>
+          )}
+          {filterStage && (
+            <button onClick={() => clearChip('stage')} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+              Stage: {filterStage} ×
+            </button>
+          )}
+          {filterInstitute && (
+            <button onClick={() => clearChip('institute')} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+              Institute: {filterInstitute} ×
+            </button>
+          )}
+          {filterProductType && (
+            <button onClick={() => clearChip('product')} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+              Product: {filterProductType} ×
+            </button>
+          )}
+          {filterTargetMarket && (
+            <button onClick={() => clearChip('market')} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+              Market: {filterTargetMarket} ×
+            </button>
+          )}
+        </div>
+
+        {/* Category Filter (chips) */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 lg:mb-12">
-          {categories.map((category) => (
+          {chipCategories.map((category) => (
             <button
               key={category.id}
               onClick={() => handleCategoryChange(category.id)}
@@ -412,39 +296,45 @@ export const StartupCategoriesSection = () => {
           )}
         </div>
 
+        {/* Error/Loading/Empty */}
+        {error && <div className="text-sm text-red-600 mb-2">{error}</div>}
+        {loading && renderSkeleton(4)}
+        {!loading && currentStartups.length === 0 && <div className="text-sm text-slate-600 mb-2">No startups found. Try different filters.</div>}
+
         {/* Cards Container */}
+        {!loading && (
         <div className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {currentStartups.map((startup) => (
             <Link
               key={startup.id}
               to={`/startup/${startup.id}`}
-              className="flex-shrink-0 w-72 sm:w-80 lg:w-96 group block bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
+              className="flex-shrink-0 w-72 sm:w-80 lg:w-96 group block bg-white rounded-2xl shadow-lg transition-all duration-300 cursor-pointer overflow-hidden will-change-transform will-change-opacity hover:-translate-y-1 hover:shadow-2xl hover:ring-1 hover:ring-blue-200/70"
             >
               {/* Top Section - Image with Overlay */}
               <div className="relative h-48 overflow-hidden">
                 {/* Use actual image if available, otherwise fallback to abstract background */}
                 {startup.bannerImage ? (
-                  <img
-                    src={startup.bannerImage}
-                    alt={startup.title}
-                    className="w-full h-full object-cover"
+                <img
+                  src={startup.bannerImage}
+                  alt={startup.title}
+                    className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
                     {/* Abstract 3D Elements Background - Off-white with blue theme */}
                     <div className="w-full h-full flex items-end justify-center space-x-4 pb-8">
                       {/* Blue Cylinder with Bird */}
-                      <div className="w-8 h-16 bg-blue-400 rounded-full relative">
+                      <div className="w-8 h-16 bg-blue-400 rounded-full relative transform transition-transform duration-500 group-hover:translate-y-[-2px]">
                         <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full"></div>
-                      </div>
+                   </div>
                       {/* Blue Block with Character */}
-                      <div className="w-10 h-12 bg-blue-500 rounded relative">
+                      <div className="w-10 h-12 bg-blue-500 rounded relative transform transition-transform duration-500 group-hover:-translate-y-1">
                         <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-300 rounded-full"></div>
-                      </div>
+                </div>
                       {/* Light Blue Block with Figure */}
-                      <div className="w-8 h-14 bg-blue-300 rounded relative">
+                      <div className="w-8 h-14 bg-blue-300 rounded relative transform transition-transform duration-500 group-hover:-translate-y-0.5">
                         <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-2 h-6 bg-blue-200 rounded"></div>
-                      </div>
+                 </div>
                     </div>
                   </div>
                 )}
@@ -478,18 +368,16 @@ export const StartupCategoriesSection = () => {
               </div>
             </Link>
           ))}
-        </div>
+        </div>)}
 
         {/* Dots indicator */}
-        {currentStartups.length > 1 && (
+        {!loading && currentStartups.length > 1 && (
           <div className="flex justify-center gap-2 mt-8">
             {currentStartups.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-125 ${
-                  index === currentIndex ? 'bg-blue-600 w-6' : 'bg-slate-300 hover:bg-slate-400'
-                }`}
+                className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-125 ${index === currentIndex ? 'bg-blue-600 w-6' : 'bg-slate-300 hover:bg-slate-400'}`}
                 aria-label={`Go to startup ${index + 1}`}
               />
             ))}

@@ -11,16 +11,40 @@ import { TermsOfService } from './pages/TermsOfService'
 import { ContactUs } from './pages/ContactUs'
 import { StartupDetail } from './pages/StartupDetail'
 import { Preorder } from './pages/Preorder'
+import { Profile } from './pages/Profile'
+import { RequireAuth } from './components/RequireAuth'
 
 
 
 const App = () => {
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('originn:isSignedIn') === 'true'
+    } catch {
+      return false
+    }
+  })
 
   useEffect(() => {
     const openLogin = () => setShowLoginModal(true)
+    const onSignIn = () => {
+      setIsSignedIn(true)
+      try { localStorage.setItem('originn:isSignedIn', 'true') } catch {}
+      setShowLoginModal(false)
+    }
+    const onSignOut = () => {
+      setIsSignedIn(false)
+      try { localStorage.removeItem('originn:isSignedIn') } catch {}
+    }
     window.addEventListener('originn:open-login', openLogin as EventListener)
-    return () => window.removeEventListener('originn:open-login', openLogin as EventListener)
+    window.addEventListener('originn:signin', onSignIn as EventListener)
+    window.addEventListener('originn:signout', onSignOut as EventListener)
+    return () => {
+      window.removeEventListener('originn:open-login', openLogin as EventListener)
+      window.removeEventListener('originn:signin', onSignIn as EventListener)
+      window.removeEventListener('originn:signout', onSignOut as EventListener)
+    }
   }, [])
 
   const handleCloseLogin = () => {
@@ -30,7 +54,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-white text-slate-900">
-        <Navbar />
+        <Navbar isSignedIn={isSignedIn} />
         <main className="pt-20">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -41,6 +65,7 @@ const App = () => {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/contact" element={<ContactUs />} />
+            <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
           </Routes>
         </main>
         <LoginReminderModal open={showLoginModal} onClose={handleCloseLogin} />

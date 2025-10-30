@@ -1,13 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Search, BriefcaseBusiness, LogIn, Menu, X } from 'lucide-react'
+import { Search, BriefcaseBusiness, LogIn, Menu, X, Heart, Wallet, ShoppingCart, User, ChevronDown } from 'lucide-react'
 import { Button } from './ui/Button'
+import { clearSession } from '../services/httpClient'
 
-export const Navbar = () => {
+type NavbarProps = {
+  isSignedIn?: boolean
+}
+
+export const Navbar = ({ isSignedIn = false }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDrawerVisible, setIsDrawerVisible] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [showToast, setShowToast] = useState<string | null>(null)
+  const profileRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8)
@@ -26,6 +34,16 @@ export const Navbar = () => {
     return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
 
+  useEffect(() => {
+    const onClickOutside = (e: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setIsProfileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [])
+
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `px-3 py-2 text-sm font-medium transition-colors ${
       isActive ? 'text-slate-900' : 'text-slate-600 hover:text-slate-900'
@@ -33,6 +51,17 @@ export const Navbar = () => {
 
   const handleOpenLogin = () => {
     window.dispatchEvent(new CustomEvent('originn:open-login'))
+  }
+
+  const handleWalletClick = () => {
+    setShowToast('Wallet is coming soon!')
+    window.setTimeout(() => setShowToast(null), 2200)
+  }
+
+  const handleLogout = () => {
+    clearSession()
+    setIsProfileOpen(false)
+    window.dispatchEvent(new CustomEvent('originn:signout'))
   }
 
   const toggleMobileMenu = () => {
@@ -100,10 +129,58 @@ export const Navbar = () => {
                   <BriefcaseBusiness className="h-4 w-4" /> For Startups
                 </Button>
               )}
-              {isDesktop && (
+              {isDesktop && !isSignedIn && (
                 <Button onClick={handleOpenLogin} variant="primary" size="md" showArrow aria-label="Sign in">
                   <LogIn className="h-4 w-4" /> Sign In
                 </Button>
+              )}
+              {isDesktop && isSignedIn && (
+                <>
+                  <button
+                    className="relative p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                    aria-label="Wishlist"
+                  >
+                    <Heart className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={handleWalletClick}
+                    className="relative p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                    aria-label="Wallet (coming soon)"
+                  >
+                    <Wallet className="h-5 w-5" />
+                  </button>
+                  <button
+                    className="relative p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                    aria-label="Cart"
+                  >
+                    <ShoppingCart className="h-5 w-5" />
+                    <span className="absolute -top-1 -right-1 h-4 min-w-4 px-1 rounded-full bg-blue-600 text-white text-[10px] grid place-items-center">0</span>
+                  </button>
+                  <div ref={profileRef} className="relative">
+                    <button
+                      onClick={() => setIsProfileOpen((v) => !v)}
+                      className="inline-flex items-center gap-2 pl-1 pr-2 py-1 rounded-full hover:bg-slate-100 transition-colors"
+                      aria-haspopup="menu"
+                      aria-expanded={isProfileOpen}
+                      aria-label="Open profile menu"
+                    >
+                      <div aria-label="User" className="h-8 w-8 rounded-full bg-blue-600 text-white grid place-items-center">
+                        <User className="h-4 w-4" />
+                      </div>
+                      <ChevronDown className="h-4 w-4 text-slate-600" />
+                    </button>
+                    {isProfileOpen && (
+                      <div role="menu" className="absolute right-0 mt-2 w-48 rounded-xl border border-slate-200 bg-white shadow-lg py-1">
+                        <Link to="/profile" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" role="menuitem">My profile</Link>
+                        <Link to="#" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" role="menuitem">Orders</Link>
+                        <Link to="#" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" role="menuitem">Rewards</Link>
+                        <Link to="#" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" role="menuitem">Settings</Link>
+                        <div className="my-1 h-px bg-slate-100" />
+                        <button onClick={handleLogout} className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50" role="menuitem">Logout</button>
+                      </div>
+                    )}
+                  </div>
+                </>
               )}
               
               {/* Mobile Menu Button */}
@@ -123,6 +200,13 @@ export const Navbar = () => {
           </div>
         </div>
       </header>
+
+      {/* Toast */}
+      {showToast && (
+        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[55]">
+          <div className="rounded-full bg-slate-900 text-white px-4 py-2 text-sm shadow-lg">{showToast}</div>
+        </div>
+      )}
 
       {/* Mobile Menu Drawer - Fullscreen Left Slide */}
       {isMobileMenuOpen && (
@@ -203,19 +287,43 @@ export const Navbar = () => {
                   >
                     <BriefcaseBusiness className="h-4 w-4 mr-2" /> For Startups
                   </Button>
-                  <Button 
-                    onClick={() => {
-                      handleOpenLogin()
-                      closeMobileMenu()
-                    }} 
-                    variant="primary" 
-                    size="sm" 
-                    showArrow 
-                    className="w-full justify-center text-sm"
-                    aria-label="Sign in"
-                  >
-                    <LogIn className="h-4 w-4 mr-2" /> Sign In
-                  </Button>
+                  {!isSignedIn && (
+                    <Button 
+                      onClick={() => {
+                        handleOpenLogin()
+                        closeMobileMenu()
+                      }} 
+                      variant="primary" 
+                      size="sm" 
+                      showArrow 
+                      className="w-full justify-center text-sm"
+                      aria-label="Sign in"
+                    >
+                      <LogIn className="h-4 w-4 mr-2" /> Sign In
+                    </Button>
+                  )}
+                  {isSignedIn && (
+                    <div className="grid gap-2">
+                      <button className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700" aria-label="Wishlist">
+                        <Heart className="h-5 w-5" /> Wishlist
+                      </button>
+                      <button onClick={handleWalletClick} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700" aria-label="Wallet (coming soon)">
+                        <Wallet className="h-5 w-5" /> Wallet
+                      </button>
+                      <button className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700" aria-label="Cart">
+                        <ShoppingCart className="h-5 w-5" /> Cart
+                      </button>
+                      <div className="mt-2 rounded-xl border border-slate-200">
+                        <div className="px-3 py-2 text-xs text-slate-500">Account</div>
+                        <Link to="/profile" className="block px-3 py-2 text-sm hover:bg-slate-50">My profile</Link>
+                        <button className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50">Orders</button>
+                        <button className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50">Rewards</button>
+                        <button className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50">Settings</button>
+                        <div className="my-1 h-px bg-slate-100" />
+                        <button onClick={handleLogout} className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50">Logout</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
